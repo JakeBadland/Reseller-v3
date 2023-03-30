@@ -10,7 +10,7 @@ class Index extends BaseController
 
     }
 
-    public function index($param = null)
+    public function index($param = null) : string
     {
         if  (!$param) {
             $param = 1;
@@ -39,5 +39,18 @@ class Index extends BaseController
         ];
 
         return view('content',  $data);
+    }
+
+    public function test()
+    {
+        $addr = 'смт Чемерівці (Хмельницька обл.), 31601, пров. Поштовий, 1А';
+
+        $result = preg_match_all("/\d{5}/", $addr,$out, PREG_PATTERN_ORDER);
+
+        if ($result){
+            return 'Укрпочта ' . $out[0][0];
+        }
+
+        return '';
     }
 }

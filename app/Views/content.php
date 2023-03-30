@@ -6,8 +6,6 @@
     <TABLE>
         <?php foreach ($orders as $key => $order): ?>
 
-            <?php //$order = OrderParser::parseOrder($item); ?>
-
             <?php $back = ''; ?>
 
             <?php if (!$order->address || !$order->deliveryProvider) : ?>
@@ -31,8 +29,7 @@
                 <TD><?= $order->price ?></TD>
                 <TD><?= $order->deliveryProvider ?></TD>
                 <TD><?= $order->description ?></TD>
-                <TD style="background-color: rgb(255,0,255)"><?= $order->purchaseType ?></TD>
-                <!--<TD><?= strtoupper($order->status) ?></TD>-->
+                <TD style="background-color: rgb(0,255,255)"><?= $order->purchaseType ?></TD>
             </TR>
 
         <?php endforeach; ?>

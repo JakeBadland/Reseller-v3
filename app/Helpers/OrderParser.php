@@ -76,10 +76,10 @@ class OrderParser{
 
         switch ($deliveryData->provider){
             case 'nova_poshta' : {
-                return 'Новая почта ' . self::getDelivery($deliveryAddress);
+                return self::getDeliveryNovaPoshta($deliveryAddress);
             }
             case 'ukrposhta':{
-                return $deliveryAddress;
+                return self::getDeliveryUrkPoshta($deliveryAddress);
             }
             default: {
                 return 'Warning! delivery address can`t be identified!';
@@ -87,7 +87,7 @@ class OrderParser{
         }
     }
 
-    private static function getDelivery($addr)
+    private static function getDeliveryNovaPoshta($addr) : string
     {
         $pattern = "/№(?P<digit>\d+)/";
         preg_match_all($pattern, $addr,$out, PREG_PATTERN_ORDER);
@@ -102,7 +102,20 @@ class OrderParser{
             $result = str_replace(' ', '', $result);
         };
 
-        return $result;
+        return 'Новая почта ' . $result;
+
+    }
+
+    private static function getDeliveryUrkPoshta($addr) : string
+    {
+        $result = preg_match_all("/\d{5}/", $addr,$out, PREG_PATTERN_ORDER);
+
+        if ($result){
+            return 'Укрпочта ' . $out[0][0];
+        }
+
+        return '';
+
     }
 
     private static function parseAddress($deliveryAddress, $deliveryData) : ?string

@@ -32,7 +32,9 @@ $routes->set404Override();
 //$routes->get('/', 'Home::index');
 
 $routes->get('/', 'Index::index');
-$routes->get('/(:any)', 'Index::index/$1');
+$routes->get('/(:num)', 'Index::index/$1');
+
+$routes->get('/test', 'Index::test');
 
 /*
  * --------------------------------------------------------------------
