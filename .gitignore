@@ -1,4 +1,2 @@
 /.idea/
-Data/
-vendor/
-.env
+/vendor/
