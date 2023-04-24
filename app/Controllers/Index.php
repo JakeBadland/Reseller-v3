@@ -2,12 +2,14 @@
 
 namespace App\Controllers;
 
+use \App\Models\UserModel;
+
 class Index extends BaseController
 {
 
     public function __construct()
     {
-
+        //$this->request = \Config\Services::request();
     }
 
     public function index($param = null) : string
@@ -16,7 +18,7 @@ class Index extends BaseController
             $param = 1;
         }
 
-        $db = \Config\Database::connect();
+        $db = db_connect();
 
         $shops = $db->table('shops')->get()->getResultArray();
         $apiUrl = $db->table('settings')->select('value')->getWhere(['key' => 'PROM_API_URL'])->getRowArray(0)['value'];
@@ -41,16 +43,54 @@ class Index extends BaseController
         return view('content',  $data);
     }
 
-    public function test()
+    public function login()
     {
-        $addr = 'смт Чемерівці (Хмельницька обл.), 31601, пров. Поштовий, 1А';
+        $user = new UserModel();
 
-        $result = preg_match_all("/\d{5}/", $addr,$out, PREG_PATTERN_ORDER);
+        $data = $this->request->getPost();
 
-        if ($result){
-            return 'Укрпочта ' . $out[0][0];
+        if ($data){
+            $result = $user->auth($data);
+            if ($result){
+                return redirect()->to('dna');
+            }
         }
 
-        return '';
+        return view('login');
     }
+
+    public function logout()
+    {
+        $user = new UserModel();
+        $user->logout();
+        return redirect()->to('/');
+    }
+
+    public function test()
+    {
+        $user = new UserModel();
+        $user = $user->get();
+
+        echo "<PRE>";
+        var_dump($user);
+        echo "</PRE>";
+
+        /*
+        $bcrypt = new \App\Libraries\LibBcrypt();
+
+        $password = '';
+        echo "<PRE>";
+        var_dump($password);
+        echo "</PRE>";
+        $hash = $bcrypt->hash_password($password);
+
+        echo "<PRE>";
+        var_dump($hash);
+        echo "</PRE>";
+
+        die;
+        */
+
+    }
+
 }

@@ -38,3 +38,13 @@
 td {
     padding: 0 5px;
 }
+
+.login-form{
+    position: relative;
+    top: 100%;
+    text-align: center;
+}
+
+.red{
+    color:red;
+}

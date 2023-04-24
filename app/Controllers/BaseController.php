@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\UserModel;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
@@ -55,10 +56,8 @@ abstract class BaseController extends Controller
 
         // E.g.: $this->session = \Config\Services::session();
 
-        /*
-        ini_set('display_errors', 1);
-        ini_set('display_startup_errors', 1);
-        error_reporting(E_ALL);
-        */
     }
+
+
+
 }

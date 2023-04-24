@@ -44,6 +44,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public array $prod = [
+        'DSN'      => '',
+        'hostname' => 'rslr.mysql.tools',
+        'username' => 'rslr_db',
+        'password' => '7wADbGFX',
+        'database' => 'rslr_db',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => true,
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
     /**
      * This database connection is used when
      * running PHPUnit database tests.
@@ -74,11 +94,21 @@ class Database extends Config
     {
         parent::__construct();
 
+        $result = strpos($_SERVER['HTTP_HOST'], '.loc');
+
+        if ($result !== false){
+            $this->defaultGroup = 'default';
+        } else {
+            $this->defaultGroup = 'prod';
+        }
+
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that
         // we don't overwrite live data on accident.
+        /*
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
         }
+        */
     }
 }

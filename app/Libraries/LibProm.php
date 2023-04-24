@@ -4,6 +4,9 @@
 
 namespace App\Libraries;
 
+use \App\Libraries\LibCurl;
+use \App\Libraries\LibRenderer;
+
 class LibProm {
 
     private $token;
@@ -17,13 +20,17 @@ class LibProm {
     public function getOrders($page, $limit)
     {
         $path = '/api/v1/orders/list';
-        $client = new \App\libraries\LibCurl();
+        $client = new LibCurl();
 
         $params = ['page' => $page, 'per_page' => $limit];
         $url = $this->apiUrl . $path . '?'.http_build_query($params);
         $headers = ['Authorization: Bearer ' . $this->token, 'Content-Type: application/json'];
 
         $result = $client->execute($url, $headers);
+
+        if (!$result->code){
+            die("Can`t get orders! Check internet connection");
+        }
 
         return json_decode($result->body)->orders;
     }

@@ -17,6 +17,7 @@ class OrderParser{
         $result->name = trim($order->client_first_name) . ' ' . trim($order->client_last_name);
         $result->phone = trim($order->phone, '+');
         $result->address = self::parseAddress($order->delivery_address, $order->delivery_provider_data);
+
         $result->deliveryProvider = self::parseDelivery($order->delivery_address, $order->delivery_provider_data);
         $result->date = $date;
         $result->id = $order->id;
@@ -24,6 +25,8 @@ class OrderParser{
         $result->description = '';
         $result->purchaseType = self::parsePurchaseType($order->payment_option);
         $result->price = self::parsePrice($result->purchaseType, $order->full_price);
+        $result->prepaid = self::getPrepaid($result->purchaseType, $order->full_price);
+
         $result->status = $order->status;
 
         $result->system = 'S_OK';
@@ -34,6 +37,19 @@ class OrderParser{
         */
 
         return $result;
+
+    }
+
+    private static function getPrepaid($type, $price)
+    {
+        $price = preg_replace('/[^0-9]/', '', $price);
+
+        if ($type == PRICE_TYPE){
+            $percent = $price / 10;
+            return (int) round($percent, -2);
+        } else {
+            return '';
+        }
 
     }
 
@@ -50,7 +66,6 @@ class OrderParser{
             return $price;
         }
 
-
     }
 
     private static function parsePurchaseType($paymentOption) : ?string
@@ -61,14 +76,23 @@ class OrderParser{
 
         switch ($paymentOption->name){
             case 'На карту "Приват Банка"': {return 'БАНК*';}
+            case 'На карту Приват Банка': {return 'БАНК*';}
+            case 'Безналичный расчет на карту банка Приват.': {return 'БАНК*';}
+            case 'Безналичный расчет на карту Приват Банка': {return 'БАНК*';}
             case 'Наложенный платеж': { return 'налож*';}
-            default: return null;
+            default: {
+                echo "<PRE>";
+                var_dump($paymentOption);
+                echo "</PRE>";
+                die;
+            };
         }
 
     }
 
     private static function parseDelivery($deliveryAddress, $deliveryData) : ?string
     {
+
         if (!isset($deliveryData->provider)){
             return '$deliveryData->provider not set';
             //return '';

@@ -18,6 +18,8 @@ class PromOrder {
     public $description1 = ''; //K
     public $description2 = ''; //L
 
+    public $prepaid;
+
     public $status;
     public $system = '';
 

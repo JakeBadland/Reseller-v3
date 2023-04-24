@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Libraries;
+namespace App\Libraries;
 
 class libRenderer {
 

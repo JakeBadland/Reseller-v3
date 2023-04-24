@@ -36,6 +36,14 @@ $routes->get('/(:num)', 'Index::index/$1');
 
 $routes->get('/test', 'Index::test');
 
+$routes->get('/login', 'Index::login');
+$routes->post('/login', 'Index::login');
+$routes->get('/logout', 'Index::logout');
+
+$routes->get('/dna', 'Dna::users');
+$routes->post('/dna/addUser', 'Dna::addUser');
+$routes->get('/dna/editUser/(:num)', 'Dna::editUser/$1');
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

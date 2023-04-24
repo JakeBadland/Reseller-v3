@@ -30,6 +30,7 @@
                 <TD><?= $order->deliveryProvider ?></TD>
                 <TD><?= $order->description ?></TD>
                 <TD style="background-color: rgb(0,255,255)"><?= $order->purchaseType ?></TD>
+                <TD><?= $order->prepaid ?></TD>
             </TR>
 
         <?php endforeach; ?>
