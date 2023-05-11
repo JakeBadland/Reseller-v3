@@ -51,6 +51,7 @@ class Index extends BaseController
 
         if ($data){
             $result = $user->auth($data);
+
             if ($result){
                 return redirect()->to('dna');
             }
@@ -63,7 +64,12 @@ class Index extends BaseController
     {
         $user = new UserModel();
         $user->logout();
+
+        header('Location: /login');
+        die;
+        /*
         return redirect()->to('/');
+        */
     }
 
     public function test()

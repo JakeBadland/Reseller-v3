@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\UserModel;
+use \App\Models\UserModel;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -17,19 +17,32 @@ class Dna extends BaseController
         $user = new UserModel();
         $user = $user->get();
 
-        $errors = [];
-
         if (!$user){
-            $errors[] = 'You don`t have permission to access this page';
-        }
+            header('Location: /login');
+            die;
 
-        if ($errors){
+            //return redirect()->to('login');
+
+            /*
+            $errors = [];
+            $errors[] = 'You don`t have permission to access this page';
             return view('errors/error', [
                 'errors' => $errors,
             ]);
+            */
         }
 
+        if ($user->role_id != 1){
+            header('Location: /login');
+            die;
+        }
 
+        /*
+        echo "<PRE>";
+        var_dump($user->role_id);
+        var_dump($user->getRoleName($user->role_id));
+        echo "</PRE>";
+        */
     }
 
     public function users()
@@ -37,7 +50,7 @@ class Dna extends BaseController
         $db = db_connect();
         $users = $db->table('users')
             ->select('*')
-            ->join('roles', 'users.role = roles.id')
+            ->join('roles', 'users.role_id = roles.id')
             //->where(['users.id != 1'])
             ->get()
             ->getResult();
@@ -46,7 +59,7 @@ class Dna extends BaseController
         foreach ($users as $key => $user){
             if ($user->id == 1){
                 //unset($users[$user->id]); - не используй)
-                unset($users[$key]); //проще так) Хотя в верхнем случае "по идее должно сработать"
+                //unset($users[$key]); //проще так) Хотя в верхнем случае "по идее должно сработать"
             }
         }
 
@@ -73,6 +86,8 @@ class Dna extends BaseController
 
     public function addUser()
     {
+        $db = db_connect();
+
         $data = $this->request->getPost();
 
         $errors = [];
@@ -101,6 +116,8 @@ class Dna extends BaseController
 
         $user = new UserModel();
         $user->addUser($data);
+
+        return redirect()->to('dna');
     }
 
     public function editUser($userId = null)

@@ -10,16 +10,22 @@ class UserModel extends Model{
     public $user;
     protected $db;
 
+    //protected $table   = 'users';
+
+    /*
     public function __construct(?ConnectionInterface $db = null, ?ValidationInterface $validation = null)
     {
         parent::__construct($db, $validation);
     }
+    */
 
     public function auth($data) : bool
     {
         $bcrypt = new LibBcrypt();
 
         $user = $this->db->table('users')->select('*')->getWhere(['login' => $data['login']])->getRow();
+
+        if (!$user) return false;
 
         $result = $bcrypt->check_password($data['password'], $user->password);
 
@@ -33,6 +39,10 @@ class UserModel extends Model{
 
     public function logout()
     {
+        $session = \Config\Services::session();
+
+        $session->set('uToken', null);
+
         if ($this->user){
             $user = $this->get();
             $this->db->table('users')->where(['id' => $user->id])->set(['token' => null])->update();
@@ -70,19 +80,22 @@ class UserModel extends Model{
         $session->set('uToken', $userToken);
     }
 
+    /*
     public function load($data)
     {
         $this->user->id = $data->id;
         $this->user->login = $data->login;
         $this->user->password = $data->password;
         $this->user->email = $data->email;
+        $this->user->role = $data->role;
     }
+    */
 
     public function addUser($data)
     {
         $bcrypt = new LibBcrypt();
 
-        $data['role'] = $this->getRoleId($data['role']);
+        $data['role_id'] = $this->getRoleId($data['role']);
         unset($data['confirm']);
 
         $data['password'] = $bcrypt->hash_password($data['password']);
@@ -92,6 +105,11 @@ class UserModel extends Model{
     public function getRoleId($roleName)
     {
         return $this->db->table('roles')->select('*')->getWhere(['name' => $roleName])->getRow(0)->id;
+    }
+
+    public function getRoleName($roleId)
+    {
+        return $this->db->table('roles')->select('*')->getWhere(['id' => $roleId])->getRow(0)->name;
     }
 
     public function getById($userId)
