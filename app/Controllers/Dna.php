@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use \App\Models\UserModel;
+use \App\Models\CardModel;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Model;
@@ -21,16 +22,6 @@ class Dna extends BaseController
         if (!$user){
             header('Location: /login');
             die;
-
-            //return redirect()->to('login');
-
-            /*
-            $errors = [];
-            $errors[] = 'You don`t have permission to access this page';
-            return view('errors/error', [
-                'errors' => $errors,
-            ]);
-            */
         }
 
         if ($user->role_id != 1){
@@ -38,12 +29,6 @@ class Dna extends BaseController
             die;
         }
 
-        /*
-        echo "<PRE>";
-        var_dump($user->role_id);
-        var_dump($user->getRoleName($user->role_id));
-        echo "</PRE>";
-        */
     }
 
     public function users()
@@ -57,39 +42,15 @@ class Dna extends BaseController
             ->getResult();
         $roles = $db->table('roles')->select('*')->get()->getResult();
 
-        /*
-        foreach ($users as $key => $user){
-            if ($user->id == 1){
-                //unset($users[$user->id]); - не используй)
-                //unset($users[$key]); //проще так) Хотя в верхнем случае "по идее должно сработать"
-            }
-        }
-        */
-
         return view('dna/users', [
             'users' => $users,
             'roles' => $roles
         ]);
     }
 
-    public function roles()
-    {
-
-    }
-
-    public function cards()
-    {
-
-    }
-
-    public function items()
-    {
-
-    }
-
     public function addUser()
     {
-        $db = db_connect();
+        //$db = db_connect();
 
         $data = $this->request->getPost();
 
@@ -158,6 +119,86 @@ class Dna extends BaseController
             ->delete();
 
         return redirect()->to('dna');
+    }
+
+
+    public function cards()
+    {
+        $db = db_connect();
+        $cards = $db->table('cards')
+            ->select('*,  cards.id as card_id')
+            ->get()
+            ->getResult();
+
+        return view('dna/cards', [
+            'cards' => $cards,
+        ]);
+    }
+
+    public function editCard($cardId = null)
+    {
+        $db = db_connect();
+
+        $data = $this->request->getPost();
+
+        $card = new CardModel();
+
+        if ($data){
+            $card->updateCard($data);
+            return redirect()->to('dna/cards');
+        }
+
+        $cardData = $card->getById($cardId);
+
+        return view('dna/edit_card', [
+            'card' => $cardData
+        ]);
+    }
+
+    public function addCard()
+    {
+        $data = $this->request->getPost();
+
+        $errors = [];
+
+        if (empty($data['name'])){
+            $errors[] = 'Name can`t be empty';
+        }
+
+        if (empty($data['number'])){
+            $errors[] = 'Number can`t be empty';
+        }
+
+        if ($errors){
+            return view('errors/error', [
+                'errors' => $errors,
+            ]);
+        }
+
+        $card = new CardModel();
+        $card->addCard($data);
+
+        return redirect()->to('dna/cards');
+    }
+
+    public function deleteCard()
+    {
+        $db = db_connect();
+
+        $data = $this->request->getPost();
+
+        $cardId = $data['card_id'];
+
+        $result = $db->table('cards')
+            ->where(['id' => $cardId])
+            ->delete();
+
+        return redirect()->to('dna/cards');
+    }
+
+    public function items()
+    {
+
     }
 
 }

@@ -40,11 +40,19 @@ $routes->get('/login', 'Index::login');
 $routes->post('/login', 'Index::login');
 $routes->get('/logout', 'Index::logout');
 
+//users group
 $routes->get('/dna', 'Dna::users');
 $routes->post('/dna/addUser', 'Dna::addUser');
 $routes->get('/dna/editUser/(:num)', 'Dna::editUser/$1');
 $routes->post('/dna/editUser', 'Dna::editUser');
 $routes->post('/dna/deleteUser', 'Dna::deleteUser');
+
+//cards group
+$routes->get('/dna/cards', 'Dna::cards');
+$routes->post('/dna/cards/add', 'Dna::addCard');
+$routes->get('/dna/editCard/(:num)', 'Dna::editCard/$1');
+$routes->post('/dna/editCard', 'Dna::editCard');
+$routes->post('/dna/cards/delete', 'Dna::deleteCard');
 
 /*
  * --------------------------------------------------------------------

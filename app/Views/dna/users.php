@@ -49,7 +49,7 @@
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
                             <button type="submit" class="btn btn-default">Add</button>
-                            <button type="button" data-toggle="collapse" data-target="#collapseExample" class="btn btn-default">Cancel</button>
+                            <button type="button" data-toggle="collapse" data-target="#add-user" class="btn btn-default">Cancel</button>
                         </div>
                     </div>
                 </form>
