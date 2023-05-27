@@ -5,6 +5,7 @@ namespace App\Controllers;
 use \App\Models\UserModel;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Model;
 use Psr\Log\LoggerInterface;
 
 class Dna extends BaseController
@@ -49,19 +50,21 @@ class Dna extends BaseController
     {
         $db = db_connect();
         $users = $db->table('users')
-            ->select('*')
+            ->select('*, users.id as user_id')
             ->join('roles', 'users.role_id = roles.id')
             //->where(['users.id != 1'])
             ->get()
             ->getResult();
         $roles = $db->table('roles')->select('*')->get()->getResult();
 
+        /*
         foreach ($users as $key => $user){
             if ($user->id == 1){
                 //unset($users[$user->id]); - не используй)
                 //unset($users[$key]); //проще так) Хотя в верхнем случае "по идее должно сработать"
             }
         }
+        */
 
         return view('dna/users', [
             'users' => $users,
@@ -74,7 +77,7 @@ class Dna extends BaseController
 
     }
 
-    public function shops()
+    public function cards()
     {
 
     }
@@ -126,20 +129,35 @@ class Dna extends BaseController
 
         $data = $this->request->getPost();
 
+        $user = new UserModel();
+
         if ($data){
-            //update user
-            //redirect to users
+            $user->updateUser($data);
+            return redirect()->to('dna');
         }
 
         $roles = $db->table('roles')->select('*')->get()->getResult();
 
-        $user = new UserModel();
         $userData = $user->getById($userId);
 
         return view('dna/edit_user', [
             'roles' => $roles,
             'user' => $userData
         ]);
+    }
+
+    public function deleteUser(){
+        $db = db_connect();
+
+        $data = $this->request->getPost();
+
+        $userId = $data['user_id'];
+
+        $result = $db->table('users')
+            ->where(['id' => $userId])
+            ->delete();
+
+        return redirect()->to('dna');
     }
 
 }

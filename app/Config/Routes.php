@@ -43,6 +43,8 @@ $routes->get('/logout', 'Index::logout');
 $routes->get('/dna', 'Dna::users');
 $routes->post('/dna/addUser', 'Dna::addUser');
 $routes->get('/dna/editUser/(:num)', 'Dna::editUser/$1');
+$routes->post('/dna/editUser', 'Dna::editUser');
+$routes->post('/dna/deleteUser', 'Dna::deleteUser');
 
 /*
  * --------------------------------------------------------------------

@@ -3,15 +3,32 @@
 <?= $this->section('edit_user'); ?>
 
 <div class="container">
-    <button class="btn btn-danger" type="button">
-        Delete user!
+    <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#delete-user" aria-expanded="false" aria-controls="collapseExample">
+        Delete user
     </button>
     <br/>
     <br/>
 
+    <div class="collapse" id="delete-user">
+        <div class="card card-body panel panel-default">
+            <div class="panel-body">
+                <form action="/dna/deleteUser" class="form-horizontal" method="post">
+                    <h3 class="col-xs-3 control-label">Are you sure?</h3>
+                    <div class="form-group">
+                        <div class="col-xs-5">
+                            <input type="hidden" class="form-control" name="user_id" value="<?=$user->id?>">
+                        </div>
+                    </div>
+                    <button type="submit">Confirm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="card card-body panel panel-default">
         <div class="panel-body">
             <form action="/dna/editUser" class="form-horizontal" method="post">
+                <input type="hidden" name="id" value="<?=$user->id?>">
                 <div class="form-group">
                     <label for="login" class="col-xs-3 control-label">Login<label class="red">*</label></label>
                     <div class="col-xs-5">
@@ -41,7 +58,7 @@
                     <div class="col-xs-5">
                         <select id="role" name="role">
                             <?php foreach ($roles as $role) : ?>
-                                <option <?php if($role->id == $user->role) echo 'selected="selected"' ?>
+                                <option <?php if($role->id == $user->role_id) echo 'selected="selected"' ?>
                                         name="<?= $role->id ?>"><?= $role->name ?></option>
                             <?php endforeach; ?>
                         </select>

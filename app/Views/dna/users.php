@@ -3,12 +3,12 @@
 <?= $this->section('users'); ?>
 
 <div class="container">
-    <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#add-user" aria-expanded="false" aria-controls="collapseExample">
         Add user
     </button>
     <br/>
     <br/>
-    <div class="collapse" id="collapseExample">
+    <div class="collapse" id="add-user">
         <div class="card card-body panel panel-default">
             <div class="panel-body">
                 <form action="/dna/addUser" class="form-horizontal" method="post">
@@ -72,7 +72,7 @@
                     <tr>
                         <td><?= $user->login ?></td>
                         <td><?= $user->email ?></td>
-                        <td><a href="/dna/editUser/<?= $user->id ?>">edit</a></td>
+                        <td><a href="/dna/editUser/<?= $user->user_id ?>">edit</a></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>

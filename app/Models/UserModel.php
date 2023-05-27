@@ -97,9 +97,25 @@ class UserModel extends Model{
 
         $data['role_id'] = $this->getRoleId($data['role']);
         unset($data['confirm']);
+        unset($data['role']);
 
         $data['password'] = $bcrypt->hash_password($data['password']);
         $this->db->table('users')->insert($data);
+    }
+
+    public function updateUser($data){
+        $userId = $data['id'];
+        unset($data['id']);
+        unset($data['confirm']);
+
+        $data['role_id'] = $this->getRoleId($data['role']);
+        unset($data['role']);
+
+        $bcrypt = new LibBcrypt();
+
+        $data['password'] = $bcrypt->hash_password($data['password']);
+
+        $this->db->table('users')->set($data)->where('id', $userId)->update();
     }
 
     public function getRoleId($roleName)
