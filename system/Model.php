@@ -89,7 +89,7 @@ class Model extends BaseModel
      *
      * @var string
      */
-    protected $table;
+    protected string $table;
 
     /**
      * The table's primary key.

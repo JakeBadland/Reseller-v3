@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use \App\Models\UserModel;
 use \App\Models\CardModel;
+use \App\Models\ShopModel;
+use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Model;
@@ -31,7 +33,7 @@ class Dna extends BaseController
 
     }
 
-    public function users()
+    public function users() : string
     {
         $db = db_connect();
         $users = $db->table('users')
@@ -107,7 +109,8 @@ class Dna extends BaseController
         ]);
     }
 
-    public function deleteUser(){
+    public function deleteUser() : RedirectResponse
+    {
         $db = db_connect();
 
         $data = $this->request->getPost();
@@ -122,7 +125,7 @@ class Dna extends BaseController
     }
 
 
-    public function cards()
+    public function cards() : string
     {
         $db = db_connect();
         $cards = $db->table('cards')
@@ -181,7 +184,7 @@ class Dna extends BaseController
         return redirect()->to('dna/cards');
     }
 
-    public function deleteCard()
+    public function deleteCard() : RedirectResponse
     {
         $db = db_connect();
 
@@ -194,6 +197,86 @@ class Dna extends BaseController
             ->delete();
 
         return redirect()->to('dna/cards');
+    }
+
+    public function shops() : string
+    {
+        $db = db_connect();
+        $shops = $db->table('shops')
+            ->select('*,  shops.id as shop_id')
+            ->get()
+            ->getResult();
+
+        return view('dna/shops', [
+            'shops' => $shops,
+        ]);
+    }
+
+    public function editShop($shopId = null)
+    {
+        $db = db_connect();
+
+        $data = $this->request->getPost();
+
+        $shop = new shopModel();
+
+        if ($data){
+            $shop->updateShop($data);
+            return redirect()->to('dna/shops');
+        }
+
+        $cards = $db->table('cards')->select('*')->get()->getResult();
+        $shopData = $shop->getById($shopId);
+
+        return view('dna/edit_shop', [
+            'shop' => $shopData,
+            'cards' => $cards
+        ]);
+    }
+
+    public function addShop()
+    {
+        $data = $this->request->getPost();
+
+        $errors = [];
+
+        if (empty($data['name'])){
+            $errors[] = 'Name can`t be empty';
+        }
+
+        if (empty($data['token'])){
+            $errors[] = 'Token can`t be empty';
+        }
+
+        if (empty($data['color'])){
+            $errors[] = 'Color can`t be empty';
+        }
+
+        if ($errors){
+            return view('errors/error', [
+                'errors' => $errors,
+            ]);
+        }
+
+        $card = new ShopModel();
+        $card->addShop($data);
+
+        return redirect()->to('dna/shops');
+    }
+
+    public function deleteShop() : RedirectResponse
+    {
+        $db = db_connect();
+
+        $data = $this->request->getPost();
+
+        $shopId = $data['shop_id'];
+
+        $result = $db->table('shops')
+            ->where(['id' => $shopId])
+            ->delete();
+
+        return redirect()->to('dna/shops');
     }
 
     public function items()

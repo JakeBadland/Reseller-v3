@@ -28,4 +28,8 @@ class CardModel extends Model
         $this->db->table('cards')->set($data)->where('id', $cardId)->update();
     }
 
+    public function getCardId($cardName)
+    {
+        return $this->db->table('cards')->select('*')->getWhere(['name' => $cardName])->getRow(0)->id;
+    }
 }

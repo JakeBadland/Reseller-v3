@@ -58,8 +58,8 @@ $routes->post('/dna/cards/delete', 'Dna::deleteCard');
 $routes->get('/dna/shops', 'Dna::shops');
 $routes->post('/dna/shops/add', 'Dna::addShop');
 $routes->get('/dna/shops/edit/(:num)', 'Dna::editShop/$1');
-$routes->post('/dna/editShop', 'Dna::edit');
-$routes->post('/dna/cards/delete', 'Dna::deleteCard');
+$routes->post('/dna/editShop', 'Dna::editShop');
+$routes->post('/dna/shops/delete', 'Dna::deleteShop');
 
 /*
  * --------------------------------------------------------------------
