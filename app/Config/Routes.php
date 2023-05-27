@@ -50,8 +50,15 @@ $routes->post('/dna/deleteUser', 'Dna::deleteUser');
 //cards group
 $routes->get('/dna/cards', 'Dna::cards');
 $routes->post('/dna/cards/add', 'Dna::addCard');
-$routes->get('/dna/editCard/(:num)', 'Dna::editCard/$1');
+$routes->get('/dna/cards/edit/(:num)', 'Dna::editCard/$1');
 $routes->post('/dna/editCard', 'Dna::editCard');
+$routes->post('/dna/cards/delete', 'Dna::deleteCard');
+
+//shops group
+$routes->get('/dna/shops', 'Dna::shops');
+$routes->post('/dna/shops/add', 'Dna::addShop');
+$routes->get('/dna/shops/edit/(:num)', 'Dna::editShop/$1');
+$routes->post('/dna/editShop', 'Dna::edit');
 $routes->post('/dna/cards/delete', 'Dna::deleteCard');
 
 /*

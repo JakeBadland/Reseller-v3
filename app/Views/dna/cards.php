@@ -50,7 +50,7 @@
                     <tr>
                         <td><?= $card->name ?></td>
                         <td><?= $card->number ?></td>
-                        <td><a href="/dna/editCard/<?= $card->id ?>">edit</a></td>
+                        <td><a href="/dna/cards/edit/<?= $card->id ?>">edit</a></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
