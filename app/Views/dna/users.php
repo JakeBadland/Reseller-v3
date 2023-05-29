@@ -13,19 +13,19 @@
             <div class="panel-body">
                 <form action="/dna/addUser" class="form-horizontal" method="post">
                     <div class="form-group">
-                        <label for="login" class="col-xs-3 control-label">Login<label class="red">*</label></label>
+                        <label for="login" class="col-xs-3 control-label">Login</label>
                         <div class="col-xs-5">
                             <input type="text" class="form-control" id="login" name="login">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="password" class="col-xs-3 control-label">Password<label class="red">*</label></label>
+                        <label for="password" class="col-xs-3 control-label">Password</label>
                         <div class="col-xs-5">
                             <input type="text" class="form-control" id="password" name="password">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="confirm" class="col-xs-3 control-label">Confirm<label class="red">*</label></label>
+                        <label for="confirm" class="col-xs-3 control-label">Confirm</label>
                         <div class="col-xs-5">
                             <input type="text" class="form-control" id="confirm" name="confirm">
                         </div>

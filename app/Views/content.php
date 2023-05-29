@@ -31,6 +31,7 @@
                 <TD><?= $order->description ?></TD>
                 <TD style="background-color: rgb(0,255,255)"><?= $order->purchaseType ?></TD>
                 <TD><?= $order->prepaid ?></TD>
+                <TD style="background-color: rgb(255,0,255)"><?= $shop_info['short'] ?></TD>
             </TR>
 
         <?php endforeach; ?>

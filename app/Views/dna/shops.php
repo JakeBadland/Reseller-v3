@@ -13,21 +13,31 @@
             <div class="panel-body">
                 <form action="/dna/shops/add" class="form-horizontal" method="post">
                     <div class="form-group">
-                        <label for="name" class="col-xs-3 control-label">Name<label class="red">*</label></label>
+                        <label for="name" class="col-xs-3 control-label">Name</label>
                         <div class="col-xs-5">
                                 <input type="text" class="form-control" id="name" name="name">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="num" class="col-xs-3 control-label">Token<label class="red">*</label></label>
+                        <label for="num" class="col-xs-3 control-label">Token</label>
                         <div class="col-xs-5">
                             <input type="text" class="form-control" id="token" name="token">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="num" class="col-xs-3 control-label">Color<label class="red">*</label></label>
+                        <label for="num" class="col-xs-3 control-label">Color</label>
                         <div class="col-xs-5">
                             <input type="text" class="form-control" id="color" name="color">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="role" class="col-xs-3 control-label">Card</label>
+                        <div class="col-xs-5">
+                            <select id="role" name="role">
+                                <?php foreach ($cards as $card) : ?>
+                                    <option name="<?=$card->id?>"><?= $card->name ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -49,15 +59,17 @@
                         <th>Name</th>
                         <th>Token</th>
                         <th>Color</th>
+                        <th>Card</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php foreach ($shops as $shop) : ?>
                     <tr>
-                        <td><?= $shop->name ?></td>
+                        <td><?= $shop->shop_name ?></td>
                         <td><?= $shop->token ?></td>
                         <td><?= $shop->color ?></td>
+                        <td><?= $shop->card_id ?></td>
                         <td><a href="/dna/shops/edit/<?= $shop->id ?>">edit</a></td>
                     </tr>
                 <?php endforeach; ?>

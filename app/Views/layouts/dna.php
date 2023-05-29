@@ -27,7 +27,7 @@
 <!--                    <li><a href="#">Roles</a></li>-->
                     <li><a href="/dna/shops">Shops</a></li>
                     <li><a href="/dna/cards">Cards</a></li>
-                    <li><a href="#">Items</a></li>
+                    <!--<li><a href="#">Items</a></li>-->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/logout">Logout</a></li>

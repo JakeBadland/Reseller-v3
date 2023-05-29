@@ -21,7 +21,7 @@
     <img class="menu-icon" src="/img/menu.png">
     <div class="menu panel">
             <?php foreach ($shops as $shop) : ?>
-                <div><a href="/<?=$shop['id']?>"><?=$shop['name']?></a></div>
+                <div><a href="/<?=$shop['shop_id']?>"><?=$shop['shop_name']?></a></div>
             <?php endforeach ?>
     </div>
     <?php endif ?>

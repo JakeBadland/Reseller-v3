@@ -30,15 +30,21 @@
             <form action="/dna/editCard" class="form-horizontal" method="post">
                 <input type="hidden" name="id" value="<?=$card->id?>">
                 <div class="form-group">
-                    <label for="login" class="col-xs-3 control-label">Name<label class="red">*</label></label>
+                    <label for="login" class="col-xs-3 control-label">Name</label>
                     <div class="col-xs-5">
                         <input type="text" class="form-control" id="name" name="name" value="<?=$card->name?>">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="password" class="col-xs-3 control-label">Number<label class="red">*</label></label>
+                    <label for="password" class="col-xs-3 control-label">Number</label>
                     <div class="col-xs-5">
                         <input type="text" class="form-control" id="number" name="number" value="<?=$card->number?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-xs-3 control-label">Short name</label>
+                    <div class="col-xs-5">
+                        <input type="text" class="form-control" id="short" name="short" value="<?=$card->short?>">
                     </div>
                 </div>
                 <div class="form-group">

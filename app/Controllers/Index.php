@@ -20,9 +20,26 @@ class Index extends BaseController
 
         $db = db_connect();
 
-        $shops = $db->table('shops')->get()->getResultArray();
+        $shops = $db->table('shops')
+            ->select('*, cards.name as card_name, cards.id as card_id, shops.name as shop_name, shops.id as shop_id')
+            ->join('cards', 'shops.card_id = cards.id')
+            ->get()
+            ->getResultArray();
+
         $apiUrl = $db->table('settings')->select('value')->getWhere(['key' => 'PROM_API_URL'])->getRowArray(0)['value'];
-        $shopInfo = $db->table('shops')->select('*')->getWhere(['id' => $param])->getRowArray(0);
+        $shopInfo = $db->table('shops')
+            ->select('*')
+            ->join('cards', 'shops.card_id = cards.id')
+            ->getWhere(['shops.id' => $param])
+            ->getRowArray(0);
+
+        /*
+        $shops = $db->table('shops')
+            ->select('*,  shops.id as shop_id, shops.name as shop_name, cards.name as card_name')
+            ->join('cards', 'shops.card_id = cards.id')
+            ->get()
+            ->getResult();
+        */
 
         $prom = new \App\Libraries\LibProm($apiUrl, $shopInfo['token']);
         $parser = new \App\Helpers\OrderParser();
@@ -37,6 +54,7 @@ class Index extends BaseController
         $data = [
             'orders' => $result,
             'shops' => $shops,
+            'shop_info' => $shopInfo,
             'color' => $shopInfo['color']
         ];
 

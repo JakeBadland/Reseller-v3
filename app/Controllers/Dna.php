@@ -203,12 +203,16 @@ class Dna extends BaseController
     {
         $db = db_connect();
         $shops = $db->table('shops')
-            ->select('*,  shops.id as shop_id')
+            ->select('*,  shops.id as shop_id, shops.name as shop_name, cards.name as card_name')
+            ->join('cards', 'shops.card_id = cards.id')
             ->get()
             ->getResult();
 
+        $cards = $db->table('cards')->select('*')->get()->getResult();
+
         return view('dna/shops', [
             'shops' => $shops,
+            'cards' => $cards
         ]);
     }
 

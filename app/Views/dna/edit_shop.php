@@ -31,19 +31,19 @@
             <form action="/dna/editShop" class="form-horizontal" method="post">
                 <input type="hidden" name="id" value="<?=$shop->id?>">
                 <div class="form-group">
-                    <label for="login" class="col-xs-3 control-label">Name<label class="red">*</label></label>
+                    <label for="login" class="col-xs-3 control-label">Name</label>
                     <div class="col-xs-5">
                         <input type="text" class="form-control" id="name" name="name" value="<?=$shop->name?>">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="password" class="col-xs-3 control-label">Token<label class="red">*</label></label>
+                    <label for="password" class="col-xs-3 control-label">Token</label>
                     <div class="col-xs-5">
                         <input type="text" class="form-control" id="token" name="token" value="<?=$shop->token?>">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="confirm" class="col-xs-3 control-label">Color<label class="red">*</label></label>
+                    <label for="confirm" class="col-xs-3 control-label">Color</label>
                     <div class="col-xs-5">
                         <input type="text" class="form-control" id="color" name="color" value="<?=$shop->color?>">
                     </div>

@@ -13,13 +13,13 @@
             <div class="panel-body">
                 <form action="/dna/cards/add" class="form-horizontal" method="post">
                     <div class="form-group">
-                        <label for="name" class="col-xs-3 control-label">Name<label class="red">*</label></label>
+                        <label for="name" class="col-xs-3 control-label">Name</label>
                         <div class="col-xs-5">
                                 <input type="text" class="form-control" id="name" name="name">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="num" class="col-xs-3 control-label">Number<label class="red">*</label></label>
+                        <label for="num" class="col-xs-3 control-label">Number</label>
                         <div class="col-xs-5">
                             <input type="text" class="form-control" id="number" name="number">
                         </div>
@@ -42,6 +42,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Number</th>
+                        <th>Short</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -50,6 +51,7 @@
                     <tr>
                         <td><?= $card->name ?></td>
                         <td><?= $card->number ?></td>
+                        <td><?= $card->short ?></td>
                         <td><a href="/dna/cards/edit/<?= $card->id ?>">edit</a></td>
                     </tr>
                 <?php endforeach; ?>
