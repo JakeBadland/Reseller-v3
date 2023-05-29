@@ -33,7 +33,7 @@
                     <div class="form-group">
                         <label for="role" class="col-xs-3 control-label">Card</label>
                         <div class="col-xs-5">
-                            <select id="role" name="role">
+                            <select id="card" name="card">
                                 <?php foreach ($cards as $card) : ?>
                                     <option name="<?=$card->id?>"><?= $card->name ?></option>
                                 <?php endforeach; ?>
@@ -69,8 +69,8 @@
                         <td><?= $shop->shop_name ?></td>
                         <td><?= $shop->token ?></td>
                         <td><?= $shop->color ?></td>
-                        <td><?= $shop->card_id ?></td>
-                        <td><a href="/dna/shops/edit/<?= $shop->id ?>">edit</a></td>
+                        <td><?= $shop->card_name ?></td>
+                        <td><a href="/dna/shops/edit/<?= $shop->shop_id ?>">edit</a></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
