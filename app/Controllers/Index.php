@@ -28,7 +28,7 @@ class Index extends BaseController
 
         $apiUrl = $db->table('settings')->select('value')->getWhere(['key' => 'PROM_API_URL'])->getRowArray(0)['value'];
         $shopInfo = $db->table('shops')
-            ->select('*')
+            ->select('*, shops.name as shop_name')
             ->join('cards', 'shops.card_id = cards.id')
             ->getWhere(['shops.id' => $param])
             ->getRowArray(0);
@@ -48,7 +48,7 @@ class Index extends BaseController
 
         $result = [];
         foreach ($orders as $order){
-            $result[] = $parser::parseOrder($order, $shopInfo['name']);
+            $result[] = $parser::parseOrder($order, $shopInfo['shop_name']);
         }
 
         $data = [

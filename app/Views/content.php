@@ -30,8 +30,14 @@
                 <TD><?= $order->deliveryProvider ?></TD>
                 <TD><?= $order->description ?></TD>
                 <TD style="background-color: rgb(0,255,255)"><?= $order->purchaseType ?></TD>
-                <TD><?= $order->prepaid ?></TD>
-                <TD style="background-color: rgb(255,0,255)"><?= $shop_info['short'] ?></TD>
+                <?php if ($order->prepaid): ?>
+                    <TD><?= $order->prepaid ?></TD>
+                <?php else : ?>
+                    <TD style="background-color: rgb(255,0,255)"><?= $shop_info['short'] ?></TD>
+                <?php endif ?>
+                <?php if ($order->prepaid): ?>
+                    <TD style="background-color: rgb(255,0,255)"><?= $shop_info['short'] ?></TD>
+                <?php endif ?>
             </TR>
 
         <?php endforeach; ?>

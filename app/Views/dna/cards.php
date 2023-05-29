@@ -25,6 +25,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="num" class="col-xs-3 control-label">Short</label>
+                        <div class="col-xs-5">
+                            <input type="text" class="form-control" id="short" name="short">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
                             <button type="submit" class="btn btn-default">Add</button>
                             <button type="button" data-toggle="collapse" data-target="#add-card" class="btn btn-default">Cancel</button>
