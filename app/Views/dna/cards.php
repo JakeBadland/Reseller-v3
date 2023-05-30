@@ -31,6 +31,15 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="num" class="col-xs-3 control-label">Type</label>
+                        <div class="col-xs-5">
+                            <select id="type" name="type">
+                                    <option name="normal">normal</option>
+                                    <option name="high">high</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
                             <button type="submit" class="btn btn-default">Add</button>
                             <button type="button" data-toggle="collapse" data-target="#add-card" class="btn btn-default">Cancel</button>
@@ -49,6 +58,7 @@
                         <th>Name</th>
                         <th>Number</th>
                         <th>Short</th>
+                        <th>Type</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -58,6 +68,7 @@
                         <td><?= $card->name ?></td>
                         <td><?= $card->number ?></td>
                         <td><?= $card->short ?></td>
+                        <td><?= $card->type ?></td>
                         <td><a href="/dna/cards/edit/<?= $card->id ?>">edit</a></td>
                     </tr>
                 <?php endforeach; ?>
