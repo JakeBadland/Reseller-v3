@@ -34,18 +34,19 @@
                 <TD style="background-color: rgb(0,255,255)"><?= $order->purchaseType ?></TD>
 
                 <?php if ($rule) {
-                    $shop_info['short'] = $rule_cards[$cardIndex]->short;
-
-                    switch ($rule->type){
-                        case 'cyclically': {
-                            $cardIndex++;
-                            if ($cardIndex > count($rule_cards) - 1) $cardIndex = 0;
+                    if ((int) $order->price > (int) $rule->from && (int) $order->price < (int) $rule->to){
+                        $shop_info['short'] = $rule_cards[$cardIndex]->short;
+                        switch ($rule->type){
+                            case 'cyclically': {
+                                $cardIndex++;
+                                if ($cardIndex > count($rule_cards) - 1) $cardIndex = 0;
+                            }
+                                break;
+                            case 'random': {
+                                $cardIndex = rand(0, count($rule_cards) - 1);
+                            }
+                                break;
                         }
-                            break;
-                        case 'random': {
-                            $cardIndex = rand(0, count($rule_cards) - 1);
-                        }
-                            break;
                     }
                 }?>
 
