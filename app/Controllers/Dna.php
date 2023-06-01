@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use \App\Models\RuleModel;
 use \App\Models\UserModel;
 use \App\Models\CardModel;
 use \App\Models\ShopModel;
@@ -10,6 +11,7 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Model;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Input\Input;
 
 class Dna extends BaseController
 {
@@ -229,12 +231,25 @@ class Dna extends BaseController
             return redirect()->to('dna/shops');
         }
 
+        $ruleCards = null;
+
         $cards = $db->table('cards')->select('*')->get()->getResult();
+        $rule = $db->table('rules')->select('*')->where(['shop_id' => $shopId])->get()->getResult();
+        if ($rule) {
+            $rule = $rule[0];
+            $ruleCards = $db->table('cards_to_rules')
+                ->select('*')
+                ->join('cards', 'cards.id = cards_to_rules.card_id')
+                ->where(['rule_id' => $rule->id])
+                ->get()->getResult();
+        }
         $shopData = $shop->getById($shopId);
 
         return view('dna/edit_shop', [
             'shop' => $shopData,
-            'cards' => $cards
+            'cards' => $cards,
+            'rule' => $rule,
+            'rule_cards' => $ruleCards
         ]);
     }
 
@@ -276,16 +291,88 @@ class Dna extends BaseController
 
         $shopId = $data['shop_id'];
 
-        $result = $db->table('shops')
-            ->where(['id' => $shopId])
-            ->delete();
+        $rule = $db->table('rules')->select('*')->where(['shop_id' => $shopId])->get()->getResult();
+        if ($rule) {
+            $rule = $rule[0];
+
+            $db->table('cards_to_rules')
+                ->where(['rule_id' => $rule->id])
+                ->delete();
+
+            $db->table('rules')
+                ->where(['id' => $rule->id])
+                ->delete();
+        }
 
         return redirect()->to('dna/shops');
     }
 
-    public function items()
+    public function addRule()
     {
+        $data = $this->request->getPost();
+
+        $data['from'] = (int) $data['from'];
+        $data['to'] = (int) $data['to'];
+        $data['enabled'] = (int) $data['enabled'];
+        $data['shop_id'] = (int) $data['shop_id'];
+        $data['current_card'] = 0;
+
+        $cards = $data['cards'];
+        unset($data['cards']);
+
+        $ruleModel = new RuleModel();
+        $ruleId = $ruleModel->addRule($data);
+
+        foreach ($cards as $cardId){
+            $ruleModel->addRuleCard($cardId, $ruleId);
+        }
+    }
+
+    public function updateRule()
+    {
+        $db = db_connect();
+
+        $data = $this->request->getPost();
+
+        $data['from'] = (int) $data['from'];
+        $data['to'] = (int) $data['to'];
+        $data['enabled'] = (int) $data['enabled'];
+        $shopId = (int) $data['shop_id'];
+        $ruleId = (int) $data['rule_id'];
+        $cards = $data['cards'];
+
+        unset($data['rule_id']);
+        unset($data['cards']);
+
+        $ruleModel = new RuleModel();
+        $ruleModel->updateRule($data);
+
+        $db->table('cards_to_rules')
+            ->where(['rule_id' => $ruleId])
+            ->delete();
+
+        foreach ($cards as $cardId){
+            $ruleModel->addRuleCard($cardId, $ruleId);
+        }
 
     }
+
+    public function deleteRule()
+    {
+        $db = db_connect();
+
+        $data = $this->request->getPost();
+
+        $ruleId = (int) $data['rule_id'];
+
+        $db->table('cards_to_rules')
+            ->where(['rule_id' => $ruleId])
+            ->delete();
+
+        $db->table('rules')
+            ->where(['id' => $ruleId])
+            ->delete();
+    }
+
 
 }

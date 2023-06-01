@@ -4,6 +4,8 @@
 
 <div class="">
     <TABLE>
+        <?php $cardIndex = 0 ?>
+
         <?php foreach ($orders as $key => $order): ?>
 
             <?php $back = ''; ?>
@@ -30,6 +32,23 @@
                 <TD><?= $order->deliveryProvider ?></TD>
                 <TD><?= $order->description ?></TD>
                 <TD style="background-color: rgb(0,255,255)"><?= $order->purchaseType ?></TD>
+
+                <?php if ($rule) {
+                    $shop_info['short'] = $rule_cards[$cardIndex]->short;
+
+                    switch ($rule->type){
+                        case 'cyclically': {
+                            $cardIndex++;
+                            if ($cardIndex > count($rule_cards) - 1) $cardIndex = 0;
+                        }
+                            break;
+                        case 'random': {
+                            $cardIndex = rand(0, count($rule_cards) - 1);
+                        }
+                            break;
+                    }
+                }?>
+
                 <?php if ($order->prepaid): ?>
                     <TD><?= $order->prepaid ?></TD>
                 <?php else : ?>
@@ -38,6 +57,7 @@
                 <?php if ($order->prepaid): ?>
                     <TD style="background-color: rgb(255,0,255)"><?= $shop_info['short'] ?></TD>
                 <?php endif ?>
+
             </TR>
 
         <?php endforeach; ?>

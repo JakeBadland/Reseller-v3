@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \App\Models\UserModel;
 
+
 class Index extends BaseController
 {
 
@@ -33,13 +34,17 @@ class Index extends BaseController
             ->getWhere(['shops.id' => $param])
             ->getRowArray(0);
 
-        /*
-        $shops = $db->table('shops')
-            ->select('*,  shops.id as shop_id, shops.name as shop_name, cards.name as card_name')
-            ->join('cards', 'shops.card_id = cards.id')
-            ->get()
-            ->getResult();
-        */
+        $rule = null;
+        $ruleCards = null;
+        $rule = $db->table('rules')->select('*')->where(['shop_id' => $param])->get()->getResult();
+        if ($rule){
+            $rule = $rule[0];
+            $ruleCards = $db->table('cards_to_rules')
+                ->select('*')
+                ->join('cards', 'cards.id = cards_to_rules.card_id')
+                ->where(['rule_id' => $rule->id])
+                ->get()->getResult();
+        }
 
         $prom = new \App\Libraries\LibProm($apiUrl, $shopInfo['token']);
         $parser = new \App\Helpers\OrderParser();
@@ -55,7 +60,9 @@ class Index extends BaseController
             'orders' => $result,
             'shops' => $shops,
             'shop_info' => $shopInfo,
-            'color' => $shopInfo['color']
+            'color' => $shopInfo['color'],
+            'rule' => $rule,
+            'rule_cards' => $ruleCards
         ];
 
         return view('content',  $data);
@@ -92,11 +99,8 @@ class Index extends BaseController
 
     public function test()
     {
-        $user = new UserModel();
-        $user = $user->get();
-
         echo "<PRE>";
-        var_dump($user);
+        var_dump(\Yii::$app->db->getLastInsertID());
         echo "</PRE>";
 
         /*

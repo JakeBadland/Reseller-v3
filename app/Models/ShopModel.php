@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Libraries\LibBcrypt;
 use CodeIgniter\Model;
 
 class ShopModel extends Model
