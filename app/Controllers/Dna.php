@@ -373,6 +373,25 @@ class Dna extends BaseController
         ]);
     }
 
+    public function deleteRule() : RedirectResponse
+    {
+        $db = db_connect();
+
+        $data = $this->request->getPost();
+
+        $ruleId = (int) $data['rule_id'];
+
+        $db->table('cards_to_rules')
+            ->where(['rule_id' => $ruleId])
+            ->delete();
+
+        $db->table('rules')
+            ->where(['id' => $ruleId])
+            ->delete();
+
+        return redirect()->to('dna/rules');
+    }
+
     /*
     public function addRule()
     {
@@ -422,23 +441,6 @@ class Dna extends BaseController
             $ruleModel->addRuleCard($cardId, $ruleId);
         }
 
-    }
-
-    public function deleteRule()
-    {
-        $db = db_connect();
-
-        $data = $this->request->getPost();
-
-        $ruleId = (int) $data['rule_id'];
-
-        $db->table('cards_to_rules')
-            ->where(['rule_id' => $ruleId])
-            ->delete();
-
-        $db->table('rules')
-            ->where(['id' => $ruleId])
-            ->delete();
     }
     */
 

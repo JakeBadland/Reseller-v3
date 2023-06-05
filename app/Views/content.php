@@ -33,8 +33,13 @@
                 <TD><?= $order->description ?></TD>
                 <TD style="background-color: rgb(0,255,255)"><?= $order->purchaseType ?></TD>
 
-                <?php if ($rule) {
-                    $model = new \App\Models\RuleModel();
+                <?php
+                $model = new \App\Models\RuleModel();
+                ?>
+
+                <?php
+                /*
+                if ($rule) {
                     if ((int) $order->price > (int) $rule->from && (int) $order->price < (int) $rule->to && $rule->enabled){
                         $shop_info['short'] = $rule_cards[$cardIndex]->short;
                         switch ($rule->type){
@@ -49,7 +54,8 @@
                                 break;
                         }
                     }
-                }?>
+
+                } */?>
 
                 <?php if ($order->prepaid): ?>
                     <TD><?= $order->prepaid ?></TD>
