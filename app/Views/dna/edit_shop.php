@@ -3,7 +3,7 @@
 <?= $this->section('edit_shop'); ?>
 
 <div class="container">
-    <button href="#" class="btn btn-primary toggle-panel">Add rule</button>
+    <!--<button href="#" class="btn btn-primary toggle-panel">Add rule</button>-->
     <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#delete-shop" aria-expanded="false" aria-controls="collapseExample" style="float: right">
         Delete shop
     </button>
@@ -25,7 +25,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="card card-body panel panel-default">
         <div class="panel-body">
@@ -68,93 +67,13 @@
             </form>
         </div>
     </div>
-
-    <?php if ($rule) : ?>
-        <div class="card card-body panel panel-default rule-panel">
-            <input type="hidden" id="rule_id" value="<?=$rule->id?>">
-            <div class="panel-body">
-                <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Select card
-                        <span class="caret"></span>
-                    </button>
-                    <input class="input-from" type="text" id="from" name="from" placeholder="from" value="<?= $rule->from ?>">
-                    <input class="input-to" type="text" id="to" name="to" placeholder="to" value="<?= $rule->to ?>">
-                    <input class="form-check-input btn-check enable-rule-btn" type="checkbox" value="" <?php if ($rule->enabled == '1') echo 'checked="checked"'; ?> id="is_enabled" />
-                    <label class="form-check-label" for="is_enabled" checked>Rule enabled</label>
-                    <ul class="dropdown-menu" aria-labelledby="Select-card">
-                        <?php foreach ($cards as $card): ?>
-                            <li><a href="#" class="card-link" data-id="<?= $card->id ?>"><?= $card->name ?></a></li>
-                        <?php endforeach ?>
-                    </ul>
-                </div>
-                <br/>
-                <div class="card card-body panel panel-default">
-                    <div class="panel-body selected-cards">
-                        <?php foreach ($rule_cards as $card) : ?>
-                            <div><a href="#" data-id="<?=$card->id?>"> <?=$card->name?> </a></div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-                <div>
-                    <input type="radio" name="select_type" value="cyclically" <?php if ($rule->type == 'cyclically') echo 'checked="checked"'; ?>>
-                    <label for="selectType1">Cyclically</label>
-
-                    <input type="radio" name="select_type" value="random" <?php if ($rule->type == 'random') echo 'checked="checked"'; ?>>
-                    <label for="selectType2">Random</label>
-                </div>
-                <?php if ($rule) : ?>
-                    <button type="submit" style="" class="btn btn-primary update-rule">Update rule</button>
-                <?php else : ?>
-                    <button type="submit" style="" class="btn btn-primary save-rule">Save rule</button>
-                <?php endif ?>
-                <button type="submit" style="float: right" class="btn btn-primary delete-rule">Delete rule</button>
-            </div>
-    <?php else : ?>
-        <div class="card card-body panel panel-default rule-panel" style="display: none">
-            <div class="panel-body">
-                <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Select card
-                        <span class="caret"></span>
-                    </button>
-                    <input class="input-from" type="text" id="from" name="from" placeholder="from">
-                    <input class="input-to" type="text" id="to" name="to" placeholder="to">
-                    <input class="form-check-input btn-check enable-rule-btn" type="checkbox" value="" checked="checked" id="is_enabled" />
-                    <label class="form-check-label" for="is_enabled" checked>Rule enabled</label>
-                    <ul class="dropdown-menu" aria-labelledby="Select-card">
-                        <?php foreach ($cards as $card): ?>
-                            <li><a href="#" class="card-link" data-id="<?= $card->id ?>"><?= $card->name ?></a></li>
-                        <?php endforeach ?>
-                    </ul>
-                </div>
-
-                <br/>
-                <div class="card card-body panel panel-default">
-                    <div class="panel-body selected-cards">
-
-                    </div>
-                </div>
-
-                <div>
-                    <input type="radio" name="select_type" value="cyclically" checked="checked">
-                    <label for="selectType1">Cyclically</label>
-
-                    <input type="radio" name="select_type" value="random">
-                    <label for="selectType2">Random</label>
-                </div>
-
-                <button type="submit" style="" class="btn btn-primary save-rule">Save rule</button>
-                <button type="submit" style="float: right" class="btn btn-primary delete-rule">Delete rule</button>
-            </div>
-
-            <?php endif ?>
-
-    </div>
 </div>
+
+
 
 <script>
     $(document).ready(function () {
+        /*
         $('body').on('click', '.card-link', function () {
             $('.selected-cards').append('<div><a href=# data-id=' + $(this).attr('data-id') + '>' + $(this).text() + '</a></div>')
         });
@@ -185,7 +104,6 @@
             $.post("/dna/rules/add", data, function( result ) {
                 $('.rule-panel').hide();
                 window.alert('Rule saved');
-                //console.log(result);
             });
         });
 
@@ -223,6 +141,7 @@
             });
 
         });
+        */
     });
 </script>
 

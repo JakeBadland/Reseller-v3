@@ -27,6 +27,7 @@
 <!--                    <li><a href="#">Roles</a></li>-->
                     <li><a href="/dna/shops">Shops</a></li>
                     <li><a href="/dna/cards">Cards</a></li>
+                    <li><a href="/dna/rules">Rules</a></li>
                     <!--<li><a href="#">Items</a></li>-->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -42,9 +43,10 @@
     <?= $this->renderSection('shops') ?>
     <?= $this->renderSection('items') ?>
     <?= $this->renderSection('cards') ?>
-    <?= $this->renderSection('shops') ?>
+    <?= $this->renderSection('rules') ?>
     <?= $this->renderSection('edit_user') ?>
     <?= $this->renderSection('edit_shop') ?>
+    <?= $this->renderSection('edit_rule') ?>
     <?= $this->renderSection('error') ?>
 </div>
 <div class="footer"></div>

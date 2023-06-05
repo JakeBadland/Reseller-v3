@@ -61,9 +61,19 @@ $routes->get('/dna/shops/edit/(:num)', 'Dna::editShop/$1');
 $routes->post('/dna/editShop', 'Dna::editShop');
 $routes->post('/dna/shops/delete', 'Dna::deleteShop');
 
+//rules group
+$routes->get('/dna/rules', 'Dna::rules');
+$routes->post('/dna/rules/add', 'Dna::addRule');
+$routes->get('/dna/rules/edit/(:num)', 'Dna::editRule/$1');
+$routes->post('/dna/rules/edit', 'Dna::editRule');
+$routes->post('/dna/rules/delete', 'Dna::deleteRule');
+
+/*
 $routes->post('/dna/rules/add', 'Dna::addRule');
 $routes->post('/dna/rules/delete', 'Dna::deleteRule');
 $routes->post('/dna/rules/update', 'Dna::updateRule');
+*/
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

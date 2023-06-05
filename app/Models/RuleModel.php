@@ -16,16 +16,33 @@ class RuleModel extends Model
         return $this->db->insertID();
     }
 
-    public function updateRule($data)
+    public function updateRule($ruleId, $data)
     {
-        $this->db->table($this->table)->update($data);
+        $this->db->table($this->table)->where(['id' => $ruleId])->update($data);
     }
 
-    public function addRuleCard($cardId, $ruleId)
+    public function deleteRule($ruleId)
     {
-        $data['card_id'] = $cardId;
+
+    }
+
+    public function updateCards($ruleId, $cards)
+    {
+        $this->db->table('cards_to_rules')
+            ->where(['rule_id' => $ruleId])
+            ->delete();
+
         $data['rule_id'] = $ruleId;
-        $this->db->table('cards_to_rules')->insert($data);
+
+        foreach ($cards as $cardId){
+            $data['card_id'] = $cardId;
+            $this->db->table('cards_to_rules')->insert($data);
+        }
+    }
+
+    public function getRuleCard($rule, $order)
+    {
+
     }
 
 }
