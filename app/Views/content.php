@@ -2,10 +2,10 @@
 
 <?= $this->section('content'); ?>
 
+<?php $ruleModel = new \App\Models\RuleModel(); ?>
+
 <div class="">
     <TABLE>
-        <?php $cardIndex = 0 ?>
-
         <?php foreach ($orders as $key => $order): ?>
 
             <?php $back = ''; ?>
@@ -34,7 +34,7 @@
                 <TD style="background-color: rgb(0,255,255)"><?= $order->purchaseType ?></TD>
 
                 <?php
-                $model = new \App\Models\RuleModel();
+                $shop_info['short'] = $ruleModel->getRuleCard($shop_info, $order);
                 ?>
 
                 <?php

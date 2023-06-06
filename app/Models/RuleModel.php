@@ -8,6 +8,7 @@ class RuleModel extends Model
 {
 
     protected string $table = 'rules';
+    protected int $cardIndex = 0;
 
     public function addRule($data) : int
     {
@@ -40,9 +41,43 @@ class RuleModel extends Model
         }
     }
 
-    public function getRuleCard($rule, $order)
+    public function getRuleCard($shopInfo, $order) : string
     {
+        $rules = $this->db->table('rules')
+            ->where(['rules.shop_id' => $shopInfo['id']])
+            ->get()->getResult();
 
+        $defaultCard = $this->db->table('cards')
+            ->where(['cards.id' => $shopInfo['card_id']])
+            ->get()->getRow();
+
+        foreach ($rules as $rule){
+            //if enabled end price >= from && <= to
+            if ( ((int)$rule->enabled) && ( (int)$order->finalPrice >= (int)$rule->from ) && ( (int)$order->finalPrice <= (int) $rule->to) ){
+
+                //get rule cards
+                $cards = $this->db->table('cards_to_rules')
+                    ->where(['cards_to_rules.rule_id' => $rule->id])
+                    ->join('cards', 'cards_to_rules.card_id = cards.id')
+                    ->get()->getResult();
+
+                if (count($cards) > 0) {
+                    switch ($rule->type){
+                        case 'random' : {
+                            return $cards[rand(0, count($cards) - 1)]->short;
+                        } break;
+                        case 'cyclically' : {
+                            if ($this->cardIndex > count($cards) - 1) $this->cardIndex = 0;
+                            $cardName = $cards[$this->cardIndex]->short;
+                            $this->cardIndex++;
+                            return $cardName;
+                        } break;
+                    }
+                }
+            }
+        }
+
+        return $defaultCard->short;
     }
 
 }

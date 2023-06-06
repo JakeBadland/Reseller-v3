@@ -22,18 +22,16 @@ class Index extends BaseController
         $db = db_connect();
 
         $shops = $db->table('shops')
-            ->select('*, cards.name as card_name, cards.id as card_id, shops.name as shop_name, shops.id as shop_id')
-            ->join('cards', 'shops.card_id = cards.id')
-            ->get()
-            ->getResultArray();
+            ->select('*, shops.name as shop_name, shops.id as shop_id')
+            ->get()->getResultArray();
 
         $apiUrl = $db->table('settings')->select('value')->getWhere(['key' => 'PROM_API_URL'])->getRowArray(0)['value'];
         $shopInfo = $db->table('shops')
             ->select('*, shops.name as shop_name')
-            ->join('cards', 'shops.card_id = cards.id')
             ->getWhere(['shops.id' => $param])
             ->getRowArray(0);
 
+        /*
         $rule = null;
         $ruleCards = null;
         $rule = $db->table('rules')->select('*')->where(['shop_id' => $param])->get()->getResult();
@@ -45,6 +43,7 @@ class Index extends BaseController
                 ->where(['rule_id' => $rule->id])
                 ->get()->getResult();
         }
+        */
 
         $prom = new \App\Libraries\LibProm($apiUrl, $shopInfo['token']);
         $parser = new \App\Helpers\OrderParser();
@@ -61,8 +60,7 @@ class Index extends BaseController
             'shops' => $shops,
             'shop_info' => $shopInfo,
             'color' => $shopInfo['color'],
-            'rule' => $rule,
-            'rule_cards' => $ruleCards
+            //'rule' => $rule
         ];
 
         return view('content',  $data);

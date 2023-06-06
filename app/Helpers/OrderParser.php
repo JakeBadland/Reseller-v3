@@ -25,6 +25,7 @@ class OrderParser{
         $result->description = '';
         $result->purchaseType = self::parsePurchaseType($order->payment_option);
         $result->price = self::parsePrice($result->purchaseType, $order->full_price);
+        $result->finalPrice = self::getFinalPrice($result->purchaseType, $order->full_price);
         $result->prepaid = self::getPrepaid($result->purchaseType, $order->full_price);
 
         $result->status = $order->status;
@@ -65,7 +66,20 @@ class OrderParser{
         } else {
             return $price;
         }
+    }
 
+    private static function getFinalPrice($type, $price)
+    {
+        $price = preg_replace('/[^0-9]/', '', $price);
+
+        if ($type == PRICE_TYPE){
+            $percent = $price / 10;
+            $temp = round($percent, -2);
+            $result = $price - $temp;
+            return  "$result";
+        } else {
+            return $price;
+        }
     }
 
     private static function parsePurchaseType($paymentOption) : ?string

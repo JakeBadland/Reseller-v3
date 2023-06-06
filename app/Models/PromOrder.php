@@ -11,6 +11,7 @@ class PromOrder {
     public $date;       //E дата заказа из прома
     public $id;         //F номер заказа
     public $price;      //G сумма заказа
+    public $finalPrice; //финальная сумма
     public $deliveryProvider; //H сервис доставки
 
     public $description;//I [пустая строка]
