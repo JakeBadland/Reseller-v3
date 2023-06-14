@@ -54,7 +54,7 @@
                         <select id="card" name="card">
                             <?php foreach ($cards as $card) : ?>
                                 <option <?php if($card->id == $shop->card_id) echo 'selected="selected"' ?>
-                                        name="<?= $card->id ?>"><?= $card->name ?></option>
+                                        name="<?= $card->id ?>"><?= $card->bank ?> <?= $card->name ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
