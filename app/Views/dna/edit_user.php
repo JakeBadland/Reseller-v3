@@ -3,7 +3,7 @@
 <?= $this->section('edit_user'); ?>
 
 <div class="container">
-    <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#delete-user" aria-expanded="false" aria-controls="collapseExample">
+    <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#delete-user" aria-expanded="false" aria-controls="collapseExample" style="float: right">
         Delete user
     </button>
     <br/>

@@ -23,11 +23,12 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
 <!--                    class="active"-->
-                    <li><a href="/dna">Users</a></li>
+                    <li><a href="/dna/users">Users</a></li>
 <!--                    <li><a href="#">Roles</a></li>-->
                     <li><a href="/dna/shops">Shops</a></li>
                     <li><a href="/dna/cards">Cards</a></li>
                     <li><a href="/dna/rules">Rules</a></li>
+                    <li><a href="/dna/templates">Templates</a></li>
                     <!--<li><a href="#">Items</a></li>-->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -48,6 +49,7 @@
     <?= $this->renderSection('edit_shop') ?>
     <?= $this->renderSection('edit_rule') ?>
     <?= $this->renderSection('error') ?>
+    <?= $this->renderSection('templates') ?>
 </div>
 <div class="footer"></div>
 

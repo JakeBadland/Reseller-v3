@@ -42,33 +42,38 @@ $routes->get('/login', 'Index::login');
 $routes->post('/login', 'Index::login');
 $routes->get('/logout', 'Index::logout');
 
+//index
+$routes->get('/dna', 'Dna\Users::index');
+
 //users group
-$routes->get('/dna', 'Dna::users');
-$routes->post('/dna/addUser', 'Dna::addUser');
-$routes->get('/dna/editUser/(:num)', 'Dna::editUser/$1');
-$routes->post('/dna/editUser', 'Dna::editUser');
-$routes->post('/dna/deleteUser', 'Dna::deleteUser');
+$routes->get('/dna/users', 'Dna\Users::index');
+$routes->post('/dna/addUser', 'Dna\Users::addUser');
+$routes->get('/dna/editUser/(:num)', 'Dna\Users::editUser/$1');
+$routes->post('/dna/editUser', 'Dna\Users::editUser');
+$routes->post('/dna/deleteUser', 'Dna\Users::deleteUser');
 
 //cards group
-$routes->get('/dna/cards', 'Dna::cards');
-$routes->post('/dna/cards/add', 'Dna::addCard');
-$routes->get('/dna/cards/edit/(:num)', 'Dna::editCard/$1');
-$routes->post('/dna/editCard', 'Dna::editCard');
-$routes->post('/dna/cards/delete', 'Dna::deleteCard');
+$routes->get('/dna/cards', 'Dna\Cards::index');
+$routes->post('/dna/cards/add', 'Dna\Cards::addCard');
+$routes->get('/dna/cards/edit/(:num)', 'Dna\Cards::editCard/$1');
+$routes->post('/dna/editCard', 'Dna\Cards::editCard');
+$routes->post('/dna/cards/delete', 'Dna\Cards::deleteCard');
 
 //shops group
-$routes->get('/dna/shops', 'Dna::shops');
-$routes->post('/dna/shops/add', 'Dna::addShop');
-$routes->get('/dna/shops/edit/(:num)', 'Dna::editShop/$1');
-$routes->post('/dna/editShop', 'Dna::editShop');
-$routes->post('/dna/shops/delete', 'Dna::deleteShop');
+$routes->get('/dna/shops', 'Dna\Shops::index');
+$routes->post('/dna/shops/add', 'Dna\Shops::addShop');
+$routes->get('/dna/shops/edit/(:num)', 'Dna\Shops::editShop/$1');
+$routes->post('/dna/editShop', 'Dna\Shops::editShop');
+$routes->post('/dna/shops/delete', 'Dna\Shops::deleteShop');
 
 //rules group
-$routes->get('/dna/rules', 'Dna::rules');
-$routes->post('/dna/rules/add', 'Dna::addRule');
-$routes->get('/dna/rules/edit/(:num)', 'Dna::editRule/$1');
-$routes->post('/dna/rules/edit', 'Dna::editRule');
-$routes->post('/dna/rules/delete', 'Dna::deleteRule');
+$routes->get('/dna/rules', 'Dna\Rules::index');
+$routes->post('/dna/rules/add', 'Dna\Rules::addRule');
+$routes->get('/dna/rules/edit/(:num)', 'Dna\Rules::editRule/$1');
+$routes->post('/dna/rules/edit', 'Dna\Rules::editRule');
+$routes->post('/dna/rules/delete', 'Dna\Rules::deleteRule');
+
+//$routes->get('/dna/test', 'Dna\Rules::index');
 
 /*
 $routes->post('/dna/rules/add', 'Dna::addRule');

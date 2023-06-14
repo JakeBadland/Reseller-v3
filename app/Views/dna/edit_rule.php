@@ -3,7 +3,7 @@
 <?= $this->section('edit_rule'); ?>
 
 <div class="container">
-    <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#delete-rule" aria-expanded="false" aria-controls="collapseExample">
+    <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#delete-rule" aria-expanded="false" aria-controls="collapseExample" style="float: right">
         Delete rule
     </button>
     <br/>

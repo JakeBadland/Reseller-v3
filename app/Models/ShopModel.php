@@ -25,12 +25,6 @@ class ShopModel extends Model
         $shopId = $data['id'];
         unset($data['id']);
 
-        $card = new CardModel();
-
-        $data['card_id'] = $card->getCardId($data['card']);
-
-        unset($data['card']);
-
         $this->db->table('shops')->set($data)->where('id', $shopId)->update();
     }
 

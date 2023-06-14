@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\RuleModel;
-use \App\Models\UserModel;
+use App\Models\UserModel;
 
 
 class Index extends BaseController
@@ -11,7 +11,7 @@ class Index extends BaseController
 
     public function __construct()
     {
-        //$this->request = \Config\Services::request();
+
     }
 
     public function index($param = null) : string

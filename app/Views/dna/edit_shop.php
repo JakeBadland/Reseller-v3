@@ -49,12 +49,12 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="role" class="col-xs-3 control-label">Card</label>
+                    <label for="card_id" class="col-xs-3 control-label">Card</label>
                     <div class="col-xs-5">
-                        <select id="card" name="card">
+                        <select id="card_id" name="card_id">
                             <?php foreach ($cards as $card) : ?>
                                 <option <?php if($card->id == $shop->card_id) echo 'selected="selected"' ?>
-                                        name="<?= $card->id ?>"><?= $card->bank ?> <?= $card->name ?></option>
+                                        value="<?= $card->id ?>"><?= $card->bank ?> <?= $card->name ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
