@@ -51,7 +51,7 @@
                 <div class="form-group">
                     <div class="col-xs-offset-3 col-xs-9">
                         <!--<button type="button" class="btn btn-primary">Send</button>-->
-                        <button type="button" class="btn btn-primary">Back</button>
+                        <button type="button" id="copy_text" class="btn btn-primary">Copy message</button>
                     </div>
                 </div>
             </form>
@@ -69,6 +69,19 @@
         $('body').on('change', '#send_day', function () {
             let day = $(this).find(':selected').text();
             $('#delivery_day_label').text(day);
+        });
+
+        $('body').on('click', '#copy_text', function () {
+            // create a Range object
+            let range = document.createRange();
+            // set the Node to select the "range"
+            range.selectNode($('#template').get(0));
+            // add the Range to the set of window selections
+            window.getSelection().addRange(range);
+            // execute 'copy', can't 'cut' in this case
+            document.execCommand('copy');
+
+            window.getSelection().removeAllRanges();
         });
     });
 </script>
