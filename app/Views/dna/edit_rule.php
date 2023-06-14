@@ -81,7 +81,7 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="Select-card">
                             <?php foreach ($cards as $card): ?>
-                                <li><a href="#" class="card-link" data-id="<?= $card->id ?>"><?= $card->name ?></a></li>
+                                <li><a href="#" class="card-link" data-id="<?= $card->id ?>"><?= $card->bank ?> <?= $card->name ?></a></li>
                             <?php endforeach ?>
                         </ul>
                     </div>
@@ -92,7 +92,7 @@
                         <div class="card card-body panel panel-default">
                             <div class="list-group selected-cards">
                                 <?php foreach ($rule_cards as $card) : ?>
-                                <a href="#" class="list-group-item" data-id="<?= $card->id ?>"><?= $card->name ?></a>
+                                <a href="#" class="list-group-item" data-id="<?= $card->id ?>"><?= $card->bank ?> <?= $card->name ?></a>
                                 <?php endforeach; ?>
                             </div>
                         </div>

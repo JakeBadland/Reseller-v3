@@ -54,9 +54,8 @@ class RuleModel extends Model
             ->get()->getRow();
 
         foreach ($rules as $rule){
-            //if enabled end price >= from && <= to
+            //if enabled and price >= from && <= to
             if ( ((int)$rule->enabled) && ( (int)$order->finalPrice >= (int)$rule->from ) && ( (int)$order->finalPrice <= (int) $rule->to) ){
-
                 //get rule cards
                 $cards = $this->db->table('cards_to_rules')
                     ->where(['cards_to_rules.rule_id' => $rule->id])
@@ -70,7 +69,7 @@ class RuleModel extends Model
                         } break;
                         case 'cyclically' : {
                             if ($this->cardIndex > count($cards) - 1) $this->cardIndex = 0;
-                            $result = $cards[$this->cardIndex]->short;
+                            $result = $cards[$this->cardIndex];
                             $this->cardIndex++;
                         } break;
                     }
@@ -79,11 +78,17 @@ class RuleModel extends Model
         }
 
         if ($getFull){
-            if ($result) return $result;
-            else return $defaultCard;
+            if ($result) {
+                return $result;
+            } else {
+                return $defaultCard;
+            }
         } else {
-            if ($result) return $result->short;
-            else return $defaultCard->short;
+            if ($result) {
+                return $result->short;
+            } else {
+                return $defaultCard->short;
+            }
         }
 
     }

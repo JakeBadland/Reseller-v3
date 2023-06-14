@@ -48,7 +48,6 @@ class Index extends BaseController
             'shops' => $shops,
             'shop_info' => $shopInfo,
             'color' => $shopInfo['color'],
-            //'rule' => $rule
         ];
 
         return view('content',  $data);
