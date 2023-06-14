@@ -30,6 +30,7 @@
     <?= $this->renderSection('content') ?>
     <?= $this->renderSection('login') ?>
     <?= $this->renderSection('error') ?>
+    <?= $this->renderSection('viber') ?>
 </div>
 <div class="footer"></div>
 

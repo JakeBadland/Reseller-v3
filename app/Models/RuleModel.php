@@ -41,8 +41,10 @@ class RuleModel extends Model
         }
     }
 
-    public function getRuleCard($shopInfo, $order) : string
+    public function getRuleCard($shopInfo, $order, $getFull = false)
     {
+        $result = null;
+
         $rules = $this->db->table('rules')
             ->where(['rules.shop_id' => $shopInfo['id']])
             ->get()->getResult();
@@ -64,20 +66,26 @@ class RuleModel extends Model
                 if (count($cards) > 0) {
                     switch ($rule->type){
                         case 'random' : {
-                            return $cards[rand(0, count($cards) - 1)]->short;
+                            $result = $cards[rand(0, count($cards) - 1)];
                         } break;
                         case 'cyclically' : {
                             if ($this->cardIndex > count($cards) - 1) $this->cardIndex = 0;
-                            $cardName = $cards[$this->cardIndex]->short;
+                            $result = $cards[$this->cardIndex]->short;
                             $this->cardIndex++;
-                            return $cardName;
                         } break;
                     }
                 }
             }
         }
 
-        return $defaultCard->short;
+        if ($getFull){
+            if ($result) return $result;
+            else return $defaultCard;
+        } else {
+            if ($result) return $result->short;
+            else return $defaultCard->short;
+        }
+
     }
 
 }

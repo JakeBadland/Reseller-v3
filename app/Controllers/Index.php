@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\RuleModel;
 use \App\Models\UserModel;
 
 
@@ -31,20 +32,6 @@ class Index extends BaseController
             ->getWhere(['shops.id' => $param])
             ->getRowArray(0);
 
-        /*
-        $rule = null;
-        $ruleCards = null;
-        $rule = $db->table('rules')->select('*')->where(['shop_id' => $param])->get()->getResult();
-        if ($rule){
-            $rule = $rule[0];
-            $ruleCards = $db->table('cards_to_rules')
-                ->select('*')
-                ->join('cards', 'cards.id = cards_to_rules.card_id')
-                ->where(['rule_id' => $rule->id])
-                ->get()->getResult();
-        }
-        */
-
         $prom = new \App\Libraries\LibProm($apiUrl, $shopInfo['token']);
         $parser = new \App\Helpers\OrderParser();
 
@@ -52,6 +39,7 @@ class Index extends BaseController
 
         $result = [];
         foreach ($orders as $order){
+            $parser::saveOrder($order, $shopInfo['shop_name']);
             $result[] = $parser::parseOrder($order, $shopInfo['shop_name']);
         }
 
@@ -64,6 +52,60 @@ class Index extends BaseController
         ];
 
         return view('content',  $data);
+    }
+
+    public function viber($orderId) : string
+    {
+        $ruleModel = new RuleModel();
+
+        $db = db_connect();
+
+        $order = null;
+        $order = $db->table('orders')->select('*')->where(['orderId' => $orderId])->get()->getRow();
+
+        $key = null;
+        switch ($order->purchaseType){
+            case 'БАНК*': {
+                $key = 'TEMPLATE_FULL';
+            }
+                break;
+            case 'налож*': {
+                $key = 'TEMPLATE_PREPAID';
+            }
+                break;
+        }
+
+        $shop = $db->table('shops')->select('*')->where(['name' => $order->store])->get()->getRowArray();
+        $card = $ruleModel->getRuleCard($shop, $order, true);
+
+        $template = $db->table('settings')->select('*')->where(['key' => $key])->get()->getRow()->value;
+
+        $bankPercent = 0.5;
+        $percent = $order->finalPrice / 100 * $bankPercent;
+
+        $params = [
+            '%FIRST_NAME%'  => $order->name,
+            '%MARKET%'      => $order->store,
+            '%PAY_DAY%'     => "<label id='pay_day_label' style='font-weight: 200;'>завтра</label>",
+            '%PAY_PERCENT%' => $order->prepaid,
+            '%BANK%'        => "{$card->bank} {$card->number} {$card->name}",
+            '%SUM1%'        => $order->finalPrice,
+            '%BANK_PERCENT%'=> $bankPercent.'%',
+            '%SUM2%'        => round($order->finalPrice + $percent),
+            '%SALE_ID%'     => $orderId,
+            '%DELIVERY_DAY%'=> "<label id='delivery_day_label' style='font-weight: 200;'>завтра</label>",
+        ];
+
+        foreach ($params as $key => $param){
+            $template = str_replace($key, $param, $template);
+        }
+
+        $template = nl2br($template);
+
+        return view('viber', [
+            'order' => $order,
+            'template' => $template
+        ]);
     }
 
     public function login()
@@ -90,16 +132,19 @@ class Index extends BaseController
 
         header('Location: /login');
         die;
-        /*
-        return redirect()->to('/');
-        */
     }
 
     public function test()
     {
+        $sum = (int) '3536';
+
+
+
         echo "<PRE>";
-        var_dump(\Yii::$app->db->getLastInsertID());
+        var_dump($sum);
         echo "</PRE>";
+
+
 
         /*
         $bcrypt = new \App\Libraries\LibBcrypt();

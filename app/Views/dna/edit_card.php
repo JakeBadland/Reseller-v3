@@ -48,12 +48,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="num" class="col-xs-3 control-label">Type</label>
+                    <label for="bank" class="col-xs-3 control-label">Bank</label>
                     <div class="col-xs-5">
-                        <select id="type" name="type">
-                            <option name="normal" <?php if ($card->type == 'normal'): echo 'selected="selected"'?><?php endif?>>normal</option>
-                            <option name="high" <?php if ($card->type == 'high'): echo 'selected="selected"'?><?php endif?>>high</option>
-                        </select>
+                        <input type="text" class="form-control" id="bank" name="bank" value="<?=$card->bank?>">
                     </div>
                 </div>
                 <div class="form-group">

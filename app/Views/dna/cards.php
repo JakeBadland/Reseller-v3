@@ -31,12 +31,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="num" class="col-xs-3 control-label">Type</label>
+                        <label for="bank" class="col-xs-3 control-label">Bank</label>
                         <div class="col-xs-5">
-                            <select id="type" name="type">
-                                    <option name="normal">normal</option>
-                                    <option name="high">high</option>
-                            </select>
+                            <input type="text" class="form-control" id="bank" name="bank">
                         </div>
                     </div>
                     <div class="form-group">
@@ -58,7 +55,7 @@
                         <th>Name</th>
                         <th>Number</th>
                         <th>Short</th>
-                        <th>Type</th>
+                        <th>Bank</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -68,7 +65,7 @@
                         <td><?= $card->name ?></td>
                         <td><?= $card->number ?></td>
                         <td><?= $card->short ?></td>
-                        <td><?= $card->type ?></td>
+                        <td><?= $card->bank ?></td>
                         <td><a href="/dna/cards/edit/<?= $card->id ?>">edit</a></td>
                     </tr>
                 <?php endforeach; ?>

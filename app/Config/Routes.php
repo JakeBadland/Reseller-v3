@@ -33,6 +33,8 @@ $routes->set404Override();
 
 $routes->get('/', 'Index::index');
 $routes->get('/(:num)', 'Index::index/$1');
+$routes->get('/viber/(:num)', 'Index::viber/$1');
+
 
 $routes->get('/test', 'Index::test');
 

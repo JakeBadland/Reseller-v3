@@ -2,11 +2,13 @@
 
 namespace App\Helpers;
 
+use App\Models\PromOrder;
+
 const PRICE_TYPE = 'налож*';
 
 class OrderParser{
 
-    public static function parseOrder($order, $shopName)
+    public static function parseOrder($order, $shopName) : PromOrder
     {
         $result = new \App\Models\PromOrder();
 
@@ -20,7 +22,7 @@ class OrderParser{
 
         $result->deliveryProvider = self::parseDelivery($order->delivery_address, $order->delivery_provider_data);
         $result->date = $date;
-        $result->id = $order->id;
+        $result->orderId = $order->id;
 
         $result->description = '';
         $result->purchaseType = self::parsePurchaseType($order->payment_option);
@@ -30,7 +32,7 @@ class OrderParser{
 
         $result->status = $order->status;
 
-        $result->system = 'S_OK';
+        //$result->system = 'S_OK';
 
         /*
         $description1 = '';
@@ -38,6 +40,26 @@ class OrderParser{
         */
 
         return $result;
+
+    }
+
+    public static function saveOrder($order, $shopName)
+    {
+        $db = db_connect();
+        $products = $order->products;
+
+        $order = self::parseOrder($order, $shopName);
+
+        $isExist =  $db->table('orders')->select('*')->where(['orderId' => $order->orderId])->get()->getRow();
+
+        if (!$isExist){
+            $db->table('orders')->insert($order);
+            self::saveProducts($db->insertID(), $products);
+        }
+    }
+
+    private static function saveProducts($orderId, $products)
+    {
 
     }
 

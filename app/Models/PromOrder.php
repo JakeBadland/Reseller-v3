@@ -9,7 +9,7 @@ class PromOrder {
     public $phone;      //C номер телефона
     public $address;    //D адресс доставки
     public $date;       //E дата заказа из прома
-    public $id;         //F номер заказа
+    public $orderId;    //F номер заказа
     public $price;      //G сумма заказа
     public $finalPrice; //финальная сумма
     public $deliveryProvider; //H сервис доставки
@@ -22,6 +22,6 @@ class PromOrder {
     public $prepaid;
 
     public $status;
-    public $system = '';
+    //public $system = '';
 
 }
