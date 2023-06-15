@@ -45,11 +45,12 @@
     <?= $this->renderSection('items') ?>
     <?= $this->renderSection('cards') ?>
     <?= $this->renderSection('rules') ?>
+    <?= $this->renderSection('templates') ?>
     <?= $this->renderSection('edit_user') ?>
     <?= $this->renderSection('edit_shop') ?>
     <?= $this->renderSection('edit_rule') ?>
+    <?= $this->renderSection('edit_template') ?>
     <?= $this->renderSection('error') ?>
-    <?= $this->renderSection('templates') ?>
 </div>
 <div class="footer"></div>
 

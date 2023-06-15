@@ -73,6 +73,11 @@ $routes->get('/dna/rules/edit/(:num)', 'Dna\Rules::editRule/$1');
 $routes->post('/dna/rules/edit', 'Dna\Rules::editRule');
 $routes->post('/dna/rules/delete', 'Dna\Rules::deleteRule');
 
+//templates group
+$routes->get('/dna/templates', 'Dna\Templates::index');
+$routes->get('/dna/templates/edit/(:num)', 'Dna\Templates::editTemplate/$1');
+$routes->post('/dna/templates/edit', 'Dna\Templates::editTemplate');
+
 //$routes->get('/dna/test', 'Dna\Rules::index');
 
 /*
