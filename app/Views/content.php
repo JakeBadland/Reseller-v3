@@ -33,23 +33,23 @@
                 <TD><?= $order->description ?></TD>
                 <TD style="background-color: rgb(0,255,255)"><?= $order->purchaseType ?></TD>
 
-                <?php
-                $shop_info['short'] = $ruleModel->getRuleCard($shop_info, $order);
-                ?>
+                <?php $ruleCard = $ruleModel->getRuleCard($shop_info, $order, true); ?>
 
                 <?php if ($order->prepaid): ?>
                     <TD><?= $order->prepaid ?></TD>
                 <?php else : ?>
-                    <TD style="background-color: rgb(255,0,255)"><?= $shop_info['short'] ?></TD>
+                    <TD style="background-color: rgb(255,0,255)"><?= $ruleCard->short ?></TD>
                     <TD></TD>
                 <?php endif ?>
                 <?php if ($order->prepaid): ?>
-                    <TD style="background-color: rgb(255,0,255)"><?= $shop_info['short'] ?></TD>
+                    <TD style="background-color: rgb(255,0,255)"><?= $ruleCard->short ?></TD>
                 <?php endif ?>
 
+                <?php if ($order->purchaseType) : ?>
                 <TD >
-                    <a href="/viber/<?=$order->orderId?>"><BUTTON class="">Viber</BUTTON></a>
+                    <a href="/viber/<?=$order->orderId?>/<?=$ruleCard->id?>"><BUTTON class="">Viber</BUTTON></a>
                 </TD>
+                <?php endif ?>
 
             </TR>
 

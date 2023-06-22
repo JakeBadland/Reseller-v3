@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\CardModel;
 use App\Models\RuleModel;
 use App\Models\UserModel;
 
@@ -9,13 +10,11 @@ use App\Models\UserModel;
 class Index extends BaseController
 {
 
-    public function __construct()
-    {
-
-    }
-
     public function index($param = null) : string
     {
+        $user = new UserModel();
+        $user = $user->get();
+
         if  (!$param) {
             $param = 1;
         }
@@ -44,25 +43,26 @@ class Index extends BaseController
         }
 
         $data = [
-            'orders' => $result,
-            'shops' => $shops,
+            'orders'    => $result,
+            'shops'     => $shops,
             'shop_info' => $shopInfo,
-            'color' => $shopInfo['color'],
+            'color'     => $shopInfo['color'],
+            'user'      => $user
         ];
 
         return view('content',  $data);
     }
 
-    public function viber($orderId) : string
+    public function viber($orderId, $cardId) : string
     {
-        $ruleModel = new RuleModel();
+        $cardsModel = new CardModel();
+
 
         $db = db_connect();
 
-        $order = null;
         $order = $db->table('orders')->select('*')->where(['orderId' => $orderId])->get()->getRow();
+        $card = $cardsModel->getById($cardId);
 
-        $key = null;
         switch ($order->purchaseType){
             case 'БАНК*': {
                 $key = 'TEMPLATE_FULL';
@@ -72,12 +72,14 @@ class Index extends BaseController
                 $key = 'TEMPLATE_PREPAID';
             }
                 break;
+            default : {
+                $key = null;
+            }
         }
 
-        $shop = $db->table('shops')->select('*')->where(['name' => $order->store])->get()->getRowArray();
-        $card = $ruleModel->getRuleCard($shop, $order, true);
+        //$shop = $db->table('shops')->select('*')->where(['name' => $order->store])->get()->getRowArray();
 
-        $template = $db->table('settings')->select('*')->where(['key' => $key])->get()->getRow()->value;
+        $template = $db->table('settings')->select('value')->where(['key' => $key])->get()->getRow()->value;
 
         $bankPercent = 0.5;
         $percent = $order->finalPrice / 100 * $bankPercent;

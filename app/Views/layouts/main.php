@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Reseller v5.0.3</title>
+    <title>Reseller v5.2.12</title>
 
     <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
@@ -24,6 +24,9 @@
                 <div><a href="/<?=$shop['shop_id']?>"><?=$shop['shop_name']?></a></div>
             <?php endforeach ?>
     </div>
+    <label style="margin-left: 20px">
+        <?php echo ($user)? $user->login : ''; ?>
+    </label>
     <?php endif ?>
 </div>
 <div class="body">

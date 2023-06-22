@@ -17,16 +17,18 @@
             <div>
                 <label>Допустимые шаблонные ключи:</label>
             </div>
-            '%FIRST_NAME%'
-            '%MARKET%'
-            '%PAY_DAY%'
-            '%PAY_PERCENT%'
-            '%BANK%'
-            '%SUM1%'
-            '%BANK_PERCENT%'
-            '%SUM2%'
-            '%SALE_ID%'
-            '%DELIVERY_DAY%'
+            <pre>
+'%FIRST_NAME%'      - Имя покупателя
+'%MARKET%'          - Название магазина
+'%PAY_DAY%'         - День оплаты
+'%PAY_PERCENT%'     - Сумма предоплаты
+'%BANK%'            - Реквизиты для оплаты
+'%SUM1%'            - Сумма заказа
+'%BANK_PERCENT%'    - Банковкий процент
+'%SUM2%'            - Итоговая сумма с учетом процента банка
+'%SALE_ID%'         - Номер заказа
+'%DELIVERY_DAY%'    - День отправки
+            </pre>
         </div>
     </div>
 </div>

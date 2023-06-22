@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\ProductModel;
 use App\Models\PromOrder;
 
 const PRICE_TYPE = 'налож*';
@@ -52,15 +53,41 @@ class OrderParser{
 
         $isExist =  $db->table('orders')->select('*')->where(['orderId' => $order->orderId])->get()->getRow();
 
+        $order->created_at = date('Y-m-d H:i:s');
+
         if (!$isExist){
             $db->table('orders')->insert($order);
             self::saveProducts($db->insertID(), $products);
         }
+
     }
 
     private static function saveProducts($orderId, $products)
     {
 
+        foreach ($products as $product){
+
+        }
+
+
+        //$db = db_connect();
+        /*
+        $productModel = new ProductModel();
+        foreach ($products as $product){
+            if ($productModel->isExist($product->id)){
+                //update
+            } else {
+                echo "<PRE>";
+                var_dump($productModel);
+                echo "</PRE>";
+
+                $productModel->insert($product);
+            }
+        }
+        */
+
+
+        //$isExist =  $db->table('products')->select('*')->where(['orderId' => $order->orderId])->get()->getRow();
     }
 
     private static function getPrepaid($type, $price)

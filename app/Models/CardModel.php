@@ -13,7 +13,7 @@ class CardModel extends Model
 
     public function getById($cardId)
     {
-        return $this->db->table('cards')->select('*')->getWhere(['id' => $cardId])->getRow(0);
+        return $this->db->table('cards')->select('*')->getWhere(['id' => $cardId])->getRow();
     }
 
     public function addCard($data)

@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Model;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -51,6 +52,28 @@ abstract class BaseController extends Controller
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
+
+
+        if ($_SERVER['REQUEST_URI'] == '/'){
+            return;
+        }
+
+        if (($_SERVER['REDIRECT_URL'] == '/login') || ($_SERVER['REDIRECT_URL'] == '/logout')){
+            return;
+        }
+
+        $user = new UserModel();
+        $user = $user->get();
+
+        if (!$user){
+            header('Location: /login');
+            die;
+        }
+
+        if ($user->role_id != 1){
+            header('Location: /login');
+            die;
+        }
 
         // Preload any models, libraries, etc, here.
 
