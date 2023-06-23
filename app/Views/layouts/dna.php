@@ -29,7 +29,7 @@
                     <li><a href="/dna/cards">Cards</a></li>
                     <li><a href="/dna/rules">Rules</a></li>
                     <li><a href="/dna/templates">Templates</a></li>
-                    <!--<li><a href="#">Items</a></li>-->
+                    <li><a href="/dna/products">Products</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/logout">Logout</a></li>
@@ -45,6 +45,7 @@
     <?= $this->renderSection('items') ?>
     <?= $this->renderSection('cards') ?>
     <?= $this->renderSection('rules') ?>
+    <?= $this->renderSection('products') ?>
     <?= $this->renderSection('templates') ?>
     <?= $this->renderSection('edit_user') ?>
     <?= $this->renderSection('edit_shop') ?>

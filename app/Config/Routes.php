@@ -79,6 +79,8 @@ $routes->get('/dna/templates', 'Dna\Templates::index');
 $routes->get('/dna/templates/edit/(:num)', 'Dna\Templates::editTemplate/$1');
 $routes->post('/dna/templates/edit', 'Dna\Templates::editTemplate');
 
+$routes->get('/dna/products', 'Dna\Products::index');
+
 //$routes->get('/dna/test', 'Dna\Rules::index');
 
 /*

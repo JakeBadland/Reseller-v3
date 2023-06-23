@@ -11,14 +11,11 @@ class ProductModel extends Model
 
     public function getAll($limit = null)
     {
-
-        /*
         return $this->db->table($this->table)
             ->select('*')
-            ->where(['key' => 'TEMPLATE_PREPAID'])
-            ->orWhere(['key' => 'TEMPLATE_FULL'])
+            ->limit($limit)
+            ->orderBy('count', 'desc')
             ->get()->getResult();
-        */
     }
 
     public function saveProducts($shopId, $orderId, $products)
