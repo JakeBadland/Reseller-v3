@@ -10,6 +10,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
+                        <th>Link</th>
                         <th>Count</th>
                     </tr>
                 </thead>
@@ -18,6 +19,7 @@
                     <tr>
                         <td><?= $product->id ?></td>
                         <td><?= $product->name ?></td>
+                        <td><a target="_blank" href="<?= $product->url ?>">Link</a></td>
                         <td><?= $product->count ?></td>
                     </tr>
                 <?php endforeach; ?>
