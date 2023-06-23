@@ -10,6 +10,18 @@ use App\Models\UserModel;
 class Index extends BaseController
 {
 
+    public function changeOrderStatus()
+    {
+        $db = db_connect();
+
+        $data = $this->request->getPost();
+
+        $apiUrl = $db->table('settings')->select('value')->getWhere(['key' => 'PROM_API_URL'])->getRowArray(0)['value'];
+        $prom = new \App\Libraries\LibProm($apiUrl, $data['token']);
+
+        $prom->changeStatus($data['order_id'], $data['status']);
+    }
+
     public function index($param = null) : string
     {
         $user = new UserModel();
@@ -56,7 +68,6 @@ class Index extends BaseController
     public function viber($orderId, $cardId) : string
     {
         $cardsModel = new CardModel();
-
 
         $db = db_connect();
 
@@ -139,13 +150,9 @@ class Index extends BaseController
     {
         $sum = (int) '3536';
 
-
-
         echo "<PRE>";
         var_dump($sum);
         echo "</PRE>";
-
-
 
         /*
         $bcrypt = new \App\Libraries\LibBcrypt();

@@ -21,11 +21,46 @@ class ProductModel extends Model
         */
     }
 
-    public function loadProduct($shopId, $orderId, $data)
+    public function saveProducts($shopId, $orderId, $products)
     {
-        $product = new ProductModel();
+        foreach ($products as $product){
+            $product = $this->parseProduct($shopId, $orderId, $product);
+            $this->saveProduct($product);
+        }
+    }
 
-        //$product->shop_id =
+    public function saveProduct($product)
+    {
+        if ($this->isExist($product['prom_id'])){
+
+            $dbProduct = $this->db->table($this->table)->select('*')
+                ->where(['prom_id' => $product['prom_id']])
+                ->get()->getRow();
+
+            $data = ['count' => $dbProduct->count + $product['count']];
+
+            $this->db->table($this->table)->where(['id' => $dbProduct->id])->update($data);
+        } else {
+            $this->db->table($this->table)->insert($product);
+        }
+    }
+
+    public function parseProduct($shopId, $orderId, $data)
+    {
+
+        return [
+            'shop_id'       => (int) $shopId,
+            'order_id'      => (int) $orderId,
+            'count'         => (int) $data->quantity,
+            'prom_id'       => (int) $data->id,
+            'external_id'   => (int) $data->external_id,
+            'name'          => $data->name,
+            'price'         => (int) $data->price,
+            'img'           => $data->image,
+            'url'           => $data->url,
+            'created_at'    => date('Y-m-d H:i:s')
+        ];
+
     }
 
     public function isExist($promId)

@@ -47,47 +47,22 @@ class OrderParser{
     public static function saveOrder($order, $shopName)
     {
         $db = db_connect();
+        $productModel = new ProductModel();
         $products = $order->products;
 
         $order = self::parseOrder($order, $shopName);
 
-        $isExist =  $db->table('orders')->select('*')->where(['orderId' => $order->orderId])->get()->getRow();
+        $isExist = $db->table('orders')->select('*')->where(['orderId' => $order->orderId])->get()->getRow();
+
+        $shopId = $db->table('shops')->select('id')->where(['name' => $shopName])->get()->getRow()->id;
 
         $order->created_at = date('Y-m-d H:i:s');
 
         if (!$isExist){
             $db->table('orders')->insert($order);
-            self::saveProducts($db->insertID(), $products);
+            $productModel->saveProducts($shopId, $db->insertID(), $products);
         }
 
-    }
-
-    private static function saveProducts($orderId, $products)
-    {
-
-        foreach ($products as $product){
-
-        }
-
-
-        //$db = db_connect();
-        /*
-        $productModel = new ProductModel();
-        foreach ($products as $product){
-            if ($productModel->isExist($product->id)){
-                //update
-            } else {
-                echo "<PRE>";
-                var_dump($productModel);
-                echo "</PRE>";
-
-                $productModel->insert($product);
-            }
-        }
-        */
-
-
-        //$isExist =  $db->table('products')->select('*')->where(['orderId' => $order->orderId])->get()->getRow();
     }
 
     private static function getPrepaid($type, $price)

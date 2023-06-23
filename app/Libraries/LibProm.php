@@ -29,10 +29,28 @@ class LibProm {
         $result = $client->execute($url, $headers);
 
         if (!$result->code){
-            die("Can`t get orders! Check internet connection");
+            die("Can`t get orders! Check internet connection.");
         }
 
         return json_decode($result->body)->orders;
+    }
+
+    public function changeStatus($orderId, $status)
+    {
+        $path = '/api/v1/orders/set_status';
+        $client = new LibCurl();
+
+        $params = [
+            'ids'    => $orderId,
+            'status' => $status
+        ];
+        $url = $this->apiUrl . $path . '?'.http_build_query($params);
+        $headers = ['Authorization: Bearer ' . $this->token, 'Content-Type: application/json'];
+
+        $result = $client->execute($url, $headers);
+        if (!$result->code){
+            die("Can`t change order status! Check internet connection.");
+        }
     }
 
     public function printOrders($orders)

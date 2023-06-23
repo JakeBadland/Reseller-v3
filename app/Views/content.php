@@ -4,7 +4,7 @@
 
 <?php $ruleModel = new \App\Models\RuleModel(); ?>
 
-<div class="">
+<div id="container" data-shop-token="<?=$shop_info['token']?>">
     <TABLE>
         <?php foreach ($orders as $key => $order): ?>
 
@@ -18,7 +18,7 @@
                 <?php $back = "style='background-color: yellow'"; ?>
             <?php endif ?>
 
-            <TR id="tr<?=$key?>" >
+            <TR id="tr<?=$key?>" data-order-id="<?=$order->orderId?>">
                 <TD >
                     <BUTTON <?=$back?> class="copy">Copy</BUTTON>
                 </TD>
@@ -46,9 +46,9 @@
                 <?php endif ?>
 
                 <?php if ($order->purchaseType) : ?>
-                <TD >
-                    <a href="/viber/<?=$order->orderId?>/<?=$ruleCard->id?>"><BUTTON class="">Viber</BUTTON></a>
-                </TD>
+                    <TD >
+                        <a href="/viber/<?=$order->orderId?>/<?=$ruleCard->id?>"><BUTTON class="">Viber</BUTTON></a>
+                    </TD>
                 <?php endif ?>
 
             </TR>
@@ -62,8 +62,15 @@
             $('body').on('click', '.copy', function () {
                 let $parentTr = $(this).closest('tr');
                 let $parentTd = $(this).closest('td');
-
                 let urlField = $parentTr.get(0);
+
+                //status : [ pending, received, delivered, canceled, draft, paid ]
+                let data = {
+                    order_id    : $parentTr.attr('data-order-id'),
+                    token       : $('#container').attr('data-shop-token'),
+                    status      : 'received'
+                };
+
                 $(this).parent('td').remove();
 
                 // create a Range object
@@ -77,6 +84,12 @@
 
                 window.getSelection().removeAllRanges();
                 $parentTr.prepend($parentTd);
+                
+
+                $.post( "/change-status", data, function( data ) {
+                    console.log(data);
+                });
+
             })
 
         });
