@@ -1,0 +1,33 @@
+.login-form{
+    margin-top: 30px;
+    position: relative;
+    top: 100%;
+    text-align: center;
+}
+
+body{
+    background-image: url("/img/game/ground.jpg");
+    color: gray;
+    font-size: 16px;
+    font-family: "Arial Black";
+}
+
+input{
+    padding: 2px 3px 2px 3px;
+    border-color: darkgreen green green darkgreen;
+    color: #000;
+    font-weight: 700;
+    /*border-width: 5px;*/
+    border-radius: 5px;
+    background: linear-gradient(#8b7663,#625245);
+}
+
+input:hover{
+    padding: 2px 3px 2px 3px;
+    border-color: green darkgreen darkgreen green;
+    color: #000;
+    font-weight: 700;
+    /*border-width: 5px;*/
+    border-radius: 5px;
+    background: linear-gradient(#CEBA91FF, #907465FF);
+}

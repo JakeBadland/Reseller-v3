@@ -53,7 +53,24 @@ abstract class BaseController extends Controller
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 
+        $user = new UserModel();
+        $user = $user->get();
 
+        //Game
+        if ($_SERVER['REQUEST_URI'] == '/game/login' && !$user){
+            return;
+        }
+
+        if ($_SERVER['REQUEST_URI'] == '/game' && !$user){
+            header('Location: /game/login');
+            die;
+        }
+
+        if ($_SERVER['REQUEST_URI'] == '/game' && $user){
+            return;
+        }
+
+        //Reseller
         if ($_SERVER['REQUEST_URI'] == '/'){
             return;
         }
@@ -61,9 +78,6 @@ abstract class BaseController extends Controller
         if (($_SERVER['REDIRECT_URL'] == '/login') || ($_SERVER['REDIRECT_URL'] == '/logout')){
             return;
         }
-
-        $user = new UserModel();
-        $user = $user->get();
 
         if (!$user){
             header('Location: /login');
@@ -78,6 +92,14 @@ abstract class BaseController extends Controller
         // Preload any models, libraries, etc, here.
 
         // E.g.: $this->session = \Config\Services::session();
+
+    }
+
+    private function checkGame(){
+
+    }
+
+    private function checkDna(){
 
     }
 

@@ -81,6 +81,12 @@ $routes->post('/dna/templates/edit', 'Dna\Templates::editTemplate');
 
 $routes->get('/dna/products', 'Dna\Products::index');
 
+
+//GAME section
+$routes->get('/game', 'Game\Game::index');
+$routes->get('/game/login', 'Game\Game::login');
+$routes->post('/game/login', 'Game\Auth::login');
+
 //$routes->get('/dna/test', 'Dna\Rules::index');
 
 /*
