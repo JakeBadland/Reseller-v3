@@ -53,6 +53,11 @@ abstract class BaseController extends Controller
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 
+        //For CLI commands
+        if (!isset($_SERVER['HTTP_HOST'])){
+            return;
+        }
+
         $user = new UserModel();
         $user = $user->get();
 

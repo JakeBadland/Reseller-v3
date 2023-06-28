@@ -94,6 +94,11 @@ class Database extends Config
     {
         parent::__construct();
 
+        if (!isset($_SERVER['HTTP_HOST'])){
+            $this->defaultGroup = 'default';
+            return;
+        }
+
         $result = strpos($_SERVER['HTTP_HOST'], '.loc');
 
         if ($result !== false){
