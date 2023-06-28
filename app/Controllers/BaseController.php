@@ -56,7 +56,26 @@ abstract class BaseController extends Controller
         $user = new UserModel();
         $user = $user->get();
 
-        //Game
+        //CRON
+        if ($_SERVER['REQUEST_URI'] == '/cron/c2min'){
+            return;
+        }
+
+        $matches = null;
+        //for list shops
+        preg_match('/([0-9]+)/', $_SERVER['REQUEST_URI'], $matches);
+        if ($matches){
+            return;
+        }
+
+        if ($_SERVER['REQUEST_URI'] == '/'){
+            return;
+        }
+
+        if (($_SERVER['REDIRECT_URL'] == '/login') || ($_SERVER['REDIRECT_URL'] == '/logout')){
+            return;
+        }
+
         if ($_SERVER['REQUEST_URI'] == '/game/login' && !$user){
             return;
         }
@@ -70,24 +89,28 @@ abstract class BaseController extends Controller
             return;
         }
 
-        //Reseller
-        if ($_SERVER['REQUEST_URI'] == '/'){
-            return;
-        }
-
-        if (($_SERVER['REDIRECT_URL'] == '/login') || ($_SERVER['REDIRECT_URL'] == '/logout')){
-            return;
-        }
-
         if (!$user){
             header('Location: /login');
             die;
         }
 
+        /*
         if ($user->role_id != 1){
             header('Location: /login');
             die;
         }
+        */
+
+        //Game
+
+
+
+
+        if ($_SERVER['REQUEST_URI'] == '/game' && $user){
+            return;
+        }
+
+
 
         // Preload any models, libraries, etc, here.
 

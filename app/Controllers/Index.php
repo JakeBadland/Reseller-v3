@@ -148,10 +148,17 @@ class Index extends BaseController
 
     public function test()
     {
-        $sum = (int) '3536';
+        $str = '/3';
+        $pattern = '/([0-9]+)/';
+        $matches = null;
+
+        $result = preg_match($pattern, $_SERVER['REQUEST_URI'], $matches);
 
         echo "<PRE>";
-        var_dump($sum);
+        var_dump($_SERVER['REQUEST_URI']);
+        var_dump($str);
+        var_dump($result);
+        var_dump($matches);
         echo "</PRE>";
 
         /*

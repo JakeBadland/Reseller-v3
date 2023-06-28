@@ -8,7 +8,6 @@
         <input type="password" name="password" placeholder="Password"><br/><br/>
         <input type="submit" value="Login">
         <div><?php echo isset($error)? $error: '' ?></div>
-
     </form>
 </div>
 
