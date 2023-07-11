@@ -18,9 +18,10 @@ class Game extends BaseController
 
         $data = [
             'id'            => uniqid(),
-            'name'          => 'test',
+            'name'          => 'test_loc',
             'lat'           => 50.48455,
             'lon'           => 30.49469,
+            'location'      => '',
             'level'         => 1,
             'force'         => 1,
             'radius'        => 20,
@@ -29,13 +30,15 @@ class Game extends BaseController
             'created_at'    => date('Y-m-d H:i:s')
         ];
 
-        //$anomaly->saveAnomaly($data);
+        $anomaly->saveAnomaly($data);
 
         /*
         $anomaly->addAnomaly('first', '50.48455, 30.49469', 1, 'COLD');
         */
 
-        return view('game/game');
+        return view('game/game', [
+            'user'  => $user
+        ]);
     }
 
     public function saveUserLoc($userId, $location)

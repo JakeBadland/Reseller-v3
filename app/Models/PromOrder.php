@@ -2,26 +2,43 @@
 
 namespace App\Models;
 
-class PromOrder {
+use CodeIgniter\Model;
 
-    public $store = ''; //A название магазина
-    public $name;       //B имя пользователя
-    public $phone;      //C номер телефона
-    public $address;    //D адресс доставки
-    public $date;       //E дата заказа из прома
-    public $orderId;    //F номер заказа
-    public $price;      //G сумма заказа
-    public $finalPrice; //финальная сумма
-    public $deliveryProvider; //H сервис доставки
+class PromOrder extends Model {
 
-    public $description;//I [пустая строка]
-    public $purchaseType;//J тип оплаты
-    public $description1 = ''; //K
-    public $description2 = ''; //L
+    protected string $table = 'orders';
 
-    public $prepaid;
+    public string $store = ''; //A название магазина
+    public string $name;       //B имя пользователя
+    public string $phone;      //C номер телефона
+    public string $address;    //D адресс доставки
+    public string $date;       //E дата заказа из прома
+    public string $orderId;    //F номер заказа
+    public string $price;      //G сумма заказа
+    public string $finalPrice; //финальная сумма
+    public string $deliveryProvider; //H сервис доставки
 
-    public $status;
+    public string $description;//I [пустая строка]
+    public string $purchaseType;//J тип оплаты
+    public string $description1 = ''; //K
+    public string $description2 = ''; //L
+    public string $prepaid;
+    public string $status;
     //public $system = '';
+
+    public function getOrders($shopName) : array
+    {
+        return $this->db->table($this->table)
+            ->select('*')
+            ->limit(30)
+            ->orderBy('id', 'desc')
+            ->where(['store' => $shopName])
+            ->get()->getResult();
+    }
+
+    public function changeStatus($orderId, $status)
+    {
+        $this->db->table($this->table)->where(['orderId' => $orderId])->update(['status' => $status]);
+    }
 
 }

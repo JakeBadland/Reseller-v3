@@ -9,9 +9,16 @@ use App\Models\ShopModel;
 class Cron extends BaseController
 {
 
+    public function index()
+    {
+        die('Running index.');
+    }
+
     public function c2min()
     {
         $db = db_connect();
+
+        //Cron::log('Started at: ' . date('Y-m-d H:i:s'));
 
         $shopModel = new ShopModel();
         $shopInfo = $shopModel->getForParse();
@@ -32,6 +39,14 @@ class Cron extends BaseController
         foreach ($orders as $order){
             $parser::saveOrder($order, $shopInfo['name']);
         }
+
+        die('done');
+    }
+
+    private static function log($message)
+    {
+        $fileName = 'log_' . date('Y-m-d') . '.log';
+        file_put_contents($fileName, $message);
     }
 
 

@@ -1,15 +1,6 @@
 html {
     height: 100%;
 }
-body {
-    min-height: 98%;
-}
-
-.login-form{
-    margin-top: 30px;
-    top: 100%;
-    text-align: center;
-}
 
 body{
     /*background-image: url("/img/game/ground.jpg");*/
@@ -17,6 +8,21 @@ body{
     color: lightblue;
     font-size: 16px;
     font-family: "Arial Black";
+    padding: 0;
+    /*margin-top: -8px;*/
+    min-height: 100%;
+}
+
+.game-body{
+    padding: 0;
+    margin: 0;
+    min-height: 100%;
+}
+
+.login-form{
+    margin-top: 30px;
+    top: 100%;
+    text-align: center;
 }
 
 input{
@@ -41,13 +47,13 @@ input:hover{
 */
 
 .game-body{
-    height: 95vh;
+    height: 100vh;
     min-height: 100%;
 }
 
 .dialog{
     max-width: 400px;
-    margin: 10px auto 30px auto;
+    margin: 0px auto 30px auto;
     border-width: 10px;
     border-style: groove;
     border-radius: 5px;

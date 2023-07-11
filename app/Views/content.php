@@ -4,7 +4,7 @@
 
 <?php $ruleModel = new \App\Models\RuleModel(); ?>
 
-<div id="container" data-shop-token="<?=$shop_info['token']?>">
+<div id="container" data-shop-token="<?=$shop_info->token?>">
     <TABLE>
         <?php foreach ($orders as $key => $order): ?>
 
@@ -71,6 +71,7 @@
                     status      : 'received'
                 };
 
+                $(this).css("background-color", "");
                 $(this).parent('td').remove();
 
                 // create a Range object

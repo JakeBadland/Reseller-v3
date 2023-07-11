@@ -23,14 +23,10 @@
 
 </head>
 <body>
-<div class="header">
-
-</div>
 <div class="body game-body">
     <?= $this->renderSection('game') ?>
     <?= $this->renderSection('login') ?>
 </div>
-<div class="footer"></div>
 
 </body>
 </html>

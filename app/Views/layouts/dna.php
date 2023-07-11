@@ -20,7 +20,7 @@
 <div class="container">
     <nav class="navbar navbar-default">
         <div class="container-fluid">
-            <div id="navbar" class="navbar-collapse collapse">
+            <div id="navbar" class="navbar-collapse">
                 <ul class="nav navbar-nav">
 <!--                    class="active"-->
                     <li><a href="/dna/users">Users</a></li>

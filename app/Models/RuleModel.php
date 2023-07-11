@@ -46,11 +46,11 @@ class RuleModel extends Model
         $result = null;
 
         $rules = $this->db->table('rules')
-            ->where(['rules.shop_id' => $shopInfo['id']])
+            ->where(['rules.shop_id' => $shopInfo->id])
             ->get()->getResult();
 
         $defaultCard = $this->db->table('cards')
-            ->where(['cards.id' => $shopInfo['card_id']])
+            ->where(['cards.id' => $shopInfo->card_id])
             ->get()->getRow();
 
         foreach ($rules as $rule){

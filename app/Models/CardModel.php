@@ -11,7 +11,7 @@ class CardModel extends Model
     public $card;
     protected $db;
 
-    protected $table = 'cards';
+    protected string $table = 'cards';
 
     public function getById($cardId)
     {
@@ -32,6 +32,6 @@ class CardModel extends Model
 
     public function getCardId($cardName)
     {
-        return $this->db->table($this->table)->select('*')->getWhere(['name' => $cardName])->getRow(0)->id;
+        return $this->db->table($this->table)->select('*')->getWhere(['name' => $cardName])->get()->Row();
     }
 }

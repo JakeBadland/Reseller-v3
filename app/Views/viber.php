@@ -8,19 +8,18 @@
             <form action="" class="form-horizontal" method="post">
                 <div class="form-group">
                     <label for="name" class="col-xs-3 control-label">Phone</label>
-                    <div class="col-xs-5">
+                    <div class="col-xs-12">
                         <input type="text" class="form-control" id="phone" name="phone" value="<?= $order->phone ?>">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="name" class="col-xs-3 control-label">Text</label>
-                    <div class="col-xs-5" >
-                        <div style="width: 100%; height: 200px;" id="template"><?=$template?></div>
+                <div class="form-group col-xs-12">
+                    <div class="">
+                        <div style="" id="template"><?=$template?></div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="pay_day" class="col-xs-3 control-label">Pay day</label>
-                    <div class="col-xs-5">
+                    <label for="pay_day" class="col-xs-6 control-label">Pay day</label>
+                    <div class="col-xs-6">
                         <select id="pay_day" name="pay_day">
                             <option value="завтра">завтра</option>
                             <option value="понеділок">понеділок</option>
@@ -34,8 +33,8 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="send_day" class="col-xs-3 control-label">Send day</label>
-                    <div class="col-xs-5">
+                    <label for="send_day" class="col-xs-6 control-label">Send day</label>
+                    <div class="col-xs-6">
                         <select id="send_day" name="send_day">
                             <option value="завтра">завтра</option>
                             <option value="понеділок">понеділок</option>

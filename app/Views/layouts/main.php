@@ -18,7 +18,8 @@
 <body>
 <div class="header">
     <?php if(isset($shops)) : ?>
-    <img class="menu-icon" src="/img/menu.png">
+<!--    <img class="menu-icon" src="/img/menu.png">-->
+    <button class="menu-icon btn btn-primary">Shops</button>
     <div class="menu panel">
             <?php foreach ($shops as $shop) : ?>
                 <div><a href="/<?=$shop['shop_id']?>"><?=$shop['shop_name']?></a></div>

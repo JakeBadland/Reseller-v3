@@ -17,22 +17,31 @@
 }
 
 .header{
-    height: 24px;
+    height: 36px;
 }
 
 .menu-icon{
-    height: 20px;
-    padding-left: 14px;
+    margin-left: 5px;
     cursor: pointer;
+    padding: 0 35px;
+    height: 32px;
+    margin-top: 2px;
 }
 
 .menu{
-    max-width: 160px;
     position: absolute;
-    top:24px;
-    left:20px;
-    z-index:1000;
+    width: 112px;
+    top: 36px;
+    left: 5px;
+    z-index: 1000;
     display: none;
+    background-color: black;
+    color: #ddcffb;
+    padding: 5px;
+}
+
+.menu div a {
+    color: lightblue;
 }
 
 td {

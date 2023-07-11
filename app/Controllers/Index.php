@@ -2,8 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Libraries\LibProm;
 use App\Models\CardModel;
-use App\Models\RuleModel;
+use App\Models\PromOrder;
+use App\Models\ShopModel;
 use App\Models\UserModel;
 
 
@@ -12,24 +14,25 @@ class Index extends BaseController
 
     public function changeOrderStatus()
     {
+        $promModel = new PromOrder();
+
         $db = db_connect();
 
         $data = $this->request->getPost();
 
         $apiUrl = $db->table('settings')->select('value')->getWhere(['key' => 'PROM_API_URL'])->getRowArray(0)['value'];
-        $prom = new \App\Libraries\LibProm($apiUrl, $data['token']);
+        $prom = new LibProm($apiUrl, $data['token']);
 
         $prom->changeStatus($data['order_id'], $data['status']);
+        $promModel->changeStatus($data['order_id'], 'received');
     }
 
-    public function index($param = null) : string
+    public function index($shopId = 1) : string
     {
+        $orderModel = new PromOrder();
+        $shopModel = new ShopModel();
         $user = new UserModel();
         $user = $user->get();
-
-        if  (!$param) {
-            $param = 1;
-        }
 
         $db = db_connect();
 
@@ -37,28 +40,14 @@ class Index extends BaseController
             ->select('*, shops.name as shop_name, shops.id as shop_id')
             ->get()->getResultArray();
 
-        $apiUrl = $db->table('settings')->select('value')->getWhere(['key' => 'PROM_API_URL'])->getRowArray(0)['value'];
-        $shopInfo = $db->table('shops')
-            ->select('*, shops.name as shop_name')
-            ->getWhere(['shops.id' => $param])
-            ->getRowArray(0);
-
-        $prom = new \App\Libraries\LibProm($apiUrl, $shopInfo['token']);
-        $parser = new \App\Helpers\OrderParser();
-
-        $orders = $prom->getOrders(0, 20);
-
-        $result = [];
-        foreach ($orders as $order){
-            $parser::saveOrder($order, $shopInfo['shop_name']);
-            $result[] = $parser::parseOrder($order, $shopInfo['shop_name']);
-        }
+        $shopInfo = $shopModel->getById($shopId);
+        $orders = $orderModel->getOrders($shopInfo->name);
 
         $data = [
-            'orders'    => $result,
+            'orders'    => $orders,
             'shops'     => $shops,
             'shop_info' => $shopInfo,
-            'color'     => $shopInfo['color'],
+            'color'     => $shopInfo->color,
             'user'      => $user
         ];
 

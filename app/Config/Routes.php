@@ -81,7 +81,9 @@ $routes->post('/dna/templates/edit', 'Dna\Templates::editTemplate');
 
 //CRON group
 $routes->get('/cron/c2min', 'Cron::c2min');
-$routes->cli('cron/c2min', 'Cron::c2min');
+
+$routes->cli('/cron/c2min', 'Cron::c2min');
+$routes->cli('/', 'Cron::index');
 
 $routes->get('/dna/products', 'Dna\Products::index');
 
