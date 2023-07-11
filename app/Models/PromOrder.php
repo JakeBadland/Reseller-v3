@@ -4,9 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PromOrder extends Model {
-
-    protected string $table = 'orders';
+class PromOrder {
 
     public string $store = ''; //A название магазина
     public string $name;       //B имя пользователя
@@ -17,6 +15,7 @@ class PromOrder extends Model {
     public string $price;      //G сумма заказа
     public string $finalPrice; //финальная сумма
     public string $deliveryProvider; //H сервис доставки
+    public $created_at;
 
     public string $description;//I [пустая строка]
     public string $purchaseType;//J тип оплаты
@@ -24,21 +23,6 @@ class PromOrder extends Model {
     public string $description2 = ''; //L
     public string $prepaid;
     public string $status;
-    //public $system = '';
 
-    public function getOrders($shopName) : array
-    {
-        return $this->db->table($this->table)
-            ->select('*')
-            ->limit(20)
-            ->orderBy('id', 'desc')
-            ->where(['store' => $shopName])
-            ->get()->getResult();
-    }
-
-    public function changeStatus($orderId, $status)
-    {
-        $this->db->table($this->table)->where(['orderId' => $orderId])->update(['status' => $status]);
-    }
 
 }

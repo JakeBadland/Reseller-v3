@@ -14,14 +14,13 @@ class Game extends BaseController
         $user = new UserModel();
         $user = $user->get();
 
+        /*
         $anomaly = new AnomalyModel();
-
         $data = [
             'id'            => uniqid(),
             'name'          => 'test_loc',
             'lat'           => 50.48455,
             'lon'           => 30.49469,
-            'location'      => '',
             'level'         => 1,
             'force'         => 1,
             'radius'        => 20,
@@ -31,6 +30,7 @@ class Game extends BaseController
         ];
 
         $anomaly->saveAnomaly($data);
+        */
 
         /*
         $anomaly->addAnomaly('first', '50.48455, 30.49469', 1, 'COLD');
@@ -39,6 +39,17 @@ class Game extends BaseController
         return view('game/game', [
             'user'  => $user
         ]);
+    }
+
+    public function getAnomalies()
+    {
+        $anomaModel = new AnomalyModel();
+        $anomalies = $anomaModel->getAll();
+
+        echo "<PRE>";
+        var_dump($anomalies);
+        echo "</PRE>";
+        die;
     }
 
     public function saveUserLoc($userId, $location)

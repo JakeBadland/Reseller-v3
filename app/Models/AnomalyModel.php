@@ -24,4 +24,9 @@ class AnomalyModel extends Model
         $this->db->table($this->table)->insert($data);
     }
 
+    public function getAll() : array
+    {
+        return $this->db->table($this->table)->select('*')->get()->getResult();
+    }
+
 }

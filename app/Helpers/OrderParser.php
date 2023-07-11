@@ -53,7 +53,6 @@ class OrderParser{
         $products = $order->products;
 
         $order = self::parseOrder($order, $shopName);
-
         $isExist = $db->table('orders')->select('*')->where(['orderId' => $order->orderId])->get()->getRow();
 
         $shopId = $db->table('shops')->select('id')->where(['name' => $shopName])->get()->getRow()->id;
@@ -123,10 +122,7 @@ class OrderParser{
             case 'Безналичный расчет на карту Приват Банка': {return 'БАНК*';}
             case 'Наложенный платеж': { return 'налож*';}
             default: {
-                echo "<PRE>";
-                var_dump($paymentOption);
-                echo "</PRE>";
-                die;
+
             }
         }
 

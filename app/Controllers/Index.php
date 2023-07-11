@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Libraries\LibProm;
 use App\Models\CardModel;
+use App\Models\OrderModel;
 use App\Models\PromOrder;
 use App\Models\ShopModel;
 use App\Models\UserModel;
@@ -29,7 +30,7 @@ class Index extends BaseController
 
     public function index($shopId = 1) : string
     {
-        $orderModel = new PromOrder();
+        $orderModel = new OrderModel();
         $shopModel = new ShopModel();
         $user = new UserModel();
         $user = $user->get();
