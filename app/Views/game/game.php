@@ -32,10 +32,12 @@
             <div class="col-xs-4" id="user_lon"></div>
         </div>
 
+        <!--
         <div class="row">
             <div class="col-xs-6">Current direction:</div>
             <div class="col-xs-4" id="user_head"></div>
         </div>
+        -->
 
         <div class="row">
             <div class="col-xs-6">Anomalies count:</div>

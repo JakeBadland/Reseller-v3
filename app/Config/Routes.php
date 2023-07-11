@@ -94,6 +94,7 @@ $routes->get('/game/login', 'Game\Game::login');
 $routes->post('/game/login', 'Game\Auth::login');
 
 $routes->post('/game/save-user-loc', 'Game\Game::saveUserLoc');
+$routes->get('/game/get-anomalies', 'Game\Game::getAnomalies');
 
 
 

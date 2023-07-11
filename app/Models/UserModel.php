@@ -133,7 +133,7 @@ class UserModel extends Model{
         return $this->db->table('users')->select('*')->getWhere(['id' => $userId])->getRow(0);
     }
 
-    public function updateInfo($userId, $data)
+    public function updateGameInfo($userId, $data)
     {
         $this->db->table('user_info')->set($data)->where('user_id', $userId)->update();
     }
