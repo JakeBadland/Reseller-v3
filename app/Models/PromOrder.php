@@ -30,7 +30,7 @@ class PromOrder extends Model {
     {
         return $this->db->table($this->table)
             ->select('*')
-            ->limit(30)
+            ->limit(20)
             ->orderBy('id', 'desc')
             ->where(['store' => $shopName])
             ->get()->getResult();

@@ -66,6 +66,11 @@ abstract class BaseController extends Controller
             return;
         }
 
+        //change orders status
+        if ($_SERVER['REQUEST_URI'] == '/change-status'){
+            return;
+        }
+
         $matches = null;
         //for list shops
         preg_match('/([0-9]+)/', $_SERVER['REQUEST_URI'], $matches);

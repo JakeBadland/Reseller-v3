@@ -9,6 +9,8 @@ const PRICE_TYPE = 'налож*';
 
 class OrderParser{
 
+    protected string $table = 'orders';
+
     public static function parseOrder($order, $shopName) : PromOrder
     {
         $result = new \App\Models\PromOrder();
@@ -61,6 +63,8 @@ class OrderParser{
         if (!$isExist){
             $db->table('orders')->insert($order);
             $productModel->saveProducts($shopId, $db->insertID(), $products);
+        } else {
+            $db->table('orders')->where(['orderId' => $order->orderId])->update(['status' => $order->status]);
         }
 
     }
@@ -109,7 +113,7 @@ class OrderParser{
     private static function parsePurchaseType($paymentOption) : ?string
     {
         if (!isset($paymentOption->name)){
-            return null;
+            return '';
         }
 
         switch ($paymentOption->name){
@@ -123,7 +127,7 @@ class OrderParser{
                 var_dump($paymentOption);
                 echo "</PRE>";
                 die;
-            };
+            }
         }
 
     }
