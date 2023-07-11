@@ -33,13 +33,18 @@
         </div>
 
         <div class="row">
+            <div class="col-xs-6">Current direction:</div>
+            <div class="col-xs-4" id="user_head"></div>
+        </div>
+
+        <div class="row">
             <div class="col-xs-6">Anomalies count:</div>
-            <div class="col-xs-4" id="anoma_count">4</div>
+            <div class="col-xs-4" id="anoma_count">0</div>
         </div>
 
         <div class="row">
             <div class="col-xs-6">Nearest:</div>
-            <div class="col-xs-4" id="anoma_near">790m</div>
+            <div class="col-xs-4" id="anoma_near">0m</div>
         </div>
     </div>
 

@@ -8,11 +8,27 @@ let game = {
     init : function (){
         this.addEvents();
         this.drawMap();
-        this.getPosition();
 
-        let tH = setInterval(function(){
-            game.getPosition();
-        }, 2000);
+        let options = {
+            enableHighAccuracy: false,
+            timeout: 1000,
+            maximumAge: 0,
+        };
+
+        let id = navigator.geolocation.watchPosition(game.drawPosition, null, options);
+    },
+    drawPosition : function (position){
+        game.location.lat = position.coords.latitude;
+        game.location.lon = position.coords.longitude;
+        game.location.head = position.coords.heading;
+
+        $('#user_lat').text(game.location.lat);
+        $('#user_lon').text(game.location.lon);
+        $('#user_head').text(this.location.head);
+
+        $.post( "/game/save-user-loc", {data : game.location}, function( data ) {
+            //console.log(data);
+        });
     },
     addEvents : function (){
         $('body').on('click', 'canvas', function (){
@@ -24,18 +40,6 @@ let game = {
     },
     drawAnomalies : function (){
 
-    },
-    getPosition : function (){
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(this.showPosition);
-        }
-    },
-    showPosition : function (position){
-        this.location.lat = position.coords.latitude;
-        this.location.lon = position.coords.longitude;
-
-        $('#user_lat').text(this.location.lat);
-        $('#user_lon').text(this.location.lon);
     },
     drawMap : function(){
         let canvas = document.querySelector('canvas')
@@ -64,7 +68,6 @@ let game = {
         ctx.arc(cW / 2, cW / 2, cW / 2, 0, Math.PI*2, true);
         ctx.stroke();
     }
-
 
 };
 

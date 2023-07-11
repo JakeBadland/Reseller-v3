@@ -8,9 +8,9 @@ use \App\Libraries\LibBcrypt;
 class UserModel extends Model{
 
     public $user;
-    protected $db;
+    //protected $db;
 
-    //protected $table   = 'users';
+    protected string $table   = 'users';
 
     /*
     public function __construct(?ConnectionInterface $db = null, ?ValidationInterface $validation = null)
@@ -131,5 +131,10 @@ class UserModel extends Model{
     public function getById($userId)
     {
         return $this->db->table('users')->select('*')->getWhere(['id' => $userId])->getRow(0);
+    }
+
+    public function updateInfo($userId, $data)
+    {
+        $this->db->table('user_info')->set($data)->where('user_id', $userId)->update();
     }
 }

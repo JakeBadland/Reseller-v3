@@ -32,10 +32,6 @@ class Game extends BaseController
         $anomaly->saveAnomaly($data);
         */
 
-        /*
-        $anomaly->addAnomaly('first', '50.48455, 30.49469', 1, 'COLD');
-        */
-
         return view('game/game', [
             'user'  => $user
         ]);
@@ -46,15 +42,22 @@ class Game extends BaseController
         $anomaModel = new AnomalyModel();
         $anomalies = $anomaModel->getAll();
 
+        //json_encode()
+
         echo "<PRE>";
         var_dump($anomalies);
         echo "</PRE>";
         die;
     }
 
-    public function saveUserLoc($userId, $location)
+    public function saveUserLoc()
     {
+        $userModel = new UserModel();
+        $user = $userModel->get();
 
+        $data = $this->request->getPost();
+
+        $userModel->updateInfo($user->id, $data['data']);
     }
 
     public function login() : string
