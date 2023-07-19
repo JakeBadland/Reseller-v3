@@ -24,9 +24,17 @@ class AnomalyModel extends Model
         $this->db->table($this->table)->insert($data);
     }
 
-    public function getAll() : array
+    public function getAll($activeOnly = true) : array
     {
-        return $this->db->table($this->table)->select('*')->get()->getResult();
+        $query = $this->db->table($this->table)
+            ->select('*');
+
+        if ($activeOnly){
+            $query->where(['is_active' => 1]);
+        }
+
+        return $query->get()
+        ->getResult();
     }
 
 }

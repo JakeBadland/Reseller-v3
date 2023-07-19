@@ -13,9 +13,9 @@ class LibCurl
     private $url = 'https://my.prom.ua/cms/order/context?page=1&per_page=20';
     //private $url = 'https://my.prom.ua/cms/order/context?page=2&per_page=20';
 
-    public function execute($url, $headers = null, $cookies = null) : \App\Models\CurlResponse
+    public function execute($url, $headers = null, $cookies = null, $method = 'GET', $body = null) : \App\Models\CurlResponse
     {
-        $curl = $this->getCurl($url);
+        $curl = $this->getCurl($url, $method, $body);
 
         if ($headers){
             $this->setHeaders($curl, $headers);
@@ -43,7 +43,7 @@ class LibCurl
         return $result;
     }
 
-    private function getCurl($url = null)
+    private function getCurl($url = null, $method = 'GET', $body = null)
     {
         if (!$url){
             $url = $this->url;
@@ -58,11 +58,16 @@ class LibCurl
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 30,
-            CURLOPT_CUSTOMREQUEST => "GET",
+            //CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_CUSTOMREQUEST => $method,
             CURLOPT_HEADER  => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             //CURLOPT_POSTFIELDS => json_encode($data) , // отправка кода
         ));
+
+        if ($body) {
+            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($body));
+        }
 
         return $curl;
     }

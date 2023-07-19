@@ -35,22 +35,27 @@ class LibProm {
         return json_decode($result->body)->orders;
     }
 
-    public function changeStatus($orderId, $status)
+    public function changeStatus($orderId, $status, $method = 'POST')
     {
         $path = '/api/v1/orders/set_status';
         $client = new LibCurl();
 
         $params = [
+            'status' => $status,
             'ids'    => $orderId,
-            'status' => $status
         ];
-        $url = $this->apiUrl . $path . '?'.http_build_query($params);
+
+        //$url = $this->apiUrl . $path . '?'.http_build_query($params);
+        $url = $this->apiUrl . $path;
         $headers = ['Authorization: Bearer ' . $this->token, 'Content-Type: application/json'];
 
-        $result = $client->execute($url, $headers);
+        $result = $client->execute($url, $headers, null, 'POST', $params);
+
+        /*
         if (!$result->code){
             die("Can`t change order status! Check internet connection.");
         }
+        */
     }
 
     public function printOrders($orders)

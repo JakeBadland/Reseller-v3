@@ -8,14 +8,15 @@
         <div class="row">
             <div class="col-xs-6"><a href="#"><?=$user->login?></a></div>
             <div class="col-xs-6">
+                <button id="my_position">Loc</button>
 <!--                <label class="close-dialog" href="#">X</label>-->
             </div>
         </div>
         <div class="row map-container">
             <div class="col-xs-12 map-col">
-                <canvas class="map" id="map">
+                <div class="map" id="map" style="width: 358px; height: 358px">
 
-                </canvas>
+                </div>
             </div>
         </div>
 
@@ -47,6 +48,11 @@
         <div class="row">
             <div class="col-xs-6">Nearest:</div>
             <div class="col-xs-4" id="anoma_near">0m</div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6">Offsets:</div>
+            <div class="col-xs-4" id="grid_offset"></div>
         </div>
     </div>
 

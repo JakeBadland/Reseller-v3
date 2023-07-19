@@ -1,3 +1,7 @@
+<?php
+use \App\Models\MenuModel;
+?>
+
 <!DOCTYPE html>
 <html dir="ltr" lang="">
 <head>
@@ -22,14 +26,12 @@
         <div class="container-fluid">
             <div id="navbar" class="navbar-collapse">
                 <ul class="nav navbar-nav">
-<!--                    class="active"-->
-                    <li><a href="/dna/users">Users</a></li>
-<!--                    <li><a href="#">Roles</a></li>-->
-                    <li><a href="/dna/shops">Shops</a></li>
-                    <li><a href="/dna/cards">Cards</a></li>
-                    <li><a href="/dna/rules">Rules</a></li>
-                    <li><a href="/dna/templates">Templates</a></li>
-                    <li><a href="/dna/products">Products</a></li>
+                    <li class="<?= (MenuModel::getActive() == 'Users')? 'active' : '' ?>"><a href="/dna/users">Users</a></li>
+                    <li class="<?= (MenuModel::getActive() == 'Shops')? 'active' : '' ?>"><a href="/dna/shops">Shops</a></li>
+                    <li class="<?= (MenuModel::getActive() == 'Cards')? 'active' : '' ?>"><a href="/dna/cards">Cards</a></li>
+                    <li class="<?= (MenuModel::getActive() == 'Rules')? 'active' : '' ?>"><a href="/dna/rules">Rules</a></li>
+                    <li class="<?= (MenuModel::getActive() == 'Templates')? 'active' : '' ?>"><a href="/dna/templates">Templates</a></li>
+                    <li class="<?= (MenuModel::getActive() == 'Products')? 'active' : '' ?>"><a href="/dna/products">Products</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/logout">Logout</a></li>

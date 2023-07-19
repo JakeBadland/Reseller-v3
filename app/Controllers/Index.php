@@ -15,7 +15,8 @@ class Index extends BaseController
 
     public function changeOrderStatus()
     {
-        $promModel = new PromOrder();
+        //$promModel = new PromOrder();
+        $orderModel = new OrderModel();
 
         $db = db_connect();
 
@@ -24,8 +25,10 @@ class Index extends BaseController
         $apiUrl = $db->table('settings')->select('value')->getWhere(['key' => 'PROM_API_URL'])->getRowArray(0)['value'];
         $prom = new LibProm($apiUrl, $data['token']);
 
-        $prom->changeStatus($data['order_id'], $data['status']);
-        $promModel->changeStatus($data['order_id'], 'received');
+        $prom->changeStatus($data['order_id'], 'received'); //$data['status']
+        $orderModel->changeStatus($data['order_id'], 'received');
+
+        //$libProm->changeStatus($data['order_id'], 'received');
     }
 
     public function index($shopId = 1) : string

@@ -104,18 +104,6 @@ abstract class BaseController extends Controller
             die;
         }
 
-        /*
-        if ($user->role_id != 1){
-            header('Location: /login');
-            die;
-        }
-        */
-
-        //Game
-
-
-
-
         if ($_SERVER['REQUEST_URI'] == '/game' && $user){
             return;
         }
