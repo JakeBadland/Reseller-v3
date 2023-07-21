@@ -61,6 +61,10 @@ abstract class BaseController extends Controller
         $user = new UserModel();
         $user = $user->get();
 
+        if ($_SERVER['REQUEST_URI'] == '/test'){
+            return;
+        }
+
         //CRON
         if ($_SERVER['REQUEST_URI'] == '/cron/c2min'){
             return;

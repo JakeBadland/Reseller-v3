@@ -37,8 +37,6 @@ $routes->get('/viber/(:num)/(:num)', 'Index::viber/$1/$2');
 $routes->post('/change-status', 'Index::changeOrderStatus');
 
 
-$routes->get('/test', 'Index::test');
-
 $routes->get('/login', 'Index::login');
 $routes->post('/login', 'Index::login');
 $routes->get('/logout', 'Index::logout');
@@ -96,9 +94,7 @@ $routes->post('/game/login', 'Game\Auth::login');
 $routes->post('/game/save-user-loc', 'Game\Game::saveUserLoc');
 $routes->get('/game/get-anomalies', 'Game\Game::getAnomalies');
 
-
-
-//$routes->get('/dna/test', 'Dna\Rules::index');
+$routes->get('/test', 'Test::index');
 
 /*
 $routes->post('/dna/rules/add', 'Dna::addRule');

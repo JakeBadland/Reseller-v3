@@ -3,6 +3,8 @@
 
 namespace App\Libraries;
 
+use \App\Models\CurlResponse;
+
 class LibCurl
 {
 
@@ -13,7 +15,7 @@ class LibCurl
     private $url = 'https://my.prom.ua/cms/order/context?page=1&per_page=20';
     //private $url = 'https://my.prom.ua/cms/order/context?page=2&per_page=20';
 
-    public function execute($url, $headers = null, $cookies = null, $method = 'GET', $body = null) : \App\Models\CurlResponse
+    public function execute($url, $headers = null, $cookies = null, $method = 'GET', $body = null) : CurlResponse
     {
         $curl = $this->getCurl($url, $method, $body);
 
@@ -36,7 +38,7 @@ class LibCurl
             //die("http code != 200");
         }
 
-        $result = new \App\Models\CurlResponse($httpCode, $headerStr, $bodyStr);
+        $result = new CurlResponse($httpCode, $headerStr, $bodyStr);
 
         curl_close($curl);
 

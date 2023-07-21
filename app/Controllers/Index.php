@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Libraries\LibProm;
 use App\Models\CardModel;
 use App\Models\OrderModel;
-use App\Models\PromOrder;
 use App\Models\ShopModel;
 use App\Models\UserModel;
 
@@ -15,7 +14,6 @@ class Index extends BaseController
 
     public function changeOrderStatus()
     {
-        //$promModel = new PromOrder();
         $orderModel = new OrderModel();
 
         $db = db_connect();
@@ -23,9 +21,9 @@ class Index extends BaseController
         $data = $this->request->getPost();
 
         $apiUrl = $db->table('settings')->select('value')->getWhere(['key' => 'PROM_API_URL'])->getRowArray(0)['value'];
-        $prom = new LibProm($apiUrl, $data['token']);
+        $libProm = new LibProm($apiUrl, $data['token']);
 
-        $prom->changeStatus($data['order_id'], 'received'); //$data['status']
+        $libProm->changeStatus($data['order_id'], 'received');
         $orderModel->changeStatus($data['order_id'], 'received');
 
         //$libProm->changeStatus($data['order_id'], 'received');

@@ -6,6 +6,7 @@ namespace App\Libraries;
 
 use \App\Libraries\LibCurl;
 use \App\Libraries\LibRenderer;
+use App\Models\CurlResponse;
 
 class LibProm {
 
@@ -35,27 +36,38 @@ class LibProm {
         return json_decode($result->body)->orders;
     }
 
-    public function changeStatus($orderId, $status, $method = 'POST')
+    public function getOrderById($id)
+    {
+        $path = "/api/v1/orders/$id";
+        $libCurl = new LibCurl();
+
+        $url = $this->apiUrl . $path;
+
+        $headers = ['Authorization: Bearer ' . $this->token, 'Content-Type: application/json'];
+
+        $result = $libCurl->execute($url, $headers);
+
+        if (!$result->code){
+            die("Can`t get order! Check internet connection.");
+        }
+
+        return json_decode($result->body);
+    }
+
+    public function changeStatus($orderId, $status)
     {
         $path = '/api/v1/orders/set_status';
         $client = new LibCurl();
 
         $params = [
             'status' => $status,
-            'ids'    => $orderId,
+            'ids'    => [$orderId],
         ];
 
-        //$url = $this->apiUrl . $path . '?'.http_build_query($params);
         $url = $this->apiUrl . $path;
         $headers = ['Authorization: Bearer ' . $this->token, 'Content-Type: application/json'];
 
-        $result = $client->execute($url, $headers, null, 'POST', $params);
-
-        /*
-        if (!$result->code){
-            die("Can`t change order status! Check internet connection.");
-        }
-        */
+        return $client->execute($url, $headers, null, 'POST', $params);
     }
 
     public function printOrders($orders)
@@ -87,13 +99,35 @@ class LibProm {
         return $response;
     }
 
-    public function getOrderById($id)
-    {
-        $url = '/api/v1/orders/' . $id;
-        $method = 'GET';
+    function make_request($method, $url, $body) {
+        $this->token = 'bf74d2c7d714e724ed6c6ff1d6e651537781d0ce';
+        define('HOST', 'my.prom.ua');
 
-        return $this->make_request($method, $url, NULL);
+        $headers = array (
+            'Authorization: Bearer ' . $this->token,
+            'Content-Type: application/json'
+        );
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://' . HOST . $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        if (strtoupper($method) == 'POST') {
+            curl_setopt($ch, CURLOPT_POST, true);
+        }
+
+        if (!empty($body)) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
+        }
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        return json_decode($result, true);
     }
+
 
     /**
      * Изменять статус заказа.
