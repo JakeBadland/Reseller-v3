@@ -47,7 +47,7 @@
 
                 <?php if ($order->purchaseType) : ?>
                     <TD >
-                        <a href="/viber/<?=$order->orderId?>/<?=$ruleCard->id?>"><BUTTON class="">Viber</BUTTON></a>
+                        <a href="/viber/<?=$order->orderId?>/<?=$ruleCard->id?>"><BUTTON class="viber-btn">Viber</BUTTON></a>
                     </TD>
                 <?php endif ?>
 
@@ -63,6 +63,7 @@
                 let $parentTr = $(this).closest('tr');
                 let $parentTd = $(this).closest('td');
                 let urlField = $parentTr.get(0);
+                let $viberBtn = $parentTr.find('.viber-btn');
 
                 //status : [ pending, received, delivered, canceled, draft, paid ]
                 let data = {
@@ -71,6 +72,7 @@
                     status      : 'received'
                 };
 
+                $viberBtn.hide();
                 $(this).css("background-color", "");
                 $(this).parent('td').remove();
 
@@ -85,7 +87,7 @@
 
                 window.getSelection().removeAllRanges();
                 $parentTr.prepend($parentTd);
-                
+                $viberBtn.show();
 
                 $.post( "/change-status", data, function( data ) {
                     console.log(data);

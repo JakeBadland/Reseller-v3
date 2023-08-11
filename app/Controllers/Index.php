@@ -25,8 +25,6 @@ class Index extends BaseController
 
         $libProm->changeStatus($data['order_id'], 'received');
         $orderModel->changeStatus($data['order_id'], 'received');
-
-        //$libProm->changeStatus($data['order_id'], 'received');
     }
 
     public function index($shopId = 1) : string

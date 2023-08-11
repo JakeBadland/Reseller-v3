@@ -54,14 +54,37 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="current_balance" class="col-xs-3 control-label">Current balance</label>
+                    <div class="col-xs-5">
+                        <input type="text" class="form-control" id="current_balance" name="current_balance" value="<?=$card->current_balance?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="limit" class="col-xs-3 control-label">Limit</label>
+                    <div class="col-xs-5">
+                        <input type="text" class="form-control" id="limit" name="limit_balance" value="<?=$card->limit_balance?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="auto_clear" class="col-xs-3 control-label">Auto clear</label>
+                    <div class="col-xs-5">
+                        <input type="checkbox" class="auto_clear" id="auto_clear" name="auto_clear" <?= ($card->auto_clear)? 'checked' : '' ?>>
+                    </div>
+                </div>
+                <div class="form-group">
                     <div class="col-xs-offset-3 col-xs-9">
                         <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </div>
+
             </form>
         </div>
     </div>
 </div>
+
+<style>
+
+</style>
 
 
 <?= $this->endSection(); ?>

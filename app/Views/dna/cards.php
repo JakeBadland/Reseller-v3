@@ -54,6 +54,8 @@
                     <tr>
                         <th>Name</th>
                         <th>Number</th>
+                        <th>Balance</th>
+                        <th>Limit</th>
                         <th>Short</th>
                         <th>Bank</th>
                         <th>Action</th>
@@ -64,6 +66,8 @@
                     <tr>
                         <td><?= $card->name ?></td>
                         <td><?= $card->number ?></td>
+                        <td><?= $card->current_balance ?></td>
+                        <td><?= $card->limit_balance ?></td>
                         <td><?= $card->short ?></td>
                         <td><?= $card->bank ?></td>
                         <td><a href="/dna/cards/edit/<?= $card->id ?>">edit</a></td>

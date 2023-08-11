@@ -109,7 +109,7 @@ class OrderParser{
         }
     }
 
-    private static function parsePurchaseType($paymentOption) : ?string
+    private static function parsePurchaseType($paymentOption): ?string
     {
         if (!isset($paymentOption->name)){
             return '';
@@ -122,7 +122,7 @@ class OrderParser{
             case 'Безналичный расчет на карту Приват Банка': {return 'БАНК*';}
             case 'Наложенный платеж': { return 'налож*';}
             default: {
-
+                return '';
             }
         }
 

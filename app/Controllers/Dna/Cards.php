@@ -42,6 +42,8 @@ class Cards extends BaseController
         $card = new CardModel();
 
         if ($data){
+            $data['auto_clear'] = (isset($data['auto_clear']))? 1 : 0;
+
             $card->updateCard($data);
             return redirect()->to('dna/cards');
         }
