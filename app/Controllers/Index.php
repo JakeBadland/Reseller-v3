@@ -41,11 +41,13 @@ class Index extends BaseController
             ->get()->getResultArray();
 
         $shopInfo = $shopModel->getById($shopId);
+        $cards = $shopModel->getCards($shopId);
         $orders = $orderModel->getOrders($shopInfo->name);
 
         $data = [
             'orders'    => $orders,
             'shops'     => $shops,
+            'cards'     => $cards,
             'shop_info' => $shopInfo,
             'color'     => $shopInfo->color,
             'user'      => $user

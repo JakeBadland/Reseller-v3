@@ -26,11 +26,12 @@
     padding: 0 35px;
     height: 32px;
     margin-top: 2px;
+    width: 107px;
 }
 
 .menu{
     position: absolute;
-    width: 112px;
+    width: 107px;
     top: 36px;
     left: 5px;
     z-index: 1000;
@@ -70,4 +71,15 @@ td {
 .auto_clear{
     width: 22px;
     height: 22px;
+}
+
+.cards-menu{
+    background-color: black;
+    color: #ddcffb;
+    z-index: 1000;
+    display: none;
+    position: absolute;
+    padding: 5px;
+    border-radius: 4px;
+    left: 60px;
 }

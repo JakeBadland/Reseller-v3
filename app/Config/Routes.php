@@ -57,6 +57,7 @@ $routes->post('/dna/cards/add', 'Dna\Cards::addCard');
 $routes->get('/dna/cards/edit/(:num)', 'Dna\Cards::editCard/$1');
 $routes->post('/dna/editCard', 'Dna\Cards::editCard');
 $routes->post('/dna/cards/delete', 'Dna\Cards::deleteCard');
+$routes->post('/get-shop-cards', 'Dna\Cards::getOrderCards');
 
 //shops group
 $routes->get('/dna/shops', 'Dna\Shops::index');

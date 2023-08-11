@@ -5,6 +5,8 @@ namespace App\Controllers\Dna;
 use App\Controllers\BaseController;
 use App\Models\CardModel;
 use App\Models\MenuModel;
+use App\Models\OrderModel;
+use App\Models\ShopModel;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -94,6 +96,18 @@ class Cards extends BaseController
             ->delete();
 
         return redirect()->to('dna/cards');
+    }
+
+    public function getOrderCards()
+    {
+        $data = $this->request->getPost();
+
+        $shopModel = new ShopModel();
+
+        $cards = $shopModel->getCards($data['shop_id']);
+
+        echo json_encode($cards);
+        die;
     }
 
 }

@@ -37,6 +37,16 @@ class ShopModel extends Model
             ->get()->getRowArray();
     }
 
+    public function getCards($shopId)
+    {
+        return $this->db->table('rules')
+            ->select('cards.*')
+            ->where(['shop_id' => $shopId])
+            ->join('cards_to_rules', 'cards_to_rules.rule_id = rules.id')
+            ->join('cards', 'cards_to_rules.card_id = cards.id')
+            ->get()->getResult();
+    }
+
 
 
 }
