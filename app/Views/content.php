@@ -67,7 +67,7 @@
     <div class="cards-menu">
         <div id="cards_list">
             <?php foreach ($cards as $card) : ?>
-                <div><a href="#" class="short-card-item"><?=$card->short?></a></div>
+                <div><a href="#" class="short-card-item"><?=$card->short?> [<?=$card->current_balance?>/<?= $card->limit_balance ?>]</div>
             <?php endforeach; ?>
         </div>
         <div><a class="close-cards" href="#">Close</a></div>
