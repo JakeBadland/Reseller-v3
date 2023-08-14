@@ -83,3 +83,12 @@ td {
     border-radius: 4px;
     left: 60px;
 }
+
+.short-card-item{
+    cursor: pointer;
+    color: #337ab7;
+}
+
+.short-card-item:hover{
+    text-decoration: underline;
+}

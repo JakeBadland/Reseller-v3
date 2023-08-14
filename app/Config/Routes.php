@@ -35,6 +35,7 @@ $routes->get('/', 'Index::index');
 $routes->get('/(:num)', 'Index::index/$1');
 $routes->get('/viber/(:num)/(:num)', 'Index::viber/$1/$2');
 $routes->post('/change-status', 'Index::changeOrderStatus');
+$routes->post('/set-current-balance', 'Index::setCurrentBalance');
 
 
 $routes->get('/login', 'Index::login');

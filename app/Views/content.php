@@ -12,7 +12,6 @@
 >
     <TABLE>
         <?php foreach ($orders as $key => $order): ?>
-
             <?php $back = ''; ?>
 
             <?php if (!$order->address || !$order->deliveryProvider) : ?>
@@ -23,7 +22,11 @@
                 <?php $back = "style='background-color: yellow'"; ?>
             <?php endif ?>
 
-            <TR id="tr<?=$key?>" data-order-id="<?=$order->orderId?>">
+            <?php $ruleCard = $ruleModel->getRuleCard($shop_info, $order, true); ?>
+            <TR id="tr<?=$key?>"
+                data-order-id="<?=$order->orderId?>"
+                data-selected-card-id="<?= $ruleCard->id ?>"
+            >
                 <TD>
                     <BUTTON <?=$back?> class="copy">Copy</BUTTON>
                 </TD>
@@ -36,12 +39,10 @@
                 <TD><?= $order->address ?></TD>
                 <TD><?= $order->date ?></TD>
                 <TD><?= $order->orderId ?></TD>
-                <TD><?= $order->price ?></TD>
+                <TD><input type="hidden" class="final-price" value="<?= $order->finalPrice ?>"><?= $order->price ?></TD>
                 <TD><?= $order->deliveryProvider ?></TD>
                 <TD><?= $order->description ?></TD>
                 <TD style="background-color: rgb(0,255,255)"><?= $order->purchaseType ?></TD>
-
-                <?php $ruleCard = $ruleModel->getRuleCard($shop_info, $order, true); ?>
 
                 <?php if ($order->prepaid): ?>
                     <TD><?= $order->prepaid ?></TD>
@@ -67,7 +68,15 @@
     <div class="cards-menu">
         <div id="cards_list">
             <?php foreach ($cards as $card) : ?>
-                <div><a href="#" class="short-card-item"><?=$card->short?> [<?=$card->current_balance?>/<?= $card->limit_balance ?>]</div>
+
+                    <div class="short-card-item" href="#" data-card-id="<?=$card->id?>">
+                        <span class="short-card-name"><?=$card->short?></span>
+                        [<span class="balance-current"><?=$card->current_balance?></span>
+                        /
+                        <span class="balance-limit"><?= $card->limit_balance ?>
+                        </span>]
+                    </div>
+
             <?php endforeach; ?>
         </div>
         <div><a class="close-cards" href="#">Close</a></div>
@@ -76,8 +85,27 @@
     <script>
         $(document).ready(function () {
             $('body').on('click', '.short-card-item', function () {
+                let $balanceCurrent = $(this).find('.balance-current');
+                let $balanceLimit = $(this).find('.balance-limit');
+
                 let rowId = $('#container').attr('data-selected-row');
-                $('#' + rowId).find('.card-short-name').text($(this).text());
+                
+                let $row = $('#' + rowId);
+                let price = parseInt($row.find('.final-price').val());
+
+
+                if ( (parseInt($balanceCurrent.text()) + price) > parseInt($balanceLimit.text()) ){
+                    window.alert('Warning! The allowable limit will be exceeded. Ignoring...');
+                    return;
+                }
+                
+                //save card id
+                $('#' + rowId).attr('data-selected-card-id', $(this).attr('data-card-id'));
+                
+                //show card name
+                $row.find('.card-short-name').text($(this).find('.short-card-name').text());
+
+
             });
             
             $('body').on('click', '.cards', function () {
@@ -85,7 +113,7 @@
                 
                 //save selected row id
                 $('#container').attr('data-selected-row', $(this).closest('tr').attr('id'));
-                
+
                 $cards.css('top', $(this).position().top + 27 + 'px');
                 $cards.show();
              });
@@ -131,6 +159,26 @@
                 $.post( "/change-status", data, function( data ) {
                     //console.log(data);
                 });
+
+                let cardId = $parentTr.attr('data-selected-card-id');
+                let price = parseInt($parentTr.find('.final-price').val());
+
+                $('#cards_list').find('.short-card-item').each(function( index ) {
+                    if ($(this).attr('data-card-id') == cardId){
+                        price = price += parseInt($(this).find('.balance-current').text())
+                        $(this).find('.balance-current').text(price);
+                    }
+                });
+
+                data = {
+                    'card_id' : cardId,
+                    'price' : price
+                };
+
+                $.post( "/set-current-balance", data, function( data ) {
+                    //console.log(data);
+                });
+
 
             })
 

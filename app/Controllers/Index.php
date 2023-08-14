@@ -27,6 +27,20 @@ class Index extends BaseController
         $orderModel->changeStatus($data['order_id'], 'received');
     }
 
+    public function setCurrentBalance()
+    {
+        $db = db_connect();
+
+        $data = $this->request->getPost();
+
+        if ($data){
+            $db->table('cards')
+                ->set(['current_balance' => $data['price'] ])
+                ->where(['id' => $data['card_id']])
+                ->update();
+        }
+    }
+
     public function index($shopId = 1) : string
     {
         $orderModel = new OrderModel();
