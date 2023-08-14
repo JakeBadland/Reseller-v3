@@ -67,9 +67,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="num" class="col-xs-3 control-label">Enabled</label>
+                    <label for="is_enabled" class="col-xs-3 control-label">Enabled</label>
                     <div class="col-xs-5">
-                        <input type="checkbox" name="enabled" <?php if ((int) $rule->enabled) echo 'checked="checked"';?>
+                        <input type="checkbox" id="is_enabled" name="is_enabled" <?php if ((int) $rule->is_enabled) echo 'checked="checked"';?>
                     </div>
                 </div>
                 <div class="form-group">

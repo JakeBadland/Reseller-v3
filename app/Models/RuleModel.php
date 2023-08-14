@@ -54,8 +54,8 @@ class RuleModel extends Model
             ->get()->getRow();
 
         foreach ($rules as $rule){
-            //if enabled and price >= from && <= to
-            if ( ((int)$rule->enabled) && ( (int)$order->finalPrice >= (int)$rule->from ) && ( (int)$order->finalPrice <= (int) $rule->to) ){
+            //if is_enabled and price >= from && <= to
+            if ( ((int)$rule->is_enabled) && ( (int)$order->finalPrice >= (int)$rule->from ) && ( (int)$order->finalPrice <= (int) $rule->to) ){
                 //get rule cards
                 $cards = $this->db->table('cards_to_rules')
                     ->where(['cards_to_rules.rule_id' => $rule->id])

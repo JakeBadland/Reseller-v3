@@ -55,7 +55,7 @@ class Rules extends BaseController
         $data = $this->request->getPost();
 
         if ($data){
-            $data['enabled'] = (isset($data['enabled']))?  1 : 0;
+            $data['is_enabled'] = (isset($data['is_enabled']))?  1 : 0;
             $ruleCards = explode(',' , trim($data['rule_cards'], ','));
 
             $ruleId = $data['id'];

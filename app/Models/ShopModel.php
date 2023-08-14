@@ -37,14 +37,23 @@ class ShopModel extends Model
             ->get()->getRowArray();
     }
 
-    public function getCards($shopId)
+    public function getCards($shopId, $isEnabled = true)
     {
-        return $this->db->table('rules')
-            ->select('cards.*')
-            ->where(['shop_id' => $shopId])
+        $query = $this->db->table('rules')
+            ->select('cards.*, rules.is_enabled, rules.shop_id')
+            ->where([
+                'shop_id' => $shopId,
+                'rules.is_enabled' => 1
+            ])
             ->join('cards_to_rules', 'cards_to_rules.rule_id = rules.id')
-            ->join('cards', 'cards_to_rules.card_id = cards.id')
-            ->get()->getResult();
+            ->join('cards', 'cards_to_rules.card_id = cards.id');
+            //->join('rules', 'rules.card_id = cards.id');
+
+            if($isEnabled){
+                $query->where(['shop_id' => $shopId]);
+            }
+
+            return $query->get()->getResult();
     }
 
 

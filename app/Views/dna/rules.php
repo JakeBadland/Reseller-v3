@@ -82,7 +82,7 @@
                         <td><?= $rule->to ?></td>
                         <td><?= $rule->type ?></td>
                         <td><?= $rule->shop_name ?></td>
-                        <td><?php echo (int) $rule->enabled ? 'Yes' : 'No' ?></td>
+                        <td><?php echo (int) $rule->is_enabled ? 'Yes' : 'No' ?></td>
                         <td><a href="/dna/rules/edit/<?= $rule->rule_id ?>">edit</a></td>
                     </tr>
                 <?php endforeach; ?>
