@@ -68,7 +68,7 @@
                 <div class="form-group">
                     <label for="auto_clear" class="col-xs-3 control-label">Auto clear</label>
                     <div class="col-xs-5">
-                        <input type="checkbox" class="auto_clear" id="auto_clear" name="auto_clear" <?= ($card->auto_clear)? 'checked' : '' ?>>
+                        <input type="checkbox" class="auto_clear check-big" id="auto_clear" name="auto_clear" <?= ((int)$card->auto_clear)? 'checked="checked"' : '' ?>>
                     </div>
                 </div>
                 <div class="form-group">

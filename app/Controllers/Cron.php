@@ -9,9 +9,29 @@ use App\Models\ShopModel;
 class Cron extends BaseController
 {
 
-    public function index()
+    public function c24hour()
     {
-        die('Running index.');
+        $db = db_connect();
+
+        $cards = $db->table('cards')
+            ->select('cards.*')
+            ->groupBy('id')
+        //    ->set(['cards.current_balance' => 0])
+            ->join('cards_to_rules', 'cards_to_rules.card_id = cards.id')
+            ->join('rules', 'rules.id = cards_to_rules.rule_id')
+            ->where([
+                'rules.is_enabled' => 1,
+                'cards.auto_clear' => 1
+            ])
+            //->update();
+            ->get()->getResult();
+
+        $ids = [];
+        foreach ($cards as $card){
+            $ids[] = $card->id;
+        }
+
+        $db->table('cards')->set(['current_balance' => 0])->whereIn('id', $ids)->update();
     }
 
     public function c2min()

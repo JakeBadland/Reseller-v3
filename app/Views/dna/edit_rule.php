@@ -69,10 +69,11 @@
                 <div class="form-group">
                     <label for="is_enabled" class="col-xs-3 control-label">Enabled</label>
                     <div class="col-xs-5">
-                        <input type="checkbox" id="is_enabled" name="is_enabled" <?php if ((int) $rule->is_enabled) echo 'checked="checked"';?>
+                        <input type="checkbox" class="check-big" id="is_enabled" name="is_enabled" <?php if ((int) $rule->is_enabled) echo 'checked="checked"';?>>
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-xs-3 control-label"></label>
                     <div class="col-xs-5">
                         <br/>
                         <button class="btn btn-primary dropdown-toggle" type="button" id="add_card" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
