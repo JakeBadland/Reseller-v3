@@ -53,6 +53,8 @@ abstract class BaseController extends Controller
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 
+        date_default_timezone_set('Europe/Kyiv');
+
         //For CLI commands
         if (!isset($_SERVER['HTTP_HOST'])){
             return;
