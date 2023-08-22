@@ -1,3 +1,10 @@
+body {
+    color: #000;
+    font-weight: 400;
+    font-size: 13px;
+    font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+}
+
 .p5 {
     padding: 0 5px;
 }
@@ -8,6 +15,18 @@
 
 .tac{
     text-align: center;
+}
+
+.fl{
+    float: left;
+}
+
+.fr{
+    float: right;
+}
+
+.selected{
+    font-weight: bold;
 }
 
 .storeName {
@@ -91,4 +110,10 @@ td {
 
 .short-card-item:hover{
     text-decoration: underline;
+}
+
+.rule-card-item{
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }

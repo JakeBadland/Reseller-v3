@@ -6,23 +6,20 @@
 
 <div 
         id="container" 
-        data-shop-id="<?=$shop_info->id?>" 
-        data-shop-token="<?=$shop_info->token?>"
+        data-shop-id="<?=$shopInfo->id?>"
+        data-shop-token="<?=$shopInfo->token?>"
         data-selected-row=""
 >
     <TABLE>
         <?php foreach ($orders as $key => $order): ?>
             <?php $back = ''; ?>
-
             <?php if (!$order->address || !$order->deliveryProvider) : ?>
                 <?php $back = "style='background-color: red'"; ?>
             <?php endif ?>
-
             <?php if ($order->status == 'pending') : ?>
                 <?php $back = "style='background-color: yellow'"; ?>
             <?php endif ?>
-
-            <?php $ruleCard = $ruleModel->getRuleCard($shop_info, $order, true); ?>
+            <?php $ruleCard = $ruleModel->getRuleCard($shopInfo, $order, true); ?>
             <TR id="tr<?=$key?>"
                 data-order-id="<?=$order->orderId?>"
                 data-selected-card-id="<?= $ruleCard->id ?>"
@@ -31,9 +28,9 @@
                     <BUTTON <?=$back?> class="copy">Copy</BUTTON>
                 </TD>
                 <TD class="cards-button-td">
-                    <BUTTON <?=$back?> class="cards">Cards</BUTTON>
+                    <a href="/edit-order/<?= $order->orderId ?>"><BUTTON <?=$back?> class="">Edit</BUTTON></a>
                 </TD>
-                <TD class="storeName" style="background-color: rgb(<?=$color?>)"><?= $order->store ?></TD>
+                <TD class="storeName" style="background-color: rgb(<?=$shopInfo->color?>)"><?= $order->store ?></TD>
                 <TD><?= $order->name ?></TD>
                 <TD><?= $order->phone ?></TD>
                 <TD><?= $order->address ?></TD>
@@ -43,7 +40,6 @@
                 <TD><?= $order->deliveryProvider ?></TD>
                 <TD><?= $order->description ?></TD>
                 <TD style="background-color: rgb(0,255,255)"><?= $order->purchaseType ?></TD>
-
                 <?php if ($order->prepaid): ?>
                     <TD><?= $order->prepaid ?></TD>
                 <?php else : ?>
@@ -53,22 +49,16 @@
                 <?php if ($order->prepaid): ?>
                     <TD style="background-color: rgb(255,0,255)" class="card-short-name"><?= $ruleCard->short ?></TD>
                 <?php endif ?>
-
                 <?php if ($order->purchaseType) : ?>
-                    <TD >
-                        <a href="/viber/<?=$order->orderId?>/<?=$ruleCard->id?>"><BUTTON class="viber-btn">Viber</BUTTON></a>
-                    </TD>
+                    <TD><a href="/viber/<?=$order->orderId?>/<?=$ruleCard->id?>"><BUTTON class="viber-btn">Viber</BUTTON></a></TD>
                 <?php endif ?>
-
             </TR>
-
         <?php endforeach; ?>
     </TABLE>
 
     <div class="cards-menu">
         <div id="cards_list">
             <?php foreach ($cards as $card) : ?>
-
                     <div class="short-card-item" href="#" data-card-id="<?=$card->id?>">
                         <span class="short-card-name"><?=$card->short?></span>
                         [<span class="balance-current"><?=$card->current_balance?></span>
@@ -76,14 +66,64 @@
                         <span class="balance-limit"><?= $card->limit_balance ?>
                         </span>]
                     </div>
-
             <?php endforeach; ?>
         </div>
         <div><a class="close-cards" href="#">Close</a></div>
     </div>
     
     <script>
+        let global = {
+            balanceCurrent : 3
+        };
+
+        function getCurrentBalance(cardId){
+            let result = 0;
+            $('#cards_list').find('.short-card-item').each(function( index ) {
+                if ($(this).attr('data-card-id') == cardId){
+                    result = parseInt($(this).find('.balance-current').text());
+                }
+            });
+            if (result){return result;} else {return 0;}
+        }
+
+        function setCurrentBalance(cardId, balance){
+            $('#cards_list').find('.short-card-item').each(function( index ) {
+                if ($(this).attr('data-card-id') == cardId){
+                    $(this).find('.balance-current').text(balance);
+                }
+            });
+        }
+
+        function copyRow($this){
+            let $parentTr = $this.closest('tr');
+            let $parentTd = $this.closest('td');
+            let $viberBtn = $parentTr.find('.viber-btn').closest('td');
+
+            //prepare for copy
+            //navigator.clipboard.writeText('');
+            window.getSelection().removeAllRanges();
+            $viberBtn.hide();
+            $this.css("background-color", "");
+            $this.parent('td').remove();
+
+            // create a Range object
+            let urlField = $parentTr.get(0);
+            let range = document.createRange();
+            // set the Node to select the "range"
+            range.selectNode(urlField);
+            // add the Range to the set of window selections
+            window.getSelection().addRange(range);
+            // execute 'copy', can't 'cut' in this case
+            document.execCommand('copy');
+
+            //restore interface elements
+            window.getSelection().removeAllRanges();
+            $parentTr.prepend($parentTd);
+            $viberBtn.show();
+        }
+        
         $(document).ready(function () {
+            /*
             $('body').on('click', '.short-card-item', function () {
                 let $balanceCurrent = $(this).find('.balance-current');
                 let $balanceLimit = $(this).find('.balance-limit');
@@ -92,7 +132,6 @@
                 
                 let $row = $('#' + rowId);
                 let price = parseInt($row.find('.final-price').val());
-
 
                 if ( (parseInt($balanceCurrent.text()) + price) > parseInt($balanceLimit.text()) ){
                     window.alert('Warning! The allowable limit will be exceeded. Ignoring...');
@@ -104,8 +143,6 @@
                 
                 //show card name
                 $row.find('.card-short-name').text($(this).find('.short-card-name').text());
-
-
             });
             
             $('body').on('click', '.cards', function () {
@@ -121,67 +158,36 @@
             $('body').on('click', '.close-cards', function () {
                 $('.cards-menu').hide();
             });
+            */
 
             $('body').on('click', '.copy', function () {
-                let $parentTr = $(this).closest('tr');
-                let $parentTd = $(this).closest('td');
-                let urlField = $parentTr.get(0);
-                let $viberBtn = $parentTr.find('.viber-btn');
-                let $cardsTd = $parentTr.find('.cards-button-td')
-
-                $cardsTd.hide();
-
-                //status : [ pending, received, delivered, canceled, draft, paid ]
-                let data = {
-                    order_id    : $parentTr.attr('data-order-id'),
-                    token       : $('#container').attr('data-shop-token'),
-                    status      : 'received'
-                };
-
-                $viberBtn.hide();
-                $(this).css("background-color", "");
-                $(this).parent('td').remove();
-
-                // create a Range object
-                let range = document.createRange();
-                // set the Node to select the "range"
-                range.selectNode(urlField);
-                // add the Range to the set of window selections
-                window.getSelection().addRange(range);
-                // execute 'copy', can't 'cut' in this case
-                document.execCommand('copy');
-
-                window.getSelection().removeAllRanges();
-                $parentTr.prepend($parentTd);
-                $viberBtn.show();
-                $cardsTd.show();
-
-                $.post( "/change-status", data, function( data ) {
-                    //console.log(data);
-                });
-
+                let $this = $(this);
+                let $parentTr = $this.closest('tr');
                 let cardId = $parentTr.attr('data-selected-card-id');
-                let price = parseInt($parentTr.find('.final-price').val());
+                let orderPrice = $parentTr.find('.final-price').val();
 
-                $('#cards_list').find('.short-card-item').each(function( index ) {
-                    if ($(this).attr('data-card-id') == cardId){
-                        price = price += parseInt($(this).find('.balance-current').text())
-                        $(this).find('.balance-current').text(price);
-                    }
+                $.post( "/get-current-balance", {cardId}, function( data ) {
+                    data = JSON.parse(data);
+                    let balanceCurrent = parseInt(data.balance);
+                    balanceCurrent += parseInt(orderPrice);
+
+                    copyRow($this);
+
+                    data = {
+                        order_id    : $parentTr.attr('data-order-id'),
+                        token       : $('#container').attr('data-shop-token'),
+                        status      : 'received'
+                        //status : [ pending, received, delivered, canceled, draft, paid ]
+                    };
+                    $.post( "/change-status", data, function( data ) {});
+
+                    data = {
+                        'card_id' : cardId,
+                        'price' : balanceCurrent
+                    };
+                    $.post( "/set-current-balance", data, function( data ) {});
                 });
-
-                data = {
-                    'card_id' : cardId,
-                    'price' : price
-                };
-
-                $.post( "/set-current-balance", data, function( data ) {
-                    //console.log(data);
-                });
-
-
             })
-
         });
     </script>
 </div>

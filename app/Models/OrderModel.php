@@ -24,4 +24,23 @@ class OrderModel extends Model
         $this->db->table($this->table)->where(['orderId' => $orderId])->update(['status' => $status]);
     }
 
+    public function getById($orderId)
+    {
+        return $this->db->table($this->table)
+            ->select('*')
+            ->limit(1)
+            ->where(['orderId' => $orderId])
+            ->get()->getRow();
+    }
+
+    public function getShopId($orderId)
+    {
+        return $this->db->table($this->table)
+            ->select('shops.id')
+            ->limit(1)
+            ->join('shops', 'shops.name = orders.store')
+            ->where(['orderId' => $orderId])
+            ->get()->getRow()->id;
+    }
+
 }

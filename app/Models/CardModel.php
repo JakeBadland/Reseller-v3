@@ -8,9 +8,6 @@ use CodeIgniter\Model;
 class CardModel extends Model
 {
 
-    public $card;
-    protected $db;
-
     protected string $table = 'cards';
 
     public function getById($cardId)
@@ -23,7 +20,8 @@ class CardModel extends Model
         $this->db->table($this->table)->insert($data);
     }
 
-    public function updateCard($data){
+    public function updateCard($data)
+    {
         $cardId = $data['id'];
         unset($data['id']);
 
@@ -33,5 +31,13 @@ class CardModel extends Model
     public function getCardId($cardName)
     {
         return $this->db->table($this->table)->select('*')->getWhere(['name' => $cardName])->get()->Row();
+    }
+
+    public function getCardBalance($cardId)
+    {
+        return $this->db->table($this->table)
+            ->select('*')
+            ->where(['id' => $cardId])
+            ->get()->getRow()->current_balance;
     }
 }

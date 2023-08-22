@@ -41,6 +41,38 @@ class Index extends BaseController
         }
     }
 
+    public function getCurrentBalance()
+    {
+        $cardModel = new CardModel();
+
+        $cardId = $this->request->getPost();
+
+        $balance = 0;
+        if ($cardId){
+            $balance = $cardModel->getCardBalance($cardId);
+        }
+
+        echo json_encode(['balance' => (int) $balance]);
+        die;
+    }
+
+    public function editOrder($orderId) : string
+    {
+        $orderModel = new OrderModel();
+        $shopModel = new ShopModel();
+
+        $order = $orderModel->getById($orderId);
+        $shopId = $orderModel->getShopId($orderId);
+        $shopInfo = $shopModel->getById($shopId);
+        $cards = $shopModel->getCards($shopId);
+
+        return view('edit_order',  [
+            'order' => $order,
+            'shopInfo' => $shopInfo,
+            'cards' => $cards
+        ]);
+    }
+
     public function index($shopId = 1) : string
     {
         $orderModel = new OrderModel();
@@ -62,8 +94,7 @@ class Index extends BaseController
             'orders'    => $orders,
             'shops'     => $shops,
             'cards'     => $cards,
-            'shop_info' => $shopInfo,
-            'color'     => $shopInfo->color,
+            'shopInfo' => $shopInfo,
             'user'      => $user
         ];
 

@@ -93,7 +93,10 @@
                         <div class="card card-body panel panel-default">
                             <div class="list-group selected-cards">
                                 <?php foreach ($rule_cards as $card) : ?>
-                                <a href="#" class="list-group-item" data-id="<?= $card->id ?>"><?= $card->bank ?> <?= $card->name ?></a>
+                                <div class="rule-card-item">
+                                    <a href="#" class="" data-id="<?= $card->id ?>"><?= $card->bank ?> <?= $card->name ?></a>
+                                    <a style="float: right" href="/dna/cards/edit/<?=$card->id?>">edit</a>
+                                </div>
                                 <?php endforeach; ?>
                             </div>
                         </div>
@@ -113,12 +116,12 @@
 <script>
     $(document).ready(function () {
         $('body').on('click', '.card-link', function () {
-            $('.selected-cards').append('<a class="list-group-item" href=# data-id=' + $(this).attr('data-id') + '>' + $(this).text() + '</a>')
+            $('.selected-cards').append('<div class="rule-card-item"><a href="#" data-id=' + $(this).attr('data-id') + '>' + $(this).text() + '</a><a class="fr" href="/dna/cards/edit/' + $(this).attr('data-id') + '">edit</a></div>')
             recalculate();
         });
 
         $('.selected-cards').on('click', 'a', function (){
-            $(this).remove();
+            $(this).parent('div').remove();
             recalculate();
         })
     });

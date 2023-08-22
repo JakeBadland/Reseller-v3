@@ -77,6 +77,16 @@ abstract class BaseController extends Controller
             return;
         }
 
+        //update card balance
+        if ($_SERVER['REQUEST_URI'] == '/get-current-balance'){
+            return;
+        }
+
+        //update card balance
+        if ($_SERVER['REQUEST_URI'] == '/set-current-balance'){
+            return;
+        }
+
         $matches = null;
         //for list shops
         preg_match('/([0-9]+)/', $_SERVER['REQUEST_URI'], $matches);
@@ -113,7 +123,6 @@ abstract class BaseController extends Controller
         if ($_SERVER['REQUEST_URI'] == '/game' && $user){
             return;
         }
-
 
 
         // Preload any models, libraries, etc, here.

@@ -40,7 +40,7 @@ class Rules extends BaseController
         $data = $this->request->getPost();
 
         $data['type'] = strtolower($data['type']);
-        $data['enabled'] = 1;
+        $data['is_enabled'] = 1;
 
         $rule = new RuleModel();
         $rule->addRule($data);
