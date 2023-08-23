@@ -2,44 +2,39 @@
 
 <?= $this->section('edit_order'); ?>
 
-<?php $ruleModel = new \App\Models\RuleModel(); ?>
-
-<div class="container">
-    <TABLE>
-        <?php $back = ''; ?>
-        <?php if (!$order->address || !$order->deliveryProvider) : ?>
-            <?php $back = "style='background-color: red'"; ?>
-        <?php endif ?>
-        <?php if ($order->status == 'pending') : ?>
-            <?php $back = "style='background-color: yellow'"; ?>
-        <?php endif ?>
-        <?php $ruleCard = $ruleModel->getRuleCard($shopInfo, $order, true); ?>
-        <TR id="row"
-            data-order-id="<?= $order->orderId ?>"
-            data-selected-card-id="<?= $ruleCard->id ?>"
-        >
+<?php
+$ruleModel = new \App\Models\RuleModel();
+$ruleCard = $ruleModel->getRuleCard($shopInfo, $order, true);
+$back = '';
+if (!$order->address || !$order->deliveryProvider){
+    $back = "style='background-color: red'";
+}
+if ($order->status == 'pending'){
+    $back = "style='background-color: yellow'";
+}
+?>
+<div id="container" class="container">
+    <TABLE id="table">
+        <TR id="row" data-order-id="<?=$order->orderId?>">
             <TD class="storeName" style="background-color: rgb(<?= $shopInfo->color ?>)"><?= $order->store ?></TD>
             <TD><?= $order->name ?></TD>
             <TD><?= $order->phone ?></TD>
             <TD><?= $order->address ?></TD>
             <TD><?= $order->date ?></TD>
             <TD><?= $order->orderId ?></TD>
-            <TD><input type="hidden" class="final-price" value="<?= $order->finalPrice ?>"><?= $order->price ?>
-            </TD>
+            <TD><input type="hidden" class="final-price" value="<?= $order->finalPrice ?>"><?= $order->price ?></TD>
             <TD><?= $order->deliveryProvider ?></TD>
             <TD><?= $order->description ?></TD>
             <TD style="background-color: rgb(0,255,255)"><?= $order->purchaseType ?></TD>
-            <?php if ($order->prepaid): ?>
-                <TD><?= $order->prepaid ?></TD>
+            <?php if ($order->prepaid):?>
+<TD><?=$order->prepaid?></TD>
             <?php else : ?>
-                <TD class="card-short-name"
-                    style="background-color: rgb(255,0,255)"><?= $ruleCard->short ?></TD>
+<TD class="card-short-name" style="background-color: rgb(255,0,255)"><?=$ruleCard->short?></TD>
             <?php endif ?>
-            <?php if ($order->prepaid): ?>
-                <TD style="background-color: rgb(255,0,255)"
-                    class="card-short-name"><?= $ruleCard->short ?></TD>
+            <?php if ($order->prepaid):?>
+<TD class="card-short-name" style="background-color: rgb(255,0,255)"><?=$ruleCard->short?></TD>
             <?php endif ?>
-        </TR>
+</TR>
     </TABLE>
     <br/>
     <div class="card card-body panel panel-default">
@@ -97,19 +92,26 @@
             let $parentTr = $('#row');
             let finalPrice = $('#final_price').val();
 
-            //navigator.clipboard.writeText('');
-            window.getSelection().removeAllRanges();
+            let doc = document
+                , text = doc.getElementById('table')
+                , range, selection;
 
-            // create a Range object
-            let urlField = $parentTr.get(0);
-            let range = document.createRange();
-            // set the Node to select the "range"
-            range.selectNode(urlField);
-            // add the Range to the set of window selections
-            window.getSelection().addRange(range);
-            // execute 'copy', can't 'cut' in this case
+            if (doc.body.createTextRange)
+            {
+                range = doc.body.createTextRange();
+                range.moveToElementText(text);
+                range.select();
+                console.log('if');
+            }
+            else if (window.getSelection)
+            {
+                selection = window.getSelection();
+                range = doc.createRange();
+                range.selectNodeContents(text);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
             document.execCommand('copy');
-
             window.getSelection().removeAllRanges();
 
             $.post("/get-current-balance", {cardId}, function (data) {

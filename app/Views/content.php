@@ -108,7 +108,7 @@
             $viberBtn.hide();
             $editBtn.hide();
             $this.css("background-color", "");
-            $this.parent('td').remove();
+            $parentTd.remove();
 
             // create a Range object
             let urlField = $parentTr.get(0);
