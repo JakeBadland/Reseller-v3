@@ -27,8 +27,8 @@
                 <TD>
                     <BUTTON <?=$back?> class="copy">Copy</BUTTON>
                 </TD>
-                <TD class="cards-button-td">
-                    <a href="/edit-order/<?= $order->orderId ?>"><BUTTON <?=$back?> class="">Edit</BUTTON></a>
+                <TD class="edit-button-td">
+                    <a class="edit-btn" href="/edit-order/<?= $order->orderId ?>"><BUTTON <?=$back?> class="">Edit</BUTTON></a>
                 </TD>
                 <TD class="storeName" style="background-color: rgb(<?=$shopInfo->color?>)"><?= $order->store ?></TD>
                 <TD><?= $order->name ?></TD>
@@ -56,6 +56,7 @@
         <?php endforeach; ?>
     </TABLE>
 
+    <!--
     <div class="cards-menu">
         <div id="cards_list">
             <?php foreach ($cards as $card) : ?>
@@ -70,6 +71,7 @@
         </div>
         <div><a class="close-cards" href="#">Close</a></div>
     </div>
+    -->
     
     <script>
         let global = {
@@ -98,11 +100,13 @@
             let $parentTr = $this.closest('tr');
             let $parentTd = $this.closest('td');
             let $viberBtn = $parentTr.find('.viber-btn').closest('td');
+            let $editBtn = $parentTr.find('.edit-btn').closest('td');
 
             //prepare for copy
             //navigator.clipboard.writeText('');
             window.getSelection().removeAllRanges();
             $viberBtn.hide();
+            $editBtn.hide();
             $this.css("background-color", "");
             $this.parent('td').remove();
 
@@ -120,6 +124,7 @@
             window.getSelection().removeAllRanges();
             $parentTr.prepend($parentTd);
             $viberBtn.show();
+            $editBtn.show();
         }
         
         $(document).ready(function () {

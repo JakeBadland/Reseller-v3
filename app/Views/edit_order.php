@@ -81,7 +81,7 @@
                     $(this).find('.balance-current').text(balance);
                 }
             });
-        }
+        };
 
         $('body').on('click', '.short-card-item', function () {
             let cardName = $(this).find('.short-card-name').text();
