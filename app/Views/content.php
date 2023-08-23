@@ -27,9 +27,6 @@
                 <TD>
                     <BUTTON <?=$back?> class="copy">Copy</BUTTON>
                 </TD>
-                <TD class="edit-button-td">
-                    <a class="edit-btn" href="/edit-order/<?= $order->orderId ?>"><BUTTON <?=$back?> class="">Edit</BUTTON></a>
-                </TD>
                 <TD class="storeName" style="background-color: rgb(<?=$shopInfo->color?>)"><?= $order->store ?></TD>
                 <TD><?= $order->name ?></TD>
                 <TD><?= $order->phone ?></TD>
@@ -52,6 +49,9 @@
                 <?php if ($order->purchaseType) : ?>
                     <TD><a href="/viber/<?=$order->orderId?>/<?=$ruleCard->id?>"><BUTTON class="viber-btn">Viber</BUTTON></a></TD>
                 <?php endif ?>
+                <TD class="edit-button-td">
+                    <a class="edit-btn" href="/edit-order/<?= $order->orderId ?>"><BUTTON <?=$back?> class="">Edit</BUTTON></a>
+                </TD>
             </TR>
         <?php endforeach; ?>
     </TABLE>
