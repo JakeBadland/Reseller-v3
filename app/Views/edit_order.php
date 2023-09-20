@@ -66,6 +66,12 @@ if ($order->status == 'pending'){
     </div>
 </div>
 
+<style>
+    table, tr, td{
+        border: 1px solid black;
+    }
+</style>
+
 <script>
     $(document).ready(function () {
         let cardId = <?= $ruleCard->id ?>;
@@ -129,8 +135,10 @@ if ($order->status == 'pending'){
                 });
 
                 data = {
+                    'order_id' : $parentTr.attr('data-order-id'),
                     'card_id': cardId,
-                    'price': balanceCurrent
+                    'price': balanceCurrent,
+                    'finalPrice' : $('#final_price').val()
                 };
                 $.post("/set-current-balance", data, function (data) {
                 });

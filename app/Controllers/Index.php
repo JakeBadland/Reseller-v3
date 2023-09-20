@@ -38,6 +38,11 @@ class Index extends BaseController
                 ->set(['current_balance' => $data['price'] ])
                 ->where(['id' => $data['card_id']])
                 ->update();
+
+            $db->table('orders')
+                ->set(['finalPrice' => $data['finalPrice'] ])
+                ->where(['orderId' => $data['order_id']])
+                ->update();
         }
     }
 
