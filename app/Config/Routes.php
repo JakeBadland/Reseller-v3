@@ -100,6 +100,9 @@ $routes->post('/game/login', 'Game\Auth::login');
 $routes->post('/game/save-user-loc', 'Game\Game::saveUserLoc');
 $routes->get('/game/get-anomalies', 'Game\Game::getAnomalies');
 
+$routes->get('/game/puzzle', 'Game\Game::puzzle');
+$routes->post('/game/puzzle', 'Game\Game::puzzle');
+
 $routes->get('/test', 'Test::index');
 
 /*

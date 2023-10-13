@@ -27,8 +27,9 @@
 </head>
 <body>
 <div class="body game-body">
-    <?= $this->renderSection('game') ?>
     <?= $this->renderSection('login') ?>
+    <?= $this->renderSection('game') ?>
+    <?= $this->renderSection('puzzle') ?>
 </div>
 
 </body>

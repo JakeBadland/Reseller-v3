@@ -19,6 +19,9 @@
             <?php if ($order->status == 'pending') : ?>
                 <?php $back = "style='background-color: yellow'"; ?>
             <?php endif ?>
+            <?php if ($order->purchaseType == 'Пром-оплата') : ?>
+                <?php $back = "style='background-color: blue'"; ?>
+            <?php endif ?>
             <?php $ruleCard = $ruleModel->getRuleCard($shopInfo, $order, true); ?>
             <TR id="tr<?=$key?>"
                 data-order-id="<?=$order->orderId?>"
@@ -50,7 +53,7 @@
                     <TD><a href="/viber/<?=$order->orderId?>/<?=$ruleCard->id?>"><BUTTON class="viber-btn">Viber</BUTTON></a></TD>
                 <?php endif ?>
                 <TD class="edit-button-td">
-                    <a class="edit-btn" href="/edit-order/<?= $order->orderId ?>"><BUTTON <?=$back?> class="">Edit</BUTTON></a>
+                    <a class="edit-btn" href="/edit-order/<?= $order->orderId ?>"><BUTTON>Edit</BUTTON></a>
                 </TD>
             </TR>
         <?php endforeach; ?>

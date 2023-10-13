@@ -23,22 +23,27 @@ function getMap(position, tooltip) {
     L.marker(position).addTo(map).bindPopup(tooltip).openPopup()
 }
 
-function success({ coords }) {
-    const { latitude, longitude } = coords
+function success({coords}) {
+    const {latitude, longitude} = coords
     const currentPosition = [latitude, longitude]
     // вызываем функцию, передавая ей текущую позицию и сообщение
     getMap(currentPosition, 'You are here')
 }
 
-function error({ message }) {
+function error({message}) {
     console.log(message)
 }
 
-$(document).ready(function(){
+$(document).ready(function () {
     // находим кнопку и добавляем к ней обработчик
-    document.getElementById('my_position').onclick = () => {
-        navigator.geolocation.getCurrentPosition(success, error, {
-            enableHighAccuracy: true
-        })
+
+    let positionBtn = document.getElementById('my_position');
+
+    if (positionBtn) {
+        positionBtn.onclick = () => {
+            navigator.geolocation.getCurrentPosition(success, error, {
+                enableHighAccuracy: true
+            })
+        }
     }
 })

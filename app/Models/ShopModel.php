@@ -33,6 +33,12 @@ class ShopModel extends Model
         return $this->db->table($this->table)
             ->select('*')
             ->limit(1)
+            ->where(['id' => 4])
+            ->get()->getRowArray();
+
+        return $this->db->table($this->table)
+            ->select('*')
+            ->limit(1)
             ->orderBy('parsed_at', 'asc')
             ->get()->getRowArray();
     }

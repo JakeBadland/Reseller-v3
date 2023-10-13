@@ -44,7 +44,7 @@ class Cron extends BaseController
         $shopInfo = $shopModel->getForParse();
 
         $shopInfo['parsed_at'] = date('Y-m-d H:i:s');
-        $shopModel->updateShop($shopInfo);
+        //$shopModel->updateShop($shopInfo);
 
         $apiUrl = $db->table('settings')
             ->select('value')

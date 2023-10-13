@@ -55,9 +55,11 @@ class Game extends BaseController
 
         $data['last_action'] = date('Y-m-d H:i:s');
 
+        /*
         echo "<PRE>";
         var_dump($data);
         echo "</PRE>";
+        */
 
         $userModel->updateGameInfo($user->id, $data);
     }
@@ -67,5 +69,31 @@ class Game extends BaseController
         return view('game/login');
     }
 
+    public function puzzle()
+    {
+        $returnPath = '/img/uploads/';
+        $path = '../public/img/uploads';
+
+        if ($_FILES){
+            $file = $_FILES['file'];
+            $temp = $file['tmp_name'];
+
+            $data = $this->request->getPost();
+
+            move_uploaded_file($temp, $path . '/' . $file['name']);
+
+            $data = [
+                'file_name' => $returnPath . $file['name']
+            ];
+
+            echo json_encode($data);
+            die;
+        }
+
+        return view('game/puzzle', [
+
+        ]);
+
+    }
 
 }
