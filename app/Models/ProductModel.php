@@ -7,73 +7,105 @@ use CodeIgniter\Model;
 class ProductModel extends Model
 {
 
+    public string $desc = '';
+    public string $oe = '';
+    public int $price;
+
     protected string $table = 'products';
 
-    public function getAll($limit = null)
+    public function updateProducts($data)
+    {
+        unset($data[0]); //remove header
+
+        foreach ($data as $item){
+            $product = [
+                'desc'  => $item[1],
+                'OE'    => $item[2],
+                'price' => $item[8]
+            ];
+
+            $this->updateProduct($product);
+        }
+
+    }
+
+    public function getProductForUpdate()
     {
         return $this->db->table($this->table)
             ->select('*')
-            ->limit($limit)
-            ->orderBy('count', 'desc')
-            ->get()->getResult();
-    }
-
-    public function saveProducts($shopId, $orderId, $products)
-    {
-        foreach ($products as $product){
-            $product = $this->parseProduct($shopId, $orderId, $product);
-            $this->saveProduct($product);
-        }
-    }
-
-    public function saveProduct($product)
-    {
-        if ($this->isExist($product['prom_id'])){
-
-            $dbProduct = $this->db->table($this->table)->select('*')
-                ->where(['prom_id' => $product['prom_id']])
-                ->get()->getRow();
-
-            $data = ['count' => $dbProduct->count + $product['count']];
-
-            $this->db->table($this->table)->where(['id' => $dbProduct->id])->update($data);
-        } else {
-            $this->db->table($this->table)->insert($product);
-        }
-    }
-
-    public function parseProduct($shopId, $orderId, $data)
-    {
-
-        return [
-            'shop_id'       => (int) $shopId,
-            'order_id'      => (int) $orderId,
-            'count'         => (int) $data->quantity,
-            'prom_id'       => (int) $data->id,
-            'external_id'   => (int) $data->external_id,
-            'name'          => $data->name,
-            'price'         => (int) $data->price,
-            'img'           => $data->image,
-            'url'           => $data->url,
-            'created_at'    => date('Y-m-d H:i:s')
-        ];
-
-    }
-
-    public function isExist($promId)
-    {
-        return (bool)$this->db->table($this->table)
-            ->select('*')
-            ->where(['prom_id' => $promId])
-            ->get()->getResult();
-    }
-
-    public function getById($templateId)
-    {
-        return $this->db->table($this->table)
-            ->select('*')
-            ->where(['id' => $templateId])
+            ->orderBy('parsed_at', 'ASC')
+            ->where('error is NULL', NULL, FALSE)
+            //->orderBy('id', 'ASC')
             ->get()->getRow();
     }
 
+    public function updateProductInfo($product, $newPrice, $url)
+    {
+        $data = [
+            'newPrice' => $newPrice,
+            'url'  => $url,
+            'parsed_at' => date('Y-m-d H:i:s', time()),
+        ];
+
+        $this->db->table($this->table)
+            ->where(['OE' => $product->OE])
+            ->update($data);
+    }
+
+    public function productError($product, $error)
+    {
+        $data = [
+            'parsed_at' => date('Y-m-d H:i:s', time()),
+            'error' => $error
+        ];
+
+        $this->db->table($this->table)
+            ->where(['OE' => $product->OE])
+            ->update($data);
+    }
+
+    public function updateProduct($product)
+    {
+        $item = $this->db->table($this->table)
+            ->select('*')
+            ->getWhere(['OE' => $product['OE']])
+            ->getRow();
+
+        if (!$item){
+            $this->db->table($this->table)->insert($product);
+            return;
+        }
+
+        $this->db->table($this->table)
+            ->where(['OE' => $product['OE']])
+            ->update($product);
+    }
+
+    public function clearAll()
+    {
+        $this->db->table($this->table)->truncate();
+    }
+
+    public function getResults()
+    {
+        return $this->db->table('products')
+            ->select('*')
+            ->where('find is NOT NULL', NULL, FALSE)
+            ->get()->getResult();
+    }
+
+    public function getCount()
+    {
+        return $this->db->table($this->table)
+            ->select('COUNT(*) as count')
+            ->get()->getRow()->count;
+    }
+
+    public function getFindCount()
+    {
+        return $this->db->table('products')
+            ->select('COUNT(*) as count')
+            ->where('find is NOT NULL', NULL, FALSE)
+            ->get()->getRow()->count;
+    }
 }

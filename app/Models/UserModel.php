@@ -8,7 +8,6 @@ use \App\Libraries\LibBcrypt;
 class UserModel extends Model{
 
     public $user;
-    //protected $db;
 
     protected string $table   = 'users';
 
@@ -79,17 +78,6 @@ class UserModel extends Model{
         $this->db->table('users')->where(['id' => $this->user->id])->set($data)->update();
         $session->set('uToken', $userToken);
     }
-
-    /*
-    public function load($data)
-    {
-        $this->user->id = $data->id;
-        $this->user->login = $data->login;
-        $this->user->password = $data->password;
-        $this->user->email = $data->email;
-        $this->user->role = $data->role;
-    }
-    */
 
     public function addUser($data)
     {

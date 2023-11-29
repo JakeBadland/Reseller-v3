@@ -2,163 +2,72 @@
 
 namespace App\Controllers;
 
-use App\Libraries\LibProm;
-use App\Models\CardModel;
-use App\Models\OrderModel;
-use App\Models\ShopModel;
+use App\Libraries\libCsv;
+use App\Models\ProductModel;
 use App\Models\UserModel;
+use CodeIgniter\Model;
 
 
 class Index extends BaseController
 {
 
-    public function changeOrderStatus()
+    private string $filePath = WRITEPATH . 'uploads/datafile.csv';
+
+    public function index() : string
     {
-        $orderModel = new OrderModel();
-
-        $db = db_connect();
-
-        $data = $this->request->getPost();
-
-        $apiUrl = $db->table('settings')->select('value')->getWhere(['key' => 'PROM_API_URL'])->getRowArray(0)['value'];
-        $libProm = new LibProm($apiUrl, $data['token']);
-
-        $libProm->changeStatus($data['order_id'], 'received');
-        $orderModel->changeStatus($data['order_id'], 'received');
-    }
-
-    public function setCurrentBalance()
-    {
-        $db = db_connect();
-
-        $data = $this->request->getPost();
-
-        if ($data){
-            $db->table('cards')
-                ->set(['current_balance' => $data['price'] ])
-                ->where(['id' => $data['card_id']])
-                ->update();
-
-            $db->table('orders')
-                ->set(['finalPrice' => $data['finalPrice'] ])
-                ->where(['orderId' => $data['order_id']])
-                ->update();
-        }
-    }
-
-    public function getCurrentBalance()
-    {
-        $cardModel = new CardModel();
-
-        $cardId = $this->request->getPost();
-
-        $balance = 0;
-        if ($cardId){
-            $balance = $cardModel->getCardBalance($cardId);
-        }
-
-        echo json_encode(['balance' => (int) $balance]);
-        die;
-    }
-
-    public function editOrder($orderId) : string
-    {
-        $orderModel = new OrderModel();
-        $shopModel = new ShopModel();
-
-        $order = $orderModel->getById($orderId);
-        $shopId = $orderModel->getShopId($orderId);
-        $shopInfo = $shopModel->getById($shopId);
-        $cards = $shopModel->getCards($shopId);
-
-        return view('edit_order',  [
-            'order' => $order,
-            'shopInfo' => $shopInfo,
-            'cards' => $cards
-        ]);
-    }
-
-    public function index($shopId = 1) : string
-    {
-        $orderModel = new OrderModel();
-        $shopModel = new ShopModel();
-        $user = new UserModel();
-        $user = $user->get();
-
-        $db = db_connect();
-
-        $shops = $db->table('shops')
-            ->select('*, shops.name as shop_name, shops.id as shop_id')
-            ->get()->getResultArray();
-
-        $shopInfo = $shopModel->getById($shopId);
-        $cards = $shopModel->getCards($shopId);
-        $orders = $orderModel->getOrders($shopInfo->name);
-
+        $productModel = new ProductModel();
         $data = [
-            'orders'    => $orders,
-            'shops'     => $shops,
-            'cards'     => $cards,
-            'shopInfo' => $shopInfo,
-            'user'      => $user
+            'count'     => 0,
+            'updated'   => '',
+            'find'      => 0
         ];
 
-        return view('content',  $data);
+        if (is_file($this->filePath)){
+            $result = filectime($this->filePath);
+            $data['updated'] = date('d-m-Y H:i:s', $result);
+        }
+
+        $data['find'] = $productModel->getFindCount();
+        $data['count'] = $productModel->getCount();
+
+        return view('content', ['data' => $data]);
     }
 
-    public function viber($orderId, $cardId) : string
+    public function upload()
     {
-        $cardsModel = new CardModel();
+        $file = $this->request->getFile('datafile');
 
-        $db = db_connect();
+        if ($file && !$file->hasMoved()){
+            if (is_file($this->filePath)){
+                unlink($this->filePath);
+            }
 
-        $order = $db->table('orders')->select('*')->where(['orderId' => $orderId])->get()->getRow();
-        $card = $cardsModel->getById($cardId);
+            $filepath = WRITEPATH . 'uploads' . $file->store('', 'datafile.csv');
 
-        switch ($order->purchaseType){
-            case 'БАНК*': {
-                $key = 'TEMPLATE_FULL';
-            }
-                break;
-            case 'налож*': {
-                $key = 'TEMPLATE_PREPAID';
-            }
-                break;
-            default : {
-                $key = null;
-            }
+            $items = libCsv::parseFile($filepath);
+            $productModel = new ProductModel();
+            $productModel->updateProducts($items);
+
+            return redirect()->to('/');
         }
 
-        //$shop = $db->table('shops')->select('*')->where(['name' => $order->store])->get()->getRowArray();
+        return view('upload');
+    }
 
-        $template = $db->table('settings')->select('value')->where(['key' => $key])->get()->getRow()->value;
+    public function clear()
+    {
+        $productModel = new ProductModel();
+        $productModel->clearAll();
 
-        $bankPercent = 0.5;
-        $percent = $order->finalPrice / 100 * $bankPercent;
+        return redirect()->to('/');
+    }
 
-        $params = [
-            '%FIRST_NAME%'  => $order->name,
-            '%MARKET%'      => $order->store,
-            '%PAY_DAY%'     => "<label id='pay_day_label' style='font-weight: 200;'>завтра</label>",
-            '%PAY_PERCENT%' => $order->prepaid,
-            '%BANK%'        => "{$card->bank} {$card->number} {$card->name}",
-            '%SUM1%'        => $order->finalPrice,
-            '%BANK_PERCENT%'=> $bankPercent.'%',
-            '%SUM2%'        => round($order->finalPrice + $percent),
-            '%SALE_ID%'     => $orderId,
-            '%DELIVERY_DAY%'=> "<label id='delivery_day_label' style='font-weight: 200;'>завтра</label>",
-        ];
+    public function result()
+    {
+        $productModel = new ProductModel();
+        $result = $productModel->getResults();
 
-        foreach ($params as $key => $param){
-            $template = str_replace($key, $param, $template);
-        }
-
-        $template = nl2br($template);
-
-        return view('viber', [
-            'order' => $order,
-            'template' => $template
-        ]);
+        return view('results', ['items' => $result]);
     }
 
     public function login()
@@ -171,7 +80,7 @@ class Index extends BaseController
             $result = $user->auth($data);
 
             if ($result){
-                return redirect()->to('dna');
+                return redirect()->to('/');
             }
         }
 
@@ -189,34 +98,6 @@ class Index extends BaseController
 
     public function test()
     {
-        $str = '/3';
-        $pattern = '/([0-9]+)/';
-        $matches = null;
-
-        $result = preg_match($pattern, $_SERVER['REQUEST_URI'], $matches);
-
-        echo "<PRE>";
-        var_dump($_SERVER['REQUEST_URI']);
-        var_dump($str);
-        var_dump($result);
-        var_dump($matches);
-        echo "</PRE>";
-
-        /*
-        $bcrypt = new \App\Libraries\LibBcrypt();
-
-        $password = '';
-        echo "<PRE>";
-        var_dump($password);
-        echo "</PRE>";
-        $hash = $bcrypt->hash_password($password);
-
-        echo "<PRE>";
-        var_dump($hash);
-        echo "</PRE>";
-
-        die;
-        */
 
     }
 

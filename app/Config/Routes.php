@@ -32,84 +32,26 @@ $routes->set404Override();
 //$routes->get('/', 'Home::index');
 
 $routes->get('/', 'Index::index');
-$routes->get('/(:num)', 'Index::index/$1');
-$routes->get('/viber/(:num)/(:num)', 'Index::viber/$1/$2');
-$routes->post('/change-status', 'Index::changeOrderStatus');
-$routes->post('/set-current-balance', 'Index::setCurrentBalance');
-$routes->post('/get-current-balance', 'Index::getCurrentBalance');
-$routes->get('/edit-order/(:num)', 'Index::editOrder/$1');
-
-
 $routes->get('/login', 'Index::login');
 $routes->post('/login', 'Index::login');
 $routes->get('/logout', 'Index::logout');
 
-//index
-$routes->get('/dna', 'Dna\Users::index');
+$routes->get('/upload', 'Index::upload');
+$routes->post('/upload', 'Index::upload');
 
-//users group
-$routes->get('/dna/users', 'Dna\Users::index');
-$routes->post('/dna/addUser', 'Dna\Users::addUser');
-$routes->get('/dna/editUser/(:num)', 'Dna\Users::editUser/$1');
-$routes->post('/dna/editUser', 'Dna\Users::editUser');
-$routes->post('/dna/deleteUser', 'Dna\Users::deleteUser');
-
-//cards group
-$routes->get('/dna/cards', 'Dna\Cards::index');
-$routes->post('/dna/cards/add', 'Dna\Cards::addCard');
-$routes->get('/dna/cards/edit/(:num)', 'Dna\Cards::editCard/$1');
-$routes->post('/dna/editCard', 'Dna\Cards::editCard');
-$routes->post('/dna/cards/delete', 'Dna\Cards::deleteCard');
-$routes->post('/get-shop-cards', 'Dna\Cards::getOrderCards');
-
-//shops group
-$routes->get('/dna/shops', 'Dna\Shops::index');
-$routes->post('/dna/shops/add', 'Dna\Shops::addShop');
-$routes->get('/dna/shops/edit/(:num)', 'Dna\Shops::editShop/$1');
-$routes->post('/dna/editShop', 'Dna\Shops::editShop');
-$routes->post('/dna/shops/delete', 'Dna\Shops::deleteShop');
-
-//rules group
-$routes->get('/dna/rules', 'Dna\Rules::index');
-$routes->post('/dna/rules/add', 'Dna\Rules::addRule');
-$routes->get('/dna/rules/edit/(:num)', 'Dna\Rules::editRule/$1');
-$routes->post('/dna/rules/edit', 'Dna\Rules::editRule');
-$routes->post('/dna/rules/delete', 'Dna\Rules::deleteRule');
-
-//templates group
-$routes->get('/dna/templates', 'Dna\Templates::index');
-$routes->get('/dna/templates/edit/(:num)', 'Dna\Templates::editTemplate/$1');
-$routes->post('/dna/templates/edit', 'Dna\Templates::editTemplate');
+$routes->get('/clear', 'Index::clear');
+$routes->get('/results', 'Index::result');
 
 //CRON group
+$routes->get('/cron/c1min', 'Cron::c1min');
 $routes->get('/cron/c2min', 'Cron::c2min');
 $routes->get('/cron/c24hour', 'Cron::c24hour');
 
-$routes->cli('/cron/c24hour', 'Cron::c24hour');
+//CLI group
+$routes->cli('/cron/12min', 'Cron::c1min');
 $routes->cli('/cron/c2min', 'Cron::c2min');
+$routes->cli('/cron/c24hour', 'Cron::c24hour');
 $routes->cli('/', 'Cron::index');
-
-$routes->get('/dna/products', 'Dna\Products::index');
-
-
-//GAME section
-$routes->get('/game', 'Game\Game::index');
-$routes->get('/game/login', 'Game\Game::login');
-$routes->post('/game/login', 'Game\Auth::login');
-
-$routes->post('/game/save-user-loc', 'Game\Game::saveUserLoc');
-$routes->get('/game/get-anomalies', 'Game\Game::getAnomalies');
-
-$routes->get('/game/puzzle', 'Game\Game::puzzle');
-$routes->post('/game/puzzle', 'Game\Game::puzzle');
-
-$routes->get('/test', 'Test::index');
-
-/*
-$routes->post('/dna/rules/add', 'Dna::addRule');
-$routes->post('/dna/rules/delete', 'Dna::deleteRule');
-$routes->post('/dna/rules/update', 'Dna::updateRule');
-*/
 
 /*
  * --------------------------------------------------------------------

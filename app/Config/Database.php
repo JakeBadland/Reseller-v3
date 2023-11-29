@@ -29,7 +29,7 @@ class Database extends Config
         'hostname' => 'localhost',
         'username' => 'root',
         'password' => '',
-        'database' => 'reseller',
+        'database' => 'zahar_auto',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
@@ -46,10 +46,10 @@ class Database extends Config
 
     public array $prod = [
         'DSN'      => '',
-        'hostname' => 'rslr.mysql.tools',
-        'username' => 'rslr_db',
-        'password' => '7wADbGFX',
-        'database' => 'rslr_db',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'zahar_auto',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,

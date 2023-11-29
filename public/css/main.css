@@ -3,6 +3,7 @@ body {
     font-weight: 400;
     font-size: 13px;
     font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+    padding: 10px;
 }
 
 .p5 {
@@ -29,41 +30,6 @@ body {
     font-weight: bold;
 }
 
-.storeName {
-    text-align: center;
-    white-space: nowrap;
-    min-width: 60px;
-}
-
-.header{
-    height: 36px;
-}
-
-.menu-icon{
-    margin-left: 5px;
-    cursor: pointer;
-    padding: 0 35px;
-    height: 32px;
-    margin-top: 2px;
-    width: 107px;
-}
-
-.menu{
-    position: absolute;
-    width: 107px;
-    top: 36px;
-    left: 5px;
-    z-index: 1000;
-    display: none;
-    background-color: black;
-    color: #ddcffb;
-    padding: 5px;
-}
-
-.menu div a {
-    color: lightblue;
-}
-
 td {
     padding: 0 5px;
 }
@@ -78,42 +44,6 @@ td {
     color:red;
 }
 
-.template-text{
-    width: 97%;
-    height: 50vh;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 10px;
-}
-
-.check-big{
-    width: 22px;
-    height: 22px;
-}
-
-.cards-menu{
-    background-color: black;
-    color: #ddcffb;
-    z-index: 1000;
-    display: none;
-    position: absolute;
-    padding: 5px;
-    border-radius: 4px;
-    left: 60px;
-}
-
-.short-card-item{
-    cursor: pointer;
-    color: #337ab7;
-}
-
-.short-card-item:hover{
-    text-decoration: underline;
-}
-
-.rule-card-item{
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.panel{
+    margin: 10px 0;
 }

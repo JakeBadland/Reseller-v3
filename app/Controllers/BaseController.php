@@ -68,77 +68,24 @@ abstract class BaseController extends Controller
         }
 
         //CRON
+        if ($_SERVER['REQUEST_URI'] == '/cron/c1min'){
+            return;
+        }
+
         if ($_SERVER['REQUEST_URI'] == '/cron/c2min'){
             return;
         }
 
-        //change orders status
-        if ($_SERVER['REQUEST_URI'] == '/change-status'){
+        if (($_SERVER['REQUEST_URI'] == '/login') || ($_SERVER['REQUEST_URI'] == '/logout')){
             return;
         }
 
-        //update card balance
-        if ($_SERVER['REQUEST_URI'] == '/get-current-balance'){
-            return;
-        }
-
-        //update card balance
-        if ($_SERVER['REQUEST_URI'] == '/set-current-balance'){
-            return;
-        }
-
-        $matches = null;
-        //for list shops
-        preg_match('/([0-9]+)/', $_SERVER['REQUEST_URI'], $matches);
-        if ($matches){
-            return;
-        }
-
-        if ($_SERVER['REQUEST_URI'] == '/'){
-            return;
-        }
-
-        if (($_SERVER['REDIRECT_URL'] == '/login') || ($_SERVER['REDIRECT_URL'] == '/logout')){
-            return;
-        }
-
-        if ($_SERVER['REQUEST_URI'] == '/game/login' && !$user){
-            return;
-        }
-
-        if ($_SERVER['REQUEST_URI'] == '/game' && !$user){
-            header('Location: /game/login');
-            die;
-        }
-
-        if ($_SERVER['REQUEST_URI'] == '/game' && $user){
-            return;
-        }
-
+        //Authorize
         if (!$user){
             header('Location: /login');
             die;
         }
 
-        if ($_SERVER['REQUEST_URI'] == '/game' && $user){
-            return;
-        }
-
-
-        // Preload any models, libraries, etc, here.
-
-        // E.g.: $this->session = \Config\Services::session();
-
     }
-
-    private function checkGame(){
-
-    }
-
-    private function checkDna(){
-
-    }
-
-
 
 }
