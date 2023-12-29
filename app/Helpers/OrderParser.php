@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Controllers\Cron;
 use App\Models\ProductModel;
 use App\Models\PromOrder;
 

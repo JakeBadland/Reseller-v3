@@ -19,7 +19,7 @@
             <?php if ($order->status == 'pending') : ?>
                 <?php $back = "style='background-color: yellow'"; ?>
             <?php endif ?>
-            <?php if ($order->purchaseType == 'Пром-оплата') : ?>
+            <?php if ($order->purchaseType == 'Пром-оплата' && $order->status !== 'received') : ?>
                 <?php $back = "style='background-color: blue'"; ?>
             <?php endif ?>
             <?php $ruleCard = $ruleModel->getRuleCard($shopInfo, $order, true); ?>

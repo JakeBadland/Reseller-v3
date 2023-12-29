@@ -25,16 +25,24 @@ class ShopModel extends Model
         $shopId = $data['id'];
         unset($data['id']);
 
-        $this->db->table($this->table)->set($data)->where('id', $shopId)->update();
+        $this->db->table($this->table)
+            ->set($data)
+            ->where('id', $shopId)
+            ->update();
     }
 
-    public function getForParse()
+    public function getForParse($id = null)
     {
-        return $this->db->table($this->table)
+        $query = $this->db->table($this->table)
             ->select('*')
             ->limit(1)
-            ->orderBy('parsed_at', 'asc')
-            ->get()->getRowArray();
+            ->orderBy('parsed_at', 'asc');
+
+        if ($id){
+            $query->where(['id' => $id]);
+        }
+
+        return $query->get()->getRowArray();
     }
 
     public function getCards($shopId, $isEnabled = true)

@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use App\Controllers\Cron;
 use CodeIgniter\Database\Config;
 
 /**
@@ -24,6 +25,7 @@ class Database extends Config
     /**
      * The default database connection.
      */
+
     public array $default = [
         'DSN'      => '',
         'hostname' => 'localhost',
@@ -94,10 +96,14 @@ class Database extends Config
     {
         parent::__construct();
 
+        //Cron::log('Cron HTTP_HOST: ' . $_SERVER['HTTP_HOST']);
+
+        /*
         if (!isset($_SERVER['HTTP_HOST'])){
-            $this->defaultGroup = 'default';
+            $this->defaultGroup = 'prod';
             return;
         }
+        */
 
         $result = strpos($_SERVER['HTTP_HOST'], '.loc');
 
@@ -106,6 +112,8 @@ class Database extends Config
         } else {
             $this->defaultGroup = 'prod';
         }
+
+        //Cron::log('Cron defGroup: ' . $this->defaultGroup);
 
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that

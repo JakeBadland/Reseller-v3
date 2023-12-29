@@ -11,6 +11,8 @@ class Game extends BaseController
 
     public function index() : string
     {
+        //test
+
         $user = new UserModel();
         $user = $user->get();
 
