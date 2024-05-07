@@ -37,6 +37,7 @@ $routes->get('/viber/(:num)/(:num)', 'Index::viber/$1/$2');
 $routes->post('/change-status', 'Index::changeOrderStatus');
 $routes->post('/set-current-balance', 'Index::setCurrentBalance');
 $routes->post('/get-current-balance', 'Index::getCurrentBalance');
+$routes->post('/set-card-id', 'Index::setCardId');
 $routes->get('/edit-order/(:num)', 'Index::editOrder/$1');
 
 
@@ -46,6 +47,7 @@ $routes->get('/logout', 'Index::logout');
 
 //index
 $routes->get('/dna', 'Dna\Users::index');
+$routes->get('/socket', 'Test::socket');
 
 //users group
 $routes->get('/dna/users', 'Dna\Users::index');

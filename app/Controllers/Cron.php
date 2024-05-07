@@ -63,7 +63,9 @@ class Cron extends BaseController
         }
 
         //Cron::log('Ended at: ' . date('Y-m-d H:i:s'));
-
+        echo "<PRE>";
+        var_dump($shopInfo);
+        echo "</PRE>";
         die('done');
     }
 

@@ -85,13 +85,22 @@ if ($order->status == 'pending'){
         };
 
         $('body').on('click', '.short-card-item', function () {
+            
             let cardName = $(this).find('.short-card-name').text();
             cardId = $(this).attr('data-card-id');
-
+            
             $('#row').find('.card-short-name').text(cardName);
 
             $(".short-card-item"). removeClass('selected');
             $(this).addClass('selected');
+
+            let data = {
+                card_id : cardId,
+                order_id : $(this).parents('#container').find('#row').attr('data-order-id')
+            };
+
+            $.post("/set-card-id", data, function (data) {
+            });
         });
 
         $('body').on('click', '#copy_btn', function () {

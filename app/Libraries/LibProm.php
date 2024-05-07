@@ -30,7 +30,19 @@ class LibProm {
         $result = $client->execute($url, $headers);
 
         if (!$result->code){
-            die("Can`t get orders! Check internet connection.");
+            echo "<PRE>";
+            var_dump($result);
+            echo "</PRE>";
+            die("Can`t get orders!");
+        }
+
+        if ($result->code != (int) 200){
+            echo "<PRE>";
+            var_dump($this->token);
+            var_dump($result->code);
+            var_dump($result->body);
+            echo "</PRE>";
+            die("Error!");
         }
 
         return json_decode($result->body)->orders;

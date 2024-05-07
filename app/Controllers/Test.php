@@ -15,6 +15,10 @@ class Test extends BaseController
 
     public function index()
     {
+        //phpinfo();
+        die('test');
+
+
         //Товар Всем
         $libProm = new LibProm('https://my.prom.ua', '14c860ff4745a4d2c005a61eae99e6851bd1871d');
 

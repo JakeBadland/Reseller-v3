@@ -61,12 +61,23 @@ class Index extends BaseController
         die;
     }
 
+    public function setCardId() : string
+    {
+        $orderModel = new OrderModel();
+
+        $data = $this->request->getPost();
+
+        $orderModel->setCardId($data['order_id'], $data['card_id']);
+        die;
+    }
+
     public function editOrder($orderId) : string
     {
         $orderModel = new OrderModel();
         $shopModel = new ShopModel();
 
         $order = $orderModel->getById($orderId);
+
         $shopId = $orderModel->getShopId($orderId);
         $shopInfo = $shopModel->getById($shopId);
         $cards = $shopModel->getCards($shopId);

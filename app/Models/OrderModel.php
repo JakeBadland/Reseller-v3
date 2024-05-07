@@ -43,4 +43,11 @@ class OrderModel extends Model
             ->get()->getRow()->id;
     }
 
+    public function setCardId($orderId, $cardId)
+    {
+        $this->db->table($this->table)
+            ->where('orderId', $orderId)
+            ->update(['card_id' => $cardId]);
+    }
+
 }

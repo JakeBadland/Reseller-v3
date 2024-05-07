@@ -45,6 +45,12 @@ class RuleModel extends Model
     {
         $result = null;
 
+        if ($order->card_id){
+            return $this->db->table('cards')
+                ->where(['cards.id' => $order->card_id])
+                ->get()->getRow();
+        }
+
         $rules = $this->db->table('rules')
             ->where(['rules.shop_id' => $shopInfo->id])
             ->get()->getResult();

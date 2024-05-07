@@ -55,6 +55,8 @@ abstract class BaseController extends Controller
 
         date_default_timezone_set('Europe/Kyiv');
 
+        set_time_limit(0);
+
         //For CLI commands
         if (!isset($_SERVER['HTTP_HOST'])){
             return;
