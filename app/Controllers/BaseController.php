@@ -69,6 +69,10 @@ abstract class BaseController extends Controller
             return;
         }
 
+        if ($_SERVER['REQUEST_URI'] == '/radio'){
+            return;
+        }
+
         //CRON
         if ($_SERVER['REQUEST_URI'] == '/cron/c2min'){
             return;
@@ -84,8 +88,11 @@ abstract class BaseController extends Controller
             return;
         }
 
-        //update card balance
         if ($_SERVER['REQUEST_URI'] == '/set-current-balance'){
+            return;
+        }
+
+        if ($_SERVER['REQUEST_URI'] == '/set-card-id'){
             return;
         }
 

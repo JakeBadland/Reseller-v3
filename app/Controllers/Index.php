@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Libraries\LibCurl;
 use App\Libraries\LibProm;
 use App\Models\CardModel;
 use App\Models\OrderModel;
@@ -196,6 +197,54 @@ class Index extends BaseController
 
         header('Location: /login');
         die;
+    }
+
+    public function radio()
+    {
+        libxml_use_internal_errors(true);
+
+        $url = 'http://prmstrm.1.fm:8000';
+
+        $libCurl = new LibCurl();
+        $dom = new \DOMDocument();
+
+
+        $result = $libCurl->execute($url);
+
+        if ($result->code != 200){
+            die('Can`t get stations list');
+        }
+
+
+        $dom->loadHTML($result->body);
+
+        $finder = new \DomXPath($dom);
+
+        $nodes = $finder->query("//*[contains(@class, 'roundbox')]");
+
+        $stations = [];
+
+        foreach ($nodes as $key => $node){
+
+            $caption = $finder->query(".//h3[contains(@class, 'mount')]", $node);
+
+            $link = $url . str_replace('Mount Point ', '', $caption[0]->nodeValue);
+
+            $info = $finder->query(".//table[contains(@class, 'yellowkeys')]//tr[1]/td", $node);
+
+            $name = $info[1]->nodeValue;
+
+            $stations[$key] = [
+                'name' => $name,
+                'link' => $link
+            ];
+
+        }
+
+        return view('radio', [
+            'stations' => $stations
+        ]);
+
     }
 
     public function test()

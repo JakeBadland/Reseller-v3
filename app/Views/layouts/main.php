@@ -37,6 +37,7 @@
     <?= $this->renderSection('login') ?>
     <?= $this->renderSection('error') ?>
     <?= $this->renderSection('viber') ?>
+    <?= $this->renderSection('radio') ?>
     <?= $this->renderSection('edit_order') ?>
 </div>
 <div class="footer"></div>

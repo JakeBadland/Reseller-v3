@@ -39,6 +39,7 @@ $routes->post('/set-current-balance', 'Index::setCurrentBalance');
 $routes->post('/get-current-balance', 'Index::getCurrentBalance');
 $routes->post('/set-card-id', 'Index::setCardId');
 $routes->get('/edit-order/(:num)', 'Index::editOrder/$1');
+$routes->get('/radio', 'Index::radio');
 
 
 $routes->get('/login', 'Index::login');
