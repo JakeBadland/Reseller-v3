@@ -58,6 +58,7 @@
             </TR>
         <?php endforeach; ?>
     </TABLE>
+    <?= $paginator; ?>
 
     <!--
     <div class="cards-menu">

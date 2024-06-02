@@ -2,12 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Helpers\PagerHelper;
 use App\Libraries\LibCurl;
 use App\Libraries\LibProm;
 use App\Models\CardModel;
 use App\Models\OrderModel;
 use App\Models\ShopModel;
 use App\Models\UserModel;
+use CodeIgniter\Model;
 
 
 class Index extends BaseController
@@ -90,12 +92,16 @@ class Index extends BaseController
         ]);
     }
 
-    public function index($shopId = 1) : string
+    public function index($shopId = 1, $page = null) : string
     {
+        $perPage = 50;
+
         $orderModel = new OrderModel();
         $shopModel = new ShopModel();
         $user = new UserModel();
         $user = $user->get();
+
+        $pager = new PagerHelper();
 
         $db = db_connect();
 
@@ -105,14 +111,25 @@ class Index extends BaseController
 
         $shopInfo = $shopModel->getById($shopId);
         $cards = $shopModel->getCards($shopId);
-        $orders = $orderModel->getOrders($shopInfo->name);
+        $orders = $orderModel->getOrders($shopInfo->name, $page, $perPage);
+
+        $total = $orderModel->getCount($shopInfo->name);
+
+        $pager = $pager->calc($total, $page, $perPage);
+
+        $paginator = view('paginator', [
+            'pager'     => $pager,
+            'shopId'    => $shopId
+        ]);
 
         $data = [
             'orders'    => $orders,
             'shops'     => $shops,
             'cards'     => $cards,
             'shopInfo' => $shopInfo,
-            'user'      => $user
+            'user'      => $user,
+            'paginator' => $paginator,
+            'page'      => $page
         ];
 
         return view('content',  $data);
@@ -206,8 +223,6 @@ class Index extends BaseController
         $url = 'http://prmstrm.1.fm:8000';
 
         $libCurl = new LibCurl();
-        $dom = new \DOMDocument();
-
 
         $result = $libCurl->execute($url);
 
@@ -215,7 +230,7 @@ class Index extends BaseController
             die('Can`t get stations list');
         }
 
-
+        $dom = new \DOMDocument();
         $dom->loadHTML($result->body);
 
         $finder = new \DomXPath($dom);
@@ -225,13 +240,10 @@ class Index extends BaseController
         $stations = [];
 
         foreach ($nodes as $key => $node){
-
             $caption = $finder->query(".//h3[contains(@class, 'mount')]", $node);
-
             $link = $url . str_replace('Mount Point ', '', $caption[0]->nodeValue);
 
             $info = $finder->query(".//table[contains(@class, 'yellowkeys')]//tr[1]/td", $node);
-
             $name = $info[1]->nodeValue;
 
             $stations[$key] = [

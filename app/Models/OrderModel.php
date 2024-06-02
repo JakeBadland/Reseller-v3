@@ -9,13 +9,17 @@ class OrderModel extends Model
 
     protected string $table = 'orders';
 
-    public function getOrders($shopName) : array
+    public function getOrders($shopName, $page = 0, $perPage = 50) : array
     {
+        $page--;
+        $offset = $page * $perPage;
+
         return $this->db->table($this->table)
             ->select('*')
-            ->limit(20)
+            //->limit(20)
             ->orderBy('id', 'desc')
             ->where(['store' => $shopName])
+            ->limit($perPage, $offset)
             ->get()->getResult();
     }
 
@@ -48,6 +52,14 @@ class OrderModel extends Model
         $this->db->table($this->table)
             ->where('orderId', $orderId)
             ->update(['card_id' => $cardId]);
+    }
+
+    public function getCount($shopName)
+    {
+        return $this->db->table($this->table)
+            ->select('COUNT(*) as count')
+            ->where(['store' => $shopName])
+            ->get()->getRow()->count;
     }
 
 }
