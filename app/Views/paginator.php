@@ -1,4 +1,4 @@
-<div style="width: 200px; padding: 6px; margin: auto; text-align:center">
+<div class="pager">
     <?php if ($pager['first'] != $pager['left']) : ?>
     <a href="/<?=$shopId?>/<?=$pager['first']?>"><button class="pager-btn">First</button></a>
     <?php endif ?>

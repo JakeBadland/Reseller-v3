@@ -30,6 +30,9 @@
     <label style="margin-left: 20px">
         <?php echo ($user)? $user->login : ''; ?>
     </label>
+
+    <?= $paginator; ?>
+
     <?php endif ?>
 </div>
 <div class="body">

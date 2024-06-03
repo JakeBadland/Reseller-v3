@@ -58,7 +58,6 @@
             </TR>
         <?php endforeach; ?>
     </TABLE>
-    <?= $paginator; ?>
 
     <!--
     <div class="cards-menu">
@@ -107,7 +106,6 @@
             let $editBtn = $parentTr.find('.edit-btn').closest('td');
 
             //prepare for copy
-            //navigator.clipboard.writeText('');
             window.getSelection().removeAllRanges();
             $viberBtn.hide();
             $editBtn.hide();
@@ -132,42 +130,6 @@
         }
         
         $(document).ready(function () {
-            /*
-            $('body').on('click', '.short-card-item', function () {
-                let $balanceCurrent = $(this).find('.balance-current');
-                let $balanceLimit = $(this).find('.balance-limit');
-
-                let rowId = $('#container').attr('data-selected-row');
-                
-                let $row = $('#' + rowId);
-                let price = parseInt($row.find('.final-price').val());
-
-                if ( (parseInt($balanceCurrent.text()) + price) > parseInt($balanceLimit.text()) ){
-                    window.alert('Warning! The allowable limit will be exceeded. Ignoring...');
-                    return;
-                }
-                
-                //save card id
-                $('#' + rowId).attr('data-selected-card-id', $(this).attr('data-card-id'));
-                
-                //show card name
-                $row.find('.card-short-name').text($(this).find('.short-card-name').text());
-            });
-            
-            $('body').on('click', '.cards', function () {
-                let $cards = $('.cards-menu');
-                
-                //save selected row id
-                $('#container').attr('data-selected-row', $(this).closest('tr').attr('id'));
-
-                $cards.css('top', $(this).position().top + 27 + 'px');
-                $cards.show();
-             });
-
-            $('body').on('click', '.close-cards', function () {
-                $('.cards-menu').hide();
-            });
-            */
 
             $('body').on('click', '.copy', function () {
                 let $this = $(this);
