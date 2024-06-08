@@ -69,6 +69,10 @@ abstract class BaseController extends Controller
             return;
         }
 
+        if ($_SERVER['REQUEST_URI'] == '/radio-up'){
+            return;
+        }
+
         if ($_SERVER['REQUEST_URI'] == '/radio'){
             return;
         }

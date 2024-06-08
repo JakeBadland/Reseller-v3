@@ -12,9 +12,11 @@
                 </tr>
 
                 <?php foreach ($stations as $item) : ?>
-                    <tr>
-                        <td class="col-xs-3"><?= $item['name'] ?></td>
-                        <td class="col-xs-3"><a target="_blank" href="<?= $item['link'] ?>"><?= $item['link'] ?></a></td>
+                    <tr data-radio-id="<?= $item->id ?>">
+                        <td class="col-xs-3"><?= $item->name ?></td>
+                        <td class="col-xs-3">
+                            <a target="_blank" class="radio-link" href="<?= $item->link ?>"><?= $item->link ?></a>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </table>
@@ -31,5 +33,23 @@
         width: 100%;
     }
 </style>
+
+<script>
+    $(document).ready(function () {
+        $('body').on('click', '.radio-link', function (e) {
+            e.preventDefault();
+
+            let data = {
+                'radio_id'  : $(this).parents('tr').attr('data-radio-id'),
+                'link'      : $(this).attr('href')
+            };
+
+            $.post( "/radio-up", data, function() {
+                window.location.href = data.link;
+            });
+        });
+
+    });
+</script>
 
 <?= $this->endSection(); ?>

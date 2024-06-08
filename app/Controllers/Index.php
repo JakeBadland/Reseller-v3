@@ -7,6 +7,7 @@ use App\Libraries\LibCurl;
 use App\Libraries\LibProm;
 use App\Models\CardModel;
 use App\Models\OrderModel;
+use App\Models\RadioModel;
 use App\Models\ShopModel;
 use App\Models\UserModel;
 use CodeIgniter\Model;
@@ -216,13 +217,40 @@ class Index extends BaseController
         die;
     }
 
-    public function radio()
+    public function radioUp()
     {
+        $data = $this->request->getPost();
+
+        if ($data){
+            $radioModel = new RadioModel();
+            $radioModel->radioUp($data['radio_id']);
+        }
+
+        die();
+
+    }
+
+    public function radio() : string
+    {
+        $radioModel = new RadioModel();
+
+        $stations = $radioModel->getAll();
+
+        return view('radio', [
+            'stations' => $stations
+        ]);
+
+    }
+
+    public function oldRadio()
+    {
+
         libxml_use_internal_errors(true);
 
         $url = 'http://prmstrm.1.fm:8000';
 
         $libCurl = new LibCurl();
+        $radioModel = new RadioModel();
 
         $result = $libCurl->execute($url);
 
@@ -248,15 +276,16 @@ class Index extends BaseController
 
             $stations[$key] = [
                 'name' => $name,
-                'link' => $link
+                'link' => $link,
+                'views' => 0
             ];
 
+            $radioModel->addStation($stations[$key]);
         }
 
         return view('radio', [
             'stations' => $stations
         ]);
-
     }
 
     public function test()

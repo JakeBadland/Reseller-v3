@@ -14,7 +14,7 @@
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/custom.js"></script>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/main.css?<?=uniqid()?>">
 
 </head>
 <body>
@@ -24,7 +24,7 @@
     <button class="menu-icon btn btn-primary">Shops</button>
     <div class="menu panel">
             <?php foreach ($shops as $shop) : ?>
-                <div><a href="/<?=$shop['shop_id']?>"><?=$shop['shop_name']?></a></div>
+                <div><a href="/<?=$shop['shop_id']?>/1"><?=$shop['shop_name']?></a></div>
             <?php endforeach ?>
     </div>
     <label style="margin-left: 20px">
