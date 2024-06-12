@@ -2,6 +2,13 @@
 
 <?= $this->section('radio'); ?>
 
+<?php
+
+$user = new \App\Models\UserModel();
+$user = $user->get();
+
+?>
+
 <div class="container">
     <div class="card card-body panel panel-default">
         <div class="panel-body">
@@ -9,6 +16,9 @@
                 <tr>
                     <th class="col-xs-3">Name</th>
                     <th class="col-xs-3">Link</th>
+                    <?php if ($user) : ?>
+                        <td class="col-xs-3">Views</td>
+                    <?php endif; ?>
                 </tr>
 
                 <?php foreach ($stations as $item) : ?>
@@ -17,6 +27,9 @@
                         <td class="col-xs-3">
                             <a target="_blank" class="radio-link" href="<?= $item->link ?>"><?= $item->link ?></a>
                         </td>
+                        <?php if ($user) : ?>
+                        <td class="col-xs-3"><?= $item->views ?></td>
+                        <?php endif; ?>
                     </tr>
                 <?php endforeach; ?>
             </table>
@@ -48,7 +61,6 @@
                 window.location.href = data.link;
             });
         });
-
     });
 </script>
 

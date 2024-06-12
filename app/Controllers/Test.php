@@ -15,8 +15,11 @@ class Test extends BaseController
 
     public function index()
     {
-        //phpinfo();
-        die('test');
+        $link = '<a href="viber://chat?number=%2B1234567890&text=Хы,интересно))">Viber Message, но лучше не отправлять. Там фонарный номер.</a>';
+        echo "<PRE>";
+        var_dump($link);
+        echo "</PRE>";
+        die;
 
 
         //Товар Всем

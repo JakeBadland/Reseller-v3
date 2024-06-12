@@ -48,9 +48,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-xs-offset-3 col-xs-9">
+                    <div class="col-xs-offset-0 col-xs-9">
                         <!--<button type="button" class="btn btn-primary">Send</button>-->
-                        <button type="button" id="copy_text" class="btn btn-primary">Copy message</button>
+                        <button type="button" id="copy_text" class="btn btn-primary">Copy</button>
+                        <label style="">Or send to: </label>
+                        <a href="#" id="send_viber">Viber</a>
                     </div>
                 </div>
             </form>
@@ -81,6 +83,15 @@
             document.execCommand('copy');
 
             window.getSelection().removeAllRanges();
+        });
+
+        $('body').on('click', '#send_viber', function () {
+            let phone = $('#phone').val().trim(); //input
+            let text = encodeURIComponent($('#template').text().trim()); //div
+
+            let url = 'viber://chat?number=%2B' + phone + '&text=' + text;
+
+            window.location.href = url;
         });
     });
 </script>

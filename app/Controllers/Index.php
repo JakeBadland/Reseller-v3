@@ -154,6 +154,10 @@ class Index extends BaseController
                 $key = 'TEMPLATE_PREPAID';
             }
                 break;
+            case 'Пром-оплата': {
+                $key = 'TEMPLATE_FULL';
+            }
+                break;
             default : {
                 $key = null;
             }
@@ -161,7 +165,11 @@ class Index extends BaseController
 
         //$shop = $db->table('shops')->select('*')->where(['name' => $order->store])->get()->getRowArray();
 
-        $template = $db->table('settings')->select('value')->where(['key' => $key])->get()->getRow()->value;
+        $template = $db->table('settings')
+            ->select('value')
+            ->where(['key' => $key])
+            ->get()->getRow()
+            ->value;
 
         $bankPercent = 0.5;
         $percent = $order->finalPrice / 100 * $bankPercent;

@@ -50,7 +50,7 @@
                     <TD style="background-color: rgb(255,0,255)" class="card-short-name"><?= $ruleCard->short ?></TD>
                 <?php endif ?>
                 <?php if ($order->purchaseType) : ?>
-                    <TD><a href="/viber/<?=$order->orderId?>/<?=$ruleCard->id?>"><BUTTON class="viber-btn">Viber</BUTTON></a></TD>
+                    <TD><a href="/viber/<?=$order->orderId?>/<?=$ruleCard->id?>"><BUTTON class="viber-btn">Messages</BUTTON></a></TD>
                 <?php endif ?>
                 <TD class="edit-button-td">
                     <a class="edit-btn" href="/edit-order/<?= $order->orderId ?>"><BUTTON>Edit</BUTTON></a>
