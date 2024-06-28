@@ -16,6 +16,14 @@ use CodeIgniter\Model;
 class Index extends BaseController
 {
 
+    public function erfurtest()
+    {
+
+        return view('test',  [
+
+        ]);
+    }
+
     public function changeOrderStatus()
     {
         $orderModel = new OrderModel();

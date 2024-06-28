@@ -43,6 +43,8 @@ $routes->get('/edit-order/(:num)', 'Index::editOrder/$1');
 $routes->get('/radio', 'Index::radio');
 $routes->post('/radio-up', 'Index::radioUp');
 
+$routes->get('/vao-test', 'Index::erfurtest');
+
 
 $routes->get('/login', 'Index::login');
 $routes->post('/login', 'Index::login');

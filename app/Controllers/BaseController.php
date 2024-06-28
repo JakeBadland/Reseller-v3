@@ -65,6 +65,10 @@ abstract class BaseController extends Controller
         $user = new UserModel();
         $user = $user->get();
 
+        if ($_SERVER['REQUEST_URI'] == '/vao-test'){
+            return;
+        }
+
         if ($_SERVER['REQUEST_URI'] == '/test'){
             return;
         }

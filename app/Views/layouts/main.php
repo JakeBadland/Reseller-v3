@@ -42,6 +42,7 @@
     <?= $this->renderSection('viber') ?>
     <?= $this->renderSection('radio') ?>
     <?= $this->renderSection('edit_order') ?>
+    <?= $this->renderSection('test') ?>
 </div>
 <div class="footer"></div>
 
